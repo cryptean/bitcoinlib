@@ -44,11 +44,6 @@ namespace BitcoinWrapper.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.createrawtransaction, rawTransaction.Inputs, rawTransaction.Outputs);
         }
 
-        public String CreateRawTransaction(List<CreateRawTransactionInput> inputs, Dictionary<String, Decimal> outputs)
-        {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.createrawtransaction, inputs, outputs);
-        }
-
         public DecodeRawTransactionResponse DecodeRawTransaction(String rawTransactionHexString)
         {
             return _rpcConnector.MakeRequest<DecodeRawTransactionResponse>(RpcMethods.decoderawtransaction, rawTransactionHexString);

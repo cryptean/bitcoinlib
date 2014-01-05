@@ -25,8 +25,8 @@ Instructions
 - Shut down bitcoind and start it again with these arguments: `bitcoind -daemon -debugnet -printtoconsole`. Append `-testnet -port 18332` if you want to run it for TestNet. Wait until it is fully synchronized. 
 
 - Edit the .config files in the solution to fit your needs
-	- app.config for the Console test client
-	- web.config for the Web test client
+	- `app.config` for the Console test client
+	- `web.config` for the Web test client
 
   Make sure you update the `bitcoin.conf` as well when you alter `RpcUser` and `RpcPassword` 
 

@@ -14,7 +14,6 @@ namespace BitcoinWrapper.Services
         String BackupWallet(String destination);                                                                                                            //  <destination>
         CreateMultiSigResponse CreateMultiSig(Int32 nRquired, List<String> publicKeys);                                                                     //  <nrequired> <'["key","key"]'>
         String CreateRawTransaction(CreateRawTransactionRequest rawTransaction);                                                                            //  [{"txid":txid,"vout":n},...] {address:amount,...}
-        String CreateRawTransaction(List<CreateRawTransactionInput> inputs, Dictionary<String, Decimal> outputs);                                                                            //  [{"txid":txid,"vout":n},...] {address:amount,...}
         DecodeRawTransactionResponse DecodeRawTransaction(String rawTransactionHexString);                                                                  //  <hex string>
         String DumpPrivKey(String bitcoinAddress);                                                                                                          //  <bitcoinaddress>
         String EncryptWallet(String passphrame);                                                                                                            //  <passphrase>                        //  Note: a new backup is needed after encrypting the wallet!
@@ -41,20 +40,20 @@ namespace BitcoinWrapper.Services
         String GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);                                                                              //  <bitcoinaddress> [minconf=1]
         GetTransactionResponse GetTransaction(String txId);                                                                                                 //  <txid>                                  //  Note: For local wallet transactions only. To find "all transactions", use GetRawTransaction and decode with DecodeRawTransaction
         GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool = true);                                                               //  <txid> <n> [includemempool=true]
-        GetTxOutSetInfoResponse GetTxOutSetInfo();                                                                                                                           //  -
+        GetTxOutSetInfoResponse GetTxOutSetInfo();                                                                                                          //  -
         String GetWork(String data = null);                                                                                                                 //  [data]
         String Help(String command = null);                                                                                                                 //  [command]
         String ImportPrivKey(String privateKey, String label = null, Boolean rescan = true);                                                                //  [label] [rescan=true]
         String KeyPoolRefill();                                                                                                                             //  -
         String ListAccounts(Int32 minConf = 1);                                                                                                             //  [minconf=1]
-        List<List<ListAddressGroupingsResponse>> ListAddressGroupings();                                                                                                                      //  -
+        List<List<ListAddressGroupingsResponse>> ListAddressGroupings();                                                                                    //  -
         String ListLockUnspent();                                                                                                                           //  -
         List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false);                                         //  [minconf=1] [includeempty=false]
         List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf = 1, Boolean includeEmpty = false);                                         //  [minconf=1] [includeempty=false]
         ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 0);                                                      //  [blockhash] [target-confirmations]      //  Note: [target-confirmations] is being defaulted at 1 here so the optional parameters signature will not break, plus in most cases it won't affect the results as minConf (for source txs) is almost always initialized at the value of 1
         List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0);                                           //  [account] [count=10] [from=0]
         List<ListUnspentResponse> ListUnspent(Int32 minConf = 1, Int32 maxConf = 9999999, List<String> addreses = null);                                    //  [minconf=1] [maxconf=9999999] ["address",...]                                                                                       //  [minconf=1] [maxconf=9999999] ["address",...]
-        //  todo: implement: lockunspent unlock? [array-of-Objects]                                                                                                          //  unlock? [array-of-Objects]
+        //  todo: implement: lockunspent unlock? [array-of-Objects]                                                                                         //  unlock? [array-of-Objects]
         String Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf = 1, String comment = null);                                        //  <fromaccount> <toaccount> <amount> [minconf=1] [comment]
         String SendFrom(String fromAccount, String toBitcoinAddress, Decimal amount, Int32 minConf = 1, String comment = null, String commentTo = null);    //  <fromaccount> <tobitcoinaddress> <amount> [minconf=1] [comment] [comment-to]
         String SendMany(String fromAccount, Dictionary<String, Decimal> toBitcoinAddress, Int32 minConf = 1, String comment = null);                        //  <fromaccount> {address:amount,...} [minconf=1] [comment]                                                                               //  <fromaccount> {address:amount,...} [minconf=1] [comment]
@@ -67,7 +66,7 @@ namespace BitcoinWrapper.Services
         SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest rawTransaction);                                                            //  signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]      
         String Stop();                                                                                                                                      //  -
         String SubmitBlock(String hexData, params object[] parameters);                                                                                     //  <hex data> [optional-params-obj]
-        ValidateAddressResponse ValidateAddress(String bitcoinAddress);                                                                                                      //  <bitcoinaddress>
+        ValidateAddressResponse ValidateAddress(String bitcoinAddress);                                                                                     //  <bitcoinaddress>
         String VerifyMessage(String bitcoinAddress, String signature, String message);                                                                      //  <bitcoinaddress> <signature> <message>
         String WalletLock();                                                                                                                                //  -
         String WalletPassphrase(String passphrase, Int32 timeoutInSeconds);                                                                                 //  <passphrase> <timeout>
