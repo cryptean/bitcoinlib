@@ -13,10 +13,12 @@ namespace ConsoleClient
     internal sealed class Program
     {
         private static readonly IRpcService RpcService = new RpcService();
+        private static readonly Boolean UseTestNet = Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"));
+        private static readonly String DaemonUrl = !UseTestNet ? ConfigurationManager.AppSettings.Get("DaemonUrl") : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
 
         static void Main()
         {
-            Console.Write("\n\nConnecting to bitcoin daemon at " + ConfigurationManager.AppSettings["DaemonUrl"] + "...");
+            Console.Write("\n\nConnecting to Bitcoin {0}Net via QT RPC API at {1}...", (UseTestNet ? "Test" : "Main"), DaemonUrl);
 
             //  Network difficulty
             try
@@ -35,17 +37,18 @@ namespace ConsoleClient
             Console.WriteLine("\nMy balance: " + myBalance + " BTC");
 
             //  Current block
-            Console.WriteLine("\nCurrent block hash: " + RpcService.GetBlockHash(RpcService.GetBlockCount()));
+            Int32 blockCount = RpcService.GetBlockCount();
+            Console.WriteLine("\nCurrent block: {0} Hash: {1}", blockCount.ToString("#,#", CultureInfo.InvariantCulture), RpcService.GetBlockHash(blockCount));
 
             //  Keys and addresses
             if (myBalance > 0)
             {
-                //  My addresses with money
-                Console.WriteLine("\n\nMy addresses with money:");
+                //  My non-empty addresses
+                Console.WriteLine("\n\nMy non-empty addresses:");
 
-                List<ListReceivedByAddressResponse> myAddressesWithMoney = RpcService.ListReceivedByAddress();
+                List<ListReceivedByAddressResponse> myNonEmptyAddresses = RpcService.ListReceivedByAddress();
 
-                foreach (ListReceivedByAddressResponse address in myAddressesWithMoney)
+                foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)
                 {
                     Console.WriteLine("\n--------------------------------------------------");
                     Console.WriteLine("Account: " + (String.IsNullOrWhiteSpace(address.Account) ? "(no label)" : address.Account));
@@ -56,9 +59,8 @@ namespace ConsoleClient
                 }
 
                 //  My private keys
-                if (Boolean.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myAddressesWithMoney.Count > 0)
+                if (Boolean.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0)
                 {
-                    Console.WriteLine("\n\nMy private keys:");
                     String walletPassword = ConfigurationManager.AppSettings.Get("WalletPassword");   //  be careful with this one - please do not store your password here //
                     const Int16 secondsToUnlockTheWallet = 3;
 
@@ -67,16 +69,16 @@ namespace ConsoleClient
                         Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
                         RpcService.WalletPassphrase(walletPassword, secondsToUnlockTheWallet);
                         Console.WriteLine("[OK]");
-                        Console.WriteLine("\nMy private keys for addresses with money:\n");
+                        Console.WriteLine("\nMy private keys for non-empty addresses:\n");
 
-                        foreach (ListReceivedByAddressResponse address in myAddressesWithMoney)
+                        foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)
                         {
                             Console.WriteLine("Private Key for " + address.Address + ": " + RpcService.DumpPrivKey(address.Address));
                         }
                     }
                     catch (NullReferenceException)
                     {
-                        Console.WriteLine("Failed: The wallet could not be unlocked, did you use the correct password?\n");
+                        Console.WriteLine("[Failed]. The wallet could not be unlocked, did you use the correct password?\n");
                         throw;
                     }
                     finally
