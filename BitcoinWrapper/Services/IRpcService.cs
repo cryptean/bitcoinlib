@@ -64,6 +64,7 @@ namespace BitcoinWrapper.Services
         String SetTxFee(Decimal amount);                                                                                                                    //  <amount>
         String SignMessage(String bitcoinAddress, String message);                                                                                          //  <bitcoinaddress> <message>
         SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest rawTransaction);                                                            //  signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]      
+        SignRawTransactionResponse SignRawTransaction(String rawTransactionHexString);                                                                      //  signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]      
         String Stop();                                                                                                                                      //  -
         String SubmitBlock(String hexData, params object[] parameters);                                                                                     //  <hex data> [optional-params-obj]
         ValidateAddressResponse ValidateAddress(String bitcoinAddress);                                                                                     //  <bitcoinaddress>

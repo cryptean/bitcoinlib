@@ -157,10 +157,6 @@ namespace BitcoinWrapper.Services
 
         public String GetRawTransaction(String txId, Int32 verbose)
         {
-            if (txId == Constants.GenesisBlock)
-            {
-                throw new Exception("GetRawTransaction does not work with the Genesis block coinbase transaction as it is not a valid, spendable transaction");
-            }
             return _rpcConnector.MakeRequest<String>(RpcMethods.getrawtransaction, txId, verbose);
         }
 
@@ -305,6 +301,11 @@ namespace BitcoinWrapper.Services
         public SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest rawTransaction)
         {
             return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, rawTransaction);
+        }
+
+        public SignRawTransactionResponse SignRawTransaction(String rawTransactionHexString)
+        {
+            return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, rawTransactionHexString);
         }
 
         public String Stop()
