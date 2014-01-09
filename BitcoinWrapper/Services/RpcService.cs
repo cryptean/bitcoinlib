@@ -145,9 +145,9 @@ namespace BitcoinWrapper.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress, account);
         }
 
-        public GetPeerInfoResponse GetPeerInfo()
+        public List<GetPeerInfoResponse> GetPeerInfo()
         {
-            return _rpcConnector.MakeRequest<GetPeerInfoResponse>(RpcMethods.getpeerinfo);
+            return _rpcConnector.MakeRequest<List<GetPeerInfoResponse>>(RpcMethods.getpeerinfo);
         }
 
         public String GetRawMemPool()

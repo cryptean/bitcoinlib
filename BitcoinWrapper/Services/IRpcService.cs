@@ -33,7 +33,7 @@ namespace BitcoinWrapper.Services
         GetInfoResponse GetInfo();                                                                                                                          //  -
         GetMiningInfoResponse GetMiningInfo();                                                                                                              //  -
         String GetNewAddress(String account = null);                                                                                                        //  [account]
-        GetPeerInfoResponse GetPeerInfo();                                                                                                                  //  -
+        List<GetPeerInfoResponse> GetPeerInfo();                                                                                                            //  -
         String GetRawMemPool();                                                                                                                             //  -
         String GetRawTransaction(String txId, Int32 verbose = 0);                                                                                           //  <txid> [verbose=0]
         String GetReceivedByAccount(String account, Int32 minConf = 1);                                                                                     //  <account> [minconf=1]
