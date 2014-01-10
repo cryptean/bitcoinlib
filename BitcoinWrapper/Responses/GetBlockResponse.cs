@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BitcoinWrapper.Responses
+namespace BitcoinLib.Responses
 {
     public class GetBlockResponse
     {

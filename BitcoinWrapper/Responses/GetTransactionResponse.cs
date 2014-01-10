@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BitcoinWrapper.Responses
+namespace BitcoinLib.Responses
 {
     //  Note: Local wallet transactions only
     public class GetTransactionResponse

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace BitcoinWrapper.RPC
+namespace BitcoinLib.RPC
 {
     public class JsonRpcResponse<T>
     {

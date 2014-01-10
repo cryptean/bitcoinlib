@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace BitcoinWrapper.Requests.CreateRawTransaction
+namespace BitcoinLib.Requests.CreateRawTransaction
 {
     public class CreateRawTransactionInput
     {

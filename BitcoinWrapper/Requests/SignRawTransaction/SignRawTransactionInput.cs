@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace BitcoinWrapper.Requests.SignRawTransaction
+namespace BitcoinLib.Requests.SignRawTransaction
 {
     public class SignRawTransactionInput
     {

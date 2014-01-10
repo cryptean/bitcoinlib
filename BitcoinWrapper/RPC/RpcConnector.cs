@@ -3,16 +3,19 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
-using BitcoinWrapper.ExceptionHandling;
+using BitcoinLib.ExceptionHandling;
 using Newtonsoft.Json;
 
-namespace BitcoinWrapper.RPC
+namespace BitcoinLib.RPC
 {
     public sealed class RpcConnector : IRpcConnector
     {
-        private readonly String _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet")) ? ConfigurationManager.AppSettings.Get("DaemonUrl") : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
-        private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
+        private readonly String _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"))
+                                                 ? ConfigurationManager.AppSettings.Get("DaemonUrl")
+                                                 : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
+
         private readonly String _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
+        private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
@@ -28,7 +31,7 @@ namespace BitcoinWrapper.RPC
 
         private HttpWebRequest MakeHttpRequest(JsonRpcRequest jsonRpcRequest)
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_daemonUrl);
+            HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(_daemonUrl);
             SetBasicAuthHeader(webRequest, _rpcUsername, _rpcPassword);
             webRequest.Credentials = new NetworkCredential(_rpcUsername, _rpcPassword);
             webRequest.ContentType = "application/json-rpc";
@@ -64,7 +67,8 @@ namespace BitcoinWrapper.RPC
             }
             catch (JsonException jsonException)
             {
-                throw new RpcException("There was a problem deserializing the response from the bitcoin wallet", jsonException);
+                throw new RpcException("There was a problem deserializing the response from the bitcoin wallet",
+                                       jsonException);
             }
         }
 
@@ -97,10 +101,13 @@ namespace BitcoinWrapper.RPC
                     switch (webResponse.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
-                            throw new RpcException("The RPC request was either not understood by the Bitcoin server or there was a problem executing the request", webException);
+                            throw new RpcException(
+                                "The RPC request was either not understood by the Bitcoin server or there was a problem executing the request",
+                                webException);
                     }
                 }
-                throw new RpcException("An unknown web exception occured while trying to read the JSON response", webException);
+                throw new RpcException("An unknown web exception occured while trying to read the JSON response",
+                                       webException);
             }
             catch (Exception exception)
             {

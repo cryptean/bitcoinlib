@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BitcoinWrapper.Requests.CreateRawTransaction
+namespace BitcoinLib.Requests.CreateRawTransaction
 {
     public class CreateRawTransactionRequest
     {
-        public List<CreateRawTransactionInput> Inputs { get; private set; }
-        public Dictionary<String, Decimal> Outputs { get; private set; }
-        
         public CreateRawTransactionRequest()
         {
             Inputs = new List<CreateRawTransactionInput>();
@@ -20,11 +17,14 @@ namespace BitcoinWrapper.Requests.CreateRawTransaction
             Outputs = outputs;
         }
 
+        public List<CreateRawTransactionInput> Inputs { get; private set; }
+        public Dictionary<String, Decimal> Outputs { get; private set; }
+
         public void AddInput(CreateRawTransactionInput input)
         {
             Inputs.Add(input);
         }
-        
+
         public void AddOutput(CreateRawTransactionOutput output)
         {
             Outputs.Add(output.Address, output.Amount);
@@ -32,7 +32,7 @@ namespace BitcoinWrapper.Requests.CreateRawTransaction
 
         public void AddInput(String transactionId, Int32 output)
         {
-            Inputs.Add(new CreateRawTransactionInput { TransactionId = transactionId, Output = output });
+            Inputs.Add(new CreateRawTransactionInput {TransactionId = transactionId, Output = output});
         }
 
         public void AddOutput(String address, Decimal amount)

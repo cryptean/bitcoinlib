@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BitcoinWrapper.Requests.CreateRawTransaction
+namespace BitcoinLib.Requests.CreateRawTransaction
 {
     public class CreateRawTransactionOutput
     {

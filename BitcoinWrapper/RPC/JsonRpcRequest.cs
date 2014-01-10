@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace BitcoinWrapper.RPC
+namespace BitcoinLib.RPC
 {
     public class JsonRpcRequest
     {

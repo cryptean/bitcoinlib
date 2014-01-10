@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BitcoinWrapper.RPC;
-using BitcoinWrapper.Requests.AddNode;
-using BitcoinWrapper.Requests.CreateRawTransaction;
-using BitcoinWrapper.Requests.SignRawTransaction;
-using BitcoinWrapper.Responses;
+using BitcoinLib.RPC;
+using BitcoinLib.Requests.AddNode;
+using BitcoinLib.Requests.CreateRawTransaction;
+using BitcoinLib.Requests.SignRawTransaction;
+using BitcoinLib.Responses;
 
-namespace BitcoinWrapper.Services
+namespace BitcoinLib.Services
 {
     //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date)
     public sealed class RpcService : IRpcService

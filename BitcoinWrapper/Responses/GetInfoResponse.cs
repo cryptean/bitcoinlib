@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BitcoinWrapper.Responses
+namespace BitcoinLib.Responses
 {
     public class GetInfoResponse
     {

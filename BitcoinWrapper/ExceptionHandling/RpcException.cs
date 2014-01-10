@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BitcoinWrapper.ExceptionHandling
+namespace BitcoinLib.ExceptionHandling
 {
     [Serializable]
     public class RpcException : Exception

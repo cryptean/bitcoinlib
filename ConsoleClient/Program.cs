@@ -4,9 +4,9 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using BitcoinWrapper.Auxiliary;
-using BitcoinWrapper.Responses;
-using BitcoinWrapper.Services;
+using BitcoinLib.Auxiliary;
+using BitcoinLib.Responses;
+using BitcoinLib.Services;
 
 namespace ConsoleClient
 {

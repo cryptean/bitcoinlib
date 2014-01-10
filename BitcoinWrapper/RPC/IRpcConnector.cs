@@ -1,6 +1,4 @@
-﻿using BitcoinWrapper.RPC;
-
-namespace BitcoinWrapper.RPC
+﻿namespace BitcoinLib.RPC
 {
     public interface IRpcConnector
     {

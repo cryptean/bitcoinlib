@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BitcoinWrapper.Requests.SignRawTransaction
+namespace BitcoinLib.Requests.SignRawTransaction
 {
     public static class SigHashType
     {

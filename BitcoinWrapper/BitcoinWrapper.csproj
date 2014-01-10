@@ -7,8 +7,8 @@
     <ProjectGuid>{B853E315-7103-4CBA-8873-D5202019F267}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BitcoinWrapper</RootNamespace>
-    <AssemblyName>BitcoinWrapper</AssemblyName>
+    <RootNamespace>BitcoinLib</RootNamespace>
+    <AssemblyName>BitcoinLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

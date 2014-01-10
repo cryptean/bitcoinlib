@@ -1,7 +1,7 @@
 ﻿using System;
-using BitcoinWrapper.Responses;
+using BitcoinLib.Responses;
 
-namespace BitcoinWrapper.Services
+namespace BitcoinLib.Services
 {
     public interface IBitcoinService
     {

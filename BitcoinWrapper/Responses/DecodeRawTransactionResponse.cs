@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BitcoinWrapper.Responses
+namespace BitcoinLib.Responses
 {
     //  Wiki reference: https://en.bitcoin.it/wiki/Transactions
 
@@ -9,7 +9,7 @@ namespace BitcoinWrapper.Responses
     public class DecodeRawTransactionResponse
     {
         public String TxId { get; set; }
-        public String Version { get; set; }              
+        public String Version { get; set; }
         public String LockTime { get; set; }
         public List<Vin> Vin { get; set; }
         public List<Vout> Vout { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-using BitcoinWrapper.Responses;
-using BitcoinWrapper.Services;
+using BitcoinLib.Responses;
+using BitcoinLib.Services;
 
 namespace WebClient.Controllers
 {

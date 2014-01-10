@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using BitcoinWrapper.RPC;
-using BitcoinWrapper.Requests.AddNode;
-using BitcoinWrapper.Requests.CreateRawTransaction;
-using BitcoinWrapper.Requests.SignRawTransaction;
-using BitcoinWrapper.Responses;
+using BitcoinLib.Requests.AddNode;
+using BitcoinLib.Requests.CreateRawTransaction;
+using BitcoinLib.Requests.SignRawTransaction;
+using BitcoinLib.Responses;
 
-namespace BitcoinWrapper.Services
+namespace BitcoinLib.Services
 {
     public interface IRpcService
     {

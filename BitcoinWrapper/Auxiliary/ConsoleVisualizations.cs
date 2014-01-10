@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BitcoinWrapper.Auxiliary
+namespace BitcoinLib.Auxiliary
 {
     public class ConsoleVisualizations
     {
