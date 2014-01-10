@@ -40,23 +40,25 @@
   <ItemGroup>
     <Compile Include="Auxiliary\ConsoleVisualizations.cs" />
     <Compile Include="Auxiliary\Constants.cs" />
-    <Compile Include="Enums\NodeAction.cs" />
+    <Compile Include="Requests\AddNode\NodeAction.cs" />
     <Compile Include="Auxiliary\UnixTime.cs" />
-    <Compile Include="Enums\SigHashType.cs" />
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionInput.cs" />
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionOutput.cs" />
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Requests\SignRawTransaction\SigHashType.cs" />
     <Compile Include="Requests\SignRawTransaction\SignRawTransactionInput.cs" />
-    <Compile Include="Requests\SignRawTransaction\SignRawTransactionRequest.cs" />
+    <Compile Include="Requests\SignRawTransaction\SignRawTransactionRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Responses\GetAddedNodeInfoResponse.cs" />
     <Compile Include="Responses\GetBlockResponse.cs" />
     <Compile Include="Responses\GetInfoResponse.cs" />
     <Compile Include="Responses\GetMiningInfoResponse.cs" />
     <Compile Include="Responses\GetPeerInfoResponse.cs" />
     <Compile Include="Responses\GetTransactionResponse.cs" />
-    <Compile Include="Enums\RpcMethods.cs" />
+    <Compile Include="RPC\RpcMethods.cs" />
     <Compile Include="Responses\DecodeRawTransactionResponse.cs" />
     <Compile Include="ExceptionHandling\RpcException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

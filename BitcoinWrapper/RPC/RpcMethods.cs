@@ -1,4 +1,4 @@
-﻿namespace BitcoinWrapper.Enums
+﻿namespace BitcoinWrapper.RPC
 {
     //  Note: Do not alter the capitalization of the enum members as they are being cast as-is to the RPC server
     //  Note for parameters: <>:required, []:optional, [=x]:optional with default value

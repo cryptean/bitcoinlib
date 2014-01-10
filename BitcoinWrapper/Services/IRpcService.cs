@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BitcoinWrapper.Enums;
+using BitcoinWrapper.RPC;
+using BitcoinWrapper.Requests.AddNode;
 using BitcoinWrapper.Requests.CreateRawTransaction;
 using BitcoinWrapper.Requests.SignRawTransaction;
 using BitcoinWrapper.Responses;
@@ -63,8 +64,7 @@ namespace BitcoinWrapper.Services
         String SetGenerate(Boolean generate, Int16 generatingProcessorsLimit);                                                                              //  <generate> [genproclimit]   
         String SetTxFee(Decimal amount);                                                                                                                    //  <amount>
         String SignMessage(String bitcoinAddress, String message);                                                                                          //  <bitcoinaddress> <message>
-        SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest rawTransaction);                                                            //  signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]      
-        SignRawTransactionResponse SignRawTransaction(String rawTransactionHexString);                                                                      //  signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]      
+        SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest signRawTransactionRequest);                                                 //  signrawtransaction <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]
         String Stop();                                                                                                                                      //  -
         String SubmitBlock(String hexData, params object[] parameters);                                                                                     //  <hex data> [optional-params-obj]
         ValidateAddressResponse ValidateAddress(String bitcoinAddress);                                                                                     //  <bitcoinaddress>

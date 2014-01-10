@@ -1,4 +1,4 @@
-﻿using BitcoinWrapper.Enums;
+﻿using BitcoinWrapper.RPC;
 
 namespace BitcoinWrapper.RPC
 {

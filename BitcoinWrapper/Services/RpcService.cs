@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BitcoinWrapper.Auxiliary;
-using BitcoinWrapper.Enums;
 using BitcoinWrapper.RPC;
+using BitcoinWrapper.Requests.AddNode;
 using BitcoinWrapper.Requests.CreateRawTransaction;
 using BitcoinWrapper.Requests.SignRawTransaction;
 using BitcoinWrapper.Responses;
@@ -298,14 +297,28 @@ namespace BitcoinWrapper.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.signmessage, bitcoinAddress, message);
         }
 
-        public SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest rawTransaction)
+        public SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest request)
         {
-            return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, rawTransaction);
-        }
+            #region default values
+            
+            if (request.Inputs.Count == 0)
+            {
+                request.Inputs = null;
+            }
 
-        public SignRawTransactionResponse SignRawTransaction(String rawTransactionHexString)
-        {
-            return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, rawTransactionHexString);
+            if (String.IsNullOrWhiteSpace(request.SigHashType))
+            {
+                request.SigHashType = SigHashType.All;
+            }
+
+            if (request.PrivateKeys.Count == 0)
+            {
+                request.PrivateKeys = null;
+            }
+
+            #endregion
+
+            return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, request.RawTransactionHex, request.Inputs, request.PrivateKeys, request.SigHashType);
         }
 
         public String Stop()

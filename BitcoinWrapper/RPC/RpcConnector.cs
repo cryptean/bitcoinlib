@@ -3,7 +3,6 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
-using BitcoinWrapper.Enums;
 using BitcoinWrapper.ExceptionHandling;
 using Newtonsoft.Json;
 

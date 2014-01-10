@@ -5,13 +5,16 @@ namespace BitcoinWrapper.Requests.SignRawTransaction
 {
     public class SignRawTransactionInput
     {
-        [JsonProperty("txid")]
+        [JsonProperty(PropertyName = "txid", Order = 0)]
         public String TransactionId { get; set; }
 
-        [JsonProperty("vout")]
+        [JsonProperty(PropertyName = "vout", Order = 1)]
         public Int32 Output { get; set; }
 
-        [JsonProperty("scriptPubKey")]
+        [JsonProperty(PropertyName = "scriptPubKey", Order = 2)]
         public String ScriptPubKey { get; set; }
+
+        [JsonProperty(PropertyName = "redeemScript", Order = 3)]
+        public String RedeemScript { get; set; }
     }
 }
