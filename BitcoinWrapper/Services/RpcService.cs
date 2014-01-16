@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2014 George Kimionis
+// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+
+using System;
 using System.Collections.Generic;
 using BitcoinLib.RPC;
 using BitcoinLib.Requests.AddNode;
@@ -9,14 +12,9 @@ using BitcoinLib.Responses;
 namespace BitcoinLib.Services
 {
     //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date)
-    public sealed class RpcService : IRpcService
+    public partial class BitcoinService : IBitcoinService
     {
-        private readonly IRpcConnector _rpcConnector;
-
-        public RpcService()
-        {
-            _rpcConnector = new RpcConnector();
-        }
+        private readonly IRpcConnector _rpcConnector = new RpcConnector();
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
         {
@@ -83,8 +81,8 @@ namespace BitcoinLib.Services
         public Decimal GetBalance(String account, Int32 minConf)
         {
             return String.IsNullOrWhiteSpace(account)
-               ? _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance)
-               : _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, account, minConf);
+                       ? _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance)
+                       : _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, account, minConf);
         }
 
         public GetBlockResponse GetBlock(String hash)
@@ -169,7 +167,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
         }
 
-        public GetTransactionResponse GetTransaction(String txId)
+        public GetTransactionResponse GetInWalletTransaction(String txId)
         {
             return _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId);
         }
@@ -249,7 +247,7 @@ namespace BitcoinLib.Services
 
         public List<ListUnspentResponse> ListUnspent(Int32 minConf, Int32 maxConf, List<String> addreses)
         {
-            return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addreses ?? new List<string>()));
+            return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addreses ?? new List<String>()));
         }
 
         public String Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf, String comment)
@@ -300,7 +298,7 @@ namespace BitcoinLib.Services
         public SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest request)
         {
             #region default values
-            
+
             if (request.Inputs.Count == 0)
             {
                 request.Inputs = null;

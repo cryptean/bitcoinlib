@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2014 George Kimionis
+// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
@@ -12,18 +15,18 @@ namespace ConsoleClient
 {
     internal sealed class Program
     {
-        private static readonly IRpcService RpcService = new RpcService();
+        private static readonly IBitcoinService BitcoinService = new BitcoinService();
         private static readonly Boolean UseTestNet = Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"));
         private static readonly String DaemonUrl = !UseTestNet ? ConfigurationManager.AppSettings.Get("DaemonUrl") : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
 
-        static void Main()
+        private static void Main()
         {
-            Console.Write("\n\nConnecting to Bitcoin {0}Net via QT RPC API at {1}...", (UseTestNet ? "Test" : "Main"), DaemonUrl);
+            Console.Write("\n\nConnecting to Bitcoin {0}Net via Qt RPC API at {1}...", (UseTestNet ? "Test" : "Main"), DaemonUrl);
 
             //  Network difficulty
             try
             {
-                Double networkDifficulty = RpcService.GetDifficulty();
+                Double networkDifficulty = BitcoinService.GetDifficulty();
                 Console.WriteLine("[OK]\n\nBTC Network Difficulty: " + networkDifficulty.ToString("#,#", CultureInfo.InvariantCulture));
             }
             catch (Exception exception)
@@ -33,12 +36,12 @@ namespace ConsoleClient
             }
 
             //  My balance
-            Decimal myBalance = RpcService.GetBalance();
+            Decimal myBalance = BitcoinService.GetBalance();
             Console.WriteLine("\nMy balance: " + myBalance + " BTC");
 
             //  Current block
-            Int32 blockCount = RpcService.GetBlockCount();
-            Console.WriteLine("\nCurrent block: {0} Hash: {1}", blockCount.ToString("#,#", CultureInfo.InvariantCulture), RpcService.GetBlockHash(blockCount));
+            Int32 blockCount = BitcoinService.GetBlockCount();
+            Console.WriteLine("\nCurrent block: {0} Hash: {1}", blockCount.ToString("#,#", CultureInfo.InvariantCulture), BitcoinService.GetBlockHash(blockCount));
 
             //  Keys and addresses
             if (myBalance > 0)
@@ -46,7 +49,7 @@ namespace ConsoleClient
                 //  My non-empty addresses
                 Console.WriteLine("\n\nMy non-empty addresses:");
 
-                List<ListReceivedByAddressResponse> myNonEmptyAddresses = RpcService.ListReceivedByAddress();
+                List<ListReceivedByAddressResponse> myNonEmptyAddresses = BitcoinService.ListReceivedByAddress();
 
                 foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)
                 {
@@ -61,19 +64,19 @@ namespace ConsoleClient
                 //  My private keys
                 if (Boolean.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0)
                 {
-                    String walletPassword = ConfigurationManager.AppSettings.Get("WalletPassword");   //  be careful with this one - please do not store your password here //
+                    String walletPassword = ConfigurationManager.AppSettings.Get("WalletPassword"); //  be careful with this one - please do not store your password here //
                     const Int16 secondsToUnlockTheWallet = 3;
 
                     try
                     {
                         Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
-                        RpcService.WalletPassphrase(walletPassword, secondsToUnlockTheWallet);
+                        BitcoinService.WalletPassphrase(walletPassword, secondsToUnlockTheWallet);
                         Console.WriteLine("[OK]");
                         Console.WriteLine("\nMy private keys for non-empty addresses:\n");
 
                         foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)
                         {
-                            Console.WriteLine("Private Key for " + address.Address + ": " + RpcService.DumpPrivKey(address.Address));
+                            Console.WriteLine("Private Key for " + address.Address + ": " + BitcoinService.DumpPrivKey(address.Address));
                         }
                     }
                     catch (NullReferenceException)
@@ -84,14 +87,14 @@ namespace ConsoleClient
                     finally
                     {
                         Console.Write("\nLocking wallet...");
-                        RpcService.WalletLock();
+                        BitcoinService.WalletLock();
                         Console.WriteLine("[OK]");
                     }
                 }
 
                 //  My transactions 
                 Console.WriteLine("\n\nMy transactions: ");
-                List<ListTransactionsResponse> myTransactions = RpcService.ListTransactions();
+                List<ListTransactionsResponse> myTransactions = BitcoinService.ListTransactions(null, Int32.MaxValue, 0);
 
                 foreach (ListTransactionsResponse transaction in myTransactions)
                 {
@@ -114,8 +117,7 @@ namespace ConsoleClient
                 Console.WriteLine("\n\nMy transactions' details:");
                 foreach (ListTransactionsResponse transaction in myTransactions)
                 {
-                    //Console.WriteLine("\nRetrieving information for transaction with id: " + transaction.TxId);
-                    GetTransactionResponse localWalletTransaction = RpcService.GetTransaction(transaction.TxId);
+                    GetTransactionResponse localWalletTransaction = BitcoinService.GetInWalletTransaction(transaction.TxId);
                     IEnumerable<PropertyInfo> localWalletTrasactionProperties = localWalletTransaction.GetType().GetProperties();
                     IList<GetTransactionResponseDetails> localWalletTransactionDetailsList = localWalletTransaction.Details.ToList();
 
@@ -144,7 +146,7 @@ namespace ConsoleClient
 
                 //  Unspent transactions
                 Console.WriteLine("My unspect transactions:");
-                List<ListUnspentResponse> unspentList = RpcService.ListUnspent();
+                List<ListUnspentResponse> unspentList = BitcoinService.ListUnspent();
 
                 foreach (ListUnspentResponse unspentResponse in unspentList)
                 {

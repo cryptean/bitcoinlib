@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2014 George Kimionis
+// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+
+using System;
 using System.Configuration;
 using System.IO;
 using System.Net;
@@ -67,8 +70,7 @@ namespace BitcoinLib.RPC
             }
             catch (JsonException jsonException)
             {
-                throw new RpcException("There was a problem deserializing the response from the bitcoin wallet",
-                                       jsonException);
+                throw new RpcException("There was a problem deserializing the response from the bitcoin wallet", jsonException);
             }
         }
 
@@ -101,13 +103,10 @@ namespace BitcoinLib.RPC
                     switch (webResponse.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
-                            throw new RpcException(
-                                "The RPC request was either not understood by the Bitcoin server or there was a problem executing the request",
-                                webException);
+                            throw new RpcException("The RPC request was either not understood by the Bitcoin server or there was a problem executing the request", webException);
                     }
                 }
-                throw new RpcException("An unknown web exception occured while trying to read the JSON response",
-                                       webException);
+                throw new RpcException("An unknown web exception occured while trying to read the JSON response", webException);
             }
             catch (Exception exception)
             {

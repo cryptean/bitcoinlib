@@ -7,14 +7,11 @@ namespace WebClient.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRpcService _rpcService;
         private readonly IBitcoinService _bitcoinService;
 
-        //
         // GET: /Home/
         public HomeController()
         {
-            _rpcService =  new RpcService();
             _bitcoinService = new BitcoinService();
         }
 
@@ -26,7 +23,7 @@ namespace WebClient.Controllers
         [HttpGet]
         public Decimal GetBalanceInWallet()
         {
-            return _rpcService.GetBalance();
+            return _bitcoinService.GetBalance();
         }
 
         [HttpGet]
@@ -39,7 +36,7 @@ namespace WebClient.Controllers
         [HttpGet]
         public JsonResult GetBlockInfo(String blockhashId)
         {
-            GetBlockResponse transaction = _rpcService.GetBlock(blockhashId);
+            GetBlockResponse transaction = _bitcoinService.GetBlock(blockhashId);
             return Json(transaction, JsonRequestBehavior.AllowGet);
         }
     }

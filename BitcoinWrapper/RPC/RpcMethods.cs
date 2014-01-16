@@ -1,72 +1,75 @@
-﻿namespace BitcoinLib.RPC
+﻿// Copyright (c) 2014 George Kimionis
+// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+
+namespace BitcoinLib.RPC
 {
     //  Note: Do not alter the capitalization of the enum members as they are being cast as-is to the RPC server
     //  Note for parameters: <>:required, []:optional, [=x]:optional with default value
     public enum RpcMethods
     {
-        addmultisigaddress,         // <nrequired> <'["key","key"]'> [account]
-        addnode,                    // <node> <add|remove|onetry>
-        backupwallet,               // <destination>
-        createmultisig,             // <nrequired> <'["key","key"]'>
-        createrawtransaction,       // [{"txid":txid,"vout":n},...] {address:amount,...}
-        decoderawtransaction,       // <hex string>
-        dumpprivkey,                // <bitcoinaddress>
-        encryptwallet,              //  <passphrase>  
-        getaccount,                 // <bitcoinaddress>
-        getaccountaddress,          // <account>
-        getaddednodeinfo,           // <dns> [node]
-        getaddressesbyaccount,      // <account>
-        getbalance,                 // [account] [minconf=1]
-        getbestblockhash,           // (!) --> pre-release
-        getblock,                   // <hash>
+        addmultisigaddress,
+        addnode,
+        backupwallet,
+        createmultisig,
+        createrawtransaction,
+        decoderawtransaction,
+        dumpprivkey,
+        encryptwallet,
+        getaccount,
+        getaccountaddress,
+        getaddednodeinfo,
+        getaddressesbyaccount,
+        getbalance,
+        getbestblockhash,
+        getblock,
         getblockcount,
-        getblockhash,               // <index>
-        getblocktemplate,           // [params]
+        getblockhash,
+        getblocktemplate,
         getconnectioncount,
         getdifficulty,
         getgenerate,
         gethashespersec,
         getinfo,
         getmininginfo,
-        getnewaddress,              // [account]
+        getnewaddress,
         getpeerinfo,
-        getrawchangeaddress,        // [account]    (!) --> pre-release
+        getrawchangeaddress,
         getrawmempool,
-        getrawtransaction,          // <txid> [verbose=0]
-        getreceivedbyaccount,       // <account> [minconf=1]
-        getreceivedbyaddress,       // <bitcoinaddress> [minconf=1]
-        gettransaction,             // <txid>
-        gettxout,                   // <txid> <n> [includemempool=true]
+        getrawtransaction,
+        getreceivedbyaccount,
+        getreceivedbyaddress,
+        gettransaction,
+        gettxout,
         gettxoutsetinfo,
-        getwork,                    // [data]
-        help,                       // [command]
-        importprivkey,              // <bitcoinprivkey> [label] [rescan=true]
+        getwork,
+        help,
+        importprivkey,
         keypoolrefill,
-        listaccounts,               // [minconf=1]
+        listaccounts,
         listaddressgroupings,
         listlockunspent,
-        listreceivedbyaccount,      // [minconf=1] [includeempty=false]
-        listreceivedbyaddress,      // [minconf=1] [includeempty=false]
-        listsinceblock,             // [blockhash] [target-confirmations]
-        listtransactions,           // [account] [count=10] [from=0]
-        listunspent,                // [minconf=1] [maxconf=9999999] ["address",...]
-        lockunspent,                // unlock? [array-of-Objects]
-        move,                       // <fromaccount> <toaccount> <amount> [minconf=1] [comment]
-        sendfrom,                   // <fromaccount> <tobitcoinaddress> <amount> [minconf=1] [comment] [comment-to]
-        sendmany,                   // <fromaccount> {address:amount,...} [minconf=1] [comment]
-        sendrawtransaction,         // <hex string>
-        sendtoaddress,              // <bitcoinaddress> <amount> [comment] [comment-to]
-        setaccount,                 // <bitcoinaddress> <account>
-        setgenerate,                // <generate> [genproclimit]
-        settxfee,                   // <amount>
-        signmessage,                // <bitcoinaddress> <message>
-        signrawtransaction,         // <hex string> [{"txid":txid,"vout":n,"scriptPubKey":hex,"redeemScript":hex},...] [<privatekey1>,...] [sighashtype="ALL"]
+        listreceivedbyaccount,
+        listreceivedbyaddress,
+        listsinceblock,
+        listtransactions,
+        listunspent,
+        lockunspent,
+        move,
+        sendfrom,
+        sendmany,
+        sendrawtransaction,
+        sendtoaddress,
+        setaccount,
+        setgenerate,
+        settxfee,
+        signmessage,
+        signrawtransaction,
         stop,
-        submitblock,                // <hex data> [optional-params-obj]
-        validateaddress,            // <bitcoinaddress>
-        verifymessage,              // <bitcoinaddress> <signature> <message>
+        submitblock,
+        validateaddress,
+        verifymessage,
         walletlock,
-        walletpassphrase,           // <passphrase> <timeout>
-        walletpassphrasechange,     // <oldpassphrase> <newpassphrase>
+        walletpassphrase,
+        walletpassphrasechange
     }
 }

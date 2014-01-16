@@ -75,11 +75,12 @@
     <Compile Include="RPC\JsonRpcRequest.cs" />
     <Compile Include="RPC\JsonRpcResponse.cs" />
     <Compile Include="RPC\RpcConnector.cs" />
+    <Compile Include="Services\IBitcoinService.cs" />
     <Compile Include="Services\RpcService.cs" />
-    <Compile Include="Services\BitcoinService.cs" />
+    <Compile Include="Services\RpcExtenderService.cs" />
     <Compile Include="Services\IRpcService.cs" />
     <Compile Include="RPC\IRpcConnector.cs" />
-    <Compile Include="Services\IBitcoinService.cs" />
+    <Compile Include="Services\IRpcExtenderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -8,8 +8,9 @@ Features
 --------
 
 - Fully compatible with QT's 0.8.6 RPC API.
-- Both console and web test clients with demo methods implemented
-- Testnet ready
+- Console and web test clients with demo methods implemented.
+- Extended methods for cases that the RPC API falls short.
+- Testnet ready.
 
 Instructions
 ------------
@@ -38,5 +39,3 @@ Based on
 - Bitnet, by Konstantin Ineshin (http://bitnet.sourceforge.net)
 - BitcoinRpcSharp, by BitKoot (https://github.com/BitKoot/BitcoinRpcSharp)
 - Bitcoin-wrapper, by Lars Holdgaard (https://github.com/LarsHoldgaard/bitcoin-wrapper)
-
-

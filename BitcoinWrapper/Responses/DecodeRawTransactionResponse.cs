@@ -1,11 +1,14 @@
-﻿using System;
+﻿// Copyright (c) 2014 George Kimionis
+// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+
+using System;
 using System.Collections.Generic;
 
 namespace BitcoinLib.Responses
 {
     //  Wiki reference: https://en.bitcoin.it/wiki/Transactions
-
     //  todo: alter the member types to serve most specific purposes that String does
+
     public class DecodeRawTransactionResponse
     {
         public String TxId { get; set; }
