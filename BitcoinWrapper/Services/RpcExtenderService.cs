@@ -80,7 +80,7 @@ namespace BitcoinLib.Services
             return senderAddresses;
         }
 
-        public Boolean IsTransactionMine(String txId)
+        public Boolean IsInWalletTransaction(String txId)
         {
             //  Note: This might not be efficient if iterated, consider caching ListTransactions' results.
             return ListTransactions(null, Int32.MaxValue, 0).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);

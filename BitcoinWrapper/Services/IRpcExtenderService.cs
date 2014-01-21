@@ -13,6 +13,6 @@ namespace BitcoinLib.Services
         DecodeRawTransactionResponse GetTransaction(String txId);
         String GetTransactionSenderAddress(String txId);
         IEnumerable<String> GetTransactionSenderAddresses(String txId);
-        Boolean IsTransactionMine(String txId);
+        Boolean IsInWalletTransaction(String txId);
     }
 }
