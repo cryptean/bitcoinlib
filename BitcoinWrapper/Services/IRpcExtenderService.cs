@@ -10,7 +10,7 @@ namespace BitcoinLib.Services
     public interface IRpcExtenderService
     {
         Dictionary<String, String> GetMyPublicAndPrivateKeyPairs();
-        DecodeRawTransactionResponse GetTransaction(String txId);
+        DecodeRawTransactionResponse GetPublicTransaction(String txId);
         String GetTransactionSenderAddress(String txId);
         IEnumerable<String> GetTransactionSenderAddresses(String txId);
         Boolean IsInWalletTransaction(String txId);

@@ -117,7 +117,7 @@ namespace ConsoleClient
                 Console.WriteLine("\n\nMy transactions' details:");
                 foreach (ListTransactionsResponse transaction in myTransactions)
                 {
-                    GetTransactionResponse localWalletTransaction = BitcoinService.GetInWalletTransaction(transaction.TxId);
+                    GetTransactionResponse localWalletTransaction = BitcoinService.GetTransaction(transaction.TxId);
                     IEnumerable<PropertyInfo> localWalletTrasactionProperties = localWalletTransaction.GetType().GetProperties();
                     IList<GetTransactionResponseDetails> localWalletTransactionDetailsList = localWalletTransaction.Details.ToList();
 
@@ -145,7 +145,7 @@ namespace ConsoleClient
                 }
 
                 //  Unspent transactions
-                Console.WriteLine("My unspect transactions:");
+                Console.WriteLine("My unspent transactions:");
                 List<ListUnspentResponse> unspentList = BitcoinService.ListUnspent();
 
                 foreach (ListUnspentResponse unspentResponse in unspentList)

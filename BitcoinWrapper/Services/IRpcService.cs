@@ -10,7 +10,6 @@ using BitcoinLib.Responses;
 
 namespace BitcoinLib.Services
 {
-    //  Note: RPC gettransaction is binded to GetInWalletTransaction
     public interface IRpcService
     {
         String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account = null);                                                          //  <nrequired> <'["key","key"]'> [account]
@@ -42,7 +41,7 @@ namespace BitcoinLib.Services
         String GetRawTransaction(String txId, Int32 verbose = 0);                                                                                           //  <txid> [verbose=0]
         String GetReceivedByAccount(String account, Int32 minConf = 1);                                                                                     //  <account> [minconf=1]
         String GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);                                                                              //  <bitcoinaddress> [minconf=1]
-        GetTransactionResponse GetInWalletTransaction(String txId);                                                                                               //  <txid>                                  //  Note: For local wallet transactions only. To find "all transactions", use GetRawTransaction and decode with DecodeRawTransaction
+        GetTransactionResponse GetTransaction(String txId);                                                                                                 //  <txid>                                  //  Note: For local wallet transactions only. To find "all transactions", use GetRawTransaction and decode with DecodeRawTransaction
         GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool = true);                                                               //  <txid> <n> [includemempool=true]
         GetTxOutSetInfoResponse GetTxOutSetInfo();                                                                                                          //  -
         String GetWork(String data = null);                                                                                                                 //  [data]

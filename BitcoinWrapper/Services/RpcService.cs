@@ -167,7 +167,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
         }
 
-        public GetTransactionResponse GetInWalletTransaction(String txId)
+        public GetTransactionResponse GetTransaction(String txId)
         {
             return _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId);
         }

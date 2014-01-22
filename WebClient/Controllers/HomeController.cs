@@ -29,7 +29,7 @@ namespace WebClient.Controllers
         [HttpGet]
         public JsonResult GetInformationAboutTransaction(String txId)
         {
-            DecodeRawTransactionResponse transaction = _bitcoinService.GetTransaction(txId);
+            DecodeRawTransactionResponse transaction = _bitcoinService.GetPublicTransaction(txId);
             return Json(transaction, JsonRequestBehavior.AllowGet);
         }
 

@@ -1,7 +1,7 @@
 BitcoinLib
 ==========
 
-**C# Bitcoin Qt RPC Wrapper for .Net 4.5+ projects**
+**C# Bitcoin Qt RPC Library / Wrapper for .Net 4.5+ projects**
 
 
 Features
@@ -23,13 +23,13 @@ Instructions
 
 - Call `bitcoind -reindex -txindex -debugnet -printtoconsole` and wait until it's finished reindexing (it might take a while). You need to do this just once.
 
-- Shut down bitcoind and start it again with these arguments: `bitcoind -daemon -debugnet -printtoconsole`. Append `-testnet -port 18332` if you want to run it for Testnet. Wait until it is fully synchronized. 
+- Shut down bitcoind and launch it again with these arguments: `bitcoind -daemon -debugnet -printtoconsole`. Append `-testnet` if you want to run it for Testnet. Wait until it is fully synchronized. 
 
 - Edit the .config files in the solution to fit your needs
 	- `app.config` for the Console test client
 	- `web.config` for the Web test client
 
-  Make sure you update the `bitcoin.conf` as well when you alter `RpcUser` and `RpcPassword` 
+  Make sure you also update the `bitcoin.conf` when you alter the `RpcUser` and `RpcPassword` parameters.
 
 - You're good to go.
 

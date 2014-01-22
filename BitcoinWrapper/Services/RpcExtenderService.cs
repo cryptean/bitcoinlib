@@ -34,7 +34,7 @@ namespace BitcoinLib.Services
         }
 
         //  Note: As RPC's gettransaction works only for in-wallet transaction we had to extend this with the use of raw transactions so it will work for every single transaction.
-        public DecodeRawTransactionResponse GetTransaction(String txId)
+        public DecodeRawTransactionResponse GetPublicTransaction(String txId)
         {
             String rawTransaction = GetRawTransaction(txId, 0);
             return DecodeRawTransaction(rawTransaction);
