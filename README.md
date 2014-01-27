@@ -15,13 +15,13 @@ Features
 Instructions
 ------------
 
-- Locate your `bitcoin.conf` file (in Windows it's under: `%AppData%\Roaming\Bitcoin`) and add these lines:
+- Locate your `bitcoin.conf` file (in Windows it's under: `%AppData%\Roaming\Bitcoin`, if it's not there just go ahead and create it) and add these lines:
 	- rpcuser = myRpcUsername
 	- rpcpassword = myRpcPassword
 	- daemon=1
 	- txindex=1
 
-- Call `bitcoind -reindex -txindex -debugnet -printtoconsole` and wait until it's finished reindexing (it might take a while). You need to do this just once.
+- Call `bitcoind -reindex -txindex -debugnet -printtoconsole` and wait until it's finished reindexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
 
 - Shut down bitcoind and launch it again with these arguments: `bitcoind -daemon -debugnet -printtoconsole`. Append `-testnet` if you want to run it for Testnet. Wait until it is fully synchronized. 
 
