@@ -48,7 +48,7 @@ namespace BitcoinLib.Services
         String Help(String command = null);                                                                                                                 //  [command]
         String ImportPrivKey(String privateKey, String label = null, Boolean rescan = true);                                                                //  [label] [rescan=true]
         String KeyPoolRefill();                                                                                                                             //  -
-        String ListAccounts(Int32 minConf = 1);                                                                                                             //  [minconf=1]
+        Dictionary<String, Decimal> ListAccounts(Int32 minConf = 1);                                                                                                             //  [minconf=1]
         List<List<ListAddressGroupingsResponse>> ListAddressGroupings();                                                                                    //  -
         String ListLockUnspent();                                                                                                                           //  -
         List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false);                                         //  [minconf=1] [includeempty=false]

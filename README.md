@@ -25,7 +25,7 @@ Instructions
 
 - Shut down bitcoind and launch it again with these arguments: `bitcoind -daemon -debugnet -printtoconsole`. Append `-testnet` if you want to run it for Testnet. Wait until it is fully synchronized. 
 
-- Edit the .config files in the solution to fit your needs
+- Edit the .config files in the solution to best fit your needs
 	- `app.config` for the Console test client
 	- `web.config` for the Web test client
 

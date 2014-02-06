@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace BitcoinLib.Responses
 {
     //  Wiki reference: https://en.bitcoin.it/wiki/Transactions
-    //  todo: alter the member types to serve most specific purposes that String does
+    //  todo: alter the member types to serve most specific purposes than String does
 
     public class DecodeRawTransactionResponse
     {

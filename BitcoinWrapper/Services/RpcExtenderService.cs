@@ -44,7 +44,13 @@ namespace BitcoinLib.Services
         //  which might not actually be the sender (e.g. for e-wallets) and who may not intend to receive anything there in the first place.
         public String GetTransactionSenderAddress(String txId)
         {
-            return GetTransactionSenderAddresses(txId).FirstOrDefault();
+            String rawTransaction = GetRawTransaction(txId, 0);
+            DecodeRawTransactionResponse decodedRawTransaction = DecodeRawTransaction(rawTransaction);
+            List<Vin> transactionInputs = decodedRawTransaction.Vin;
+            String rawTransactionHex = GetRawTransaction(transactionInputs[0].TxId, 0);
+            DecodeRawTransactionResponse inputDecodedRawTransaction = DecodeRawTransaction(rawTransactionHex);
+            List<Vout> vouts = inputDecodedRawTransaction.Vout;
+            return vouts[0].ScriptPubKey.Addresses[0];
         }
 
         public IEnumerable<String> GetTransactionSenderAddresses(String txId)

@@ -206,9 +206,9 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.keypoolrefill);
         }
 
-        public String ListAccounts(Int32 minConf)
+        public Dictionary<String, Decimal> ListAccounts(Int32 minConf)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.listaccounts, minConf);
+            return _rpcConnector.MakeRequest<Dictionary<String, Decimal>>(RpcMethods.listaccounts, minConf);
         }
 
         public List<List<ListAddressGroupingsResponse>> ListAddressGroupings()
