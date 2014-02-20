@@ -3,14 +3,18 @@ BitcoinLib
 
 **C# Bitcoin Qt RPC Library / Wrapper for .Net 4.5+ projects**
 
-
 Features
 --------
 
 - Fully compatible with QT's 0.8.6 RPC API.
-- Console and web test clients with demo methods implemented.
-- Extended methods for cases that the RPC API falls short.
+- Design-by-contract, service-oriented architecture.
+- Strongly-typed structures for complex RPC requests and responses.
+- Implicit JSON casting for all RPC messages.
+- Extended methods for every-day scenarios where the built-in methods fall short.
+- Exposure of all Qt API's functionality as well as the extended methods through a single interface.
+- Console and web test clients out of the box with demo methods implemented in them.
 - Testnet ready.
+- Fully configurable.
 
 Instructions
 ------------
@@ -33,8 +37,23 @@ Instructions
 
 - You're good to go.
 
-Based on
---------
+License
+-------
+
+BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
+
+Support
+-------
+
+Please use GitHub's `Issues`
+
+Donations
+---------
+
+BTC: 17GDskinpoPb4k4Xaaf9R9VpXeXhdzBvd9
+
+Influenced by
+-------------
 
 - Bitnet, by Konstantin Ineshin (http://bitnet.sourceforge.net)
 - BitcoinRpcSharp, by BitKoot (https://github.com/BitKoot/BitcoinRpcSharp)

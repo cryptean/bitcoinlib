@@ -19,6 +19,7 @@ namespace BitcoinLib.RPC
 
         private readonly String _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
         private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
+        private readonly Int16 _rpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
@@ -39,7 +40,7 @@ namespace BitcoinLib.RPC
             webRequest.Credentials = new NetworkCredential(_rpcUsername, _rpcPassword);
             webRequest.ContentType = "application/json-rpc";
             webRequest.Method = "POST";
-            webRequest.Timeout = 2000;
+            webRequest.Timeout = _rpcRequestTimeoutInSeconds * 1000;
 
             Byte[] byteArray = jsonRpcRequest.GetBytes();
             webRequest.ContentLength = byteArray.Length;
