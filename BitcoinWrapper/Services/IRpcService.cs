@@ -23,7 +23,7 @@ namespace BitcoinLib.Services
         String GetAccount(String bitcoinAddress);                                                                                                           //  <bitcoinaddress>
         String GetAccountAddress(String account);                                                                                                           //  <account>
         GetAddedNodeInfoResponse GetAddedNodeInfo(String dns, String node = null);                                                                          //  <dns> [node]
-        String GetAddressesByAccount(String account);                                                                                                       //  <account>
+        List<String> GetAddressesByAccount(String account);                                                                                                 //  <account>
         Decimal GetBalance(String account = null, Int32 minConf = 1);                                                                                       //  [account] [minconf=1]
         GetBlockResponse GetBlock(String hash);                                                                                                             //  <hash>
         Int32 GetBlockCount();                                                                                                                              //  -
@@ -48,7 +48,7 @@ namespace BitcoinLib.Services
         String Help(String command = null);                                                                                                                 //  [command]
         String ImportPrivKey(String privateKey, String label = null, Boolean rescan = true);                                                                //  [label] [rescan=true]
         String KeyPoolRefill();                                                                                                                             //  -
-        Dictionary<String, Decimal> ListAccounts(Int32 minConf = 1);                                                                                                             //  [minconf=1]
+        Dictionary<String, Decimal> ListAccounts(Int32 minConf = 1);                                                                                        //  [minconf=1]
         List<List<ListAddressGroupingsResponse>> ListAddressGroupings();                                                                                    //  -
         String ListLockUnspent();                                                                                                                           //  -
         List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false);                                         //  [minconf=1] [includeempty=false]

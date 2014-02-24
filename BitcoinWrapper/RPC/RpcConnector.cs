@@ -115,11 +115,11 @@ namespace BitcoinLib.RPC
             }
         }
 
-        private static void SetBasicAuthHeader(WebRequest request, String userName, String userPassword)
+        private static void SetBasicAuthHeader(WebRequest webRequest, String username, String password)
         {
-            string authInfo = userName + ":" + userPassword;
+            String authInfo = username + ":" + password;
             authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-            request.Headers["Authorization"] = "Basic " + authInfo;
+            webRequest.Headers["Authorization"] = "Basic " + authInfo;
         }
     }
 }

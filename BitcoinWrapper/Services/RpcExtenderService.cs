@@ -22,7 +22,7 @@ namespace BitcoinLib.Services
             {
                 ValidateAddressResponse validateAddressResponse = ValidateAddress(listReceivedByAddressResponse.Address);
 
-                if (validateAddressResponse.IsMine && validateAddressResponse.IsValid)
+                if (validateAddressResponse.IsMine && validateAddressResponse.IsValid && !validateAddressResponse.IsScript)
                 {
                     String privateKey = DumpPrivKey(listReceivedByAddressResponse.Address);
                     keyPairs.Add(validateAddressResponse.PubKey, privateKey);

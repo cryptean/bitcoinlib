@@ -73,9 +73,9 @@ namespace BitcoinLib.Services
                        : _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns, node);
         }
 
-        public String GetAddressesByAccount(String account)
+        public List<String> GetAddressesByAccount(String account)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getaddressesbyaccount, account);
+            return _rpcConnector.MakeRequest<List<String>>(RpcMethods.getaddressesbyaccount, account);
         }
 
         public Decimal GetBalance(String account, Int32 minConf)
