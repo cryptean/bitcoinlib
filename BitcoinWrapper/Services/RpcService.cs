@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BitcoinLib.RPC;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
@@ -213,7 +214,38 @@ namespace BitcoinLib.Services
 
         public List<List<ListAddressGroupingsResponse>> ListAddressGroupings()
         {
-            return _rpcConnector.MakeRequest<List<List<ListAddressGroupingsResponse>>>(RpcMethods.listaddressgroupings);
+            List<List<List<object>>> unstructuredResponse = _rpcConnector.MakeRequest<List<List<List<object>>>>(RpcMethods.listaddressgroupings);
+            List<List<ListAddressGroupingsResponse>> structuredResponse = new List<List<ListAddressGroupingsResponse>>(unstructuredResponse.Count);
+
+            for (Int32 i = 0; i < unstructuredResponse.Count; i++)
+            {
+                for (Int32 j = 0; j < unstructuredResponse[i].Count; j++)
+                {
+                    if (unstructuredResponse[i][j].Count > 1)
+                    {
+                        ListAddressGroupingsResponse response = new ListAddressGroupingsResponse
+                        {
+                            Address = unstructuredResponse[i][j][0].ToString()
+                        };
+
+                        Decimal balance;
+                        Decimal.TryParse(unstructuredResponse[i][j][1].ToString(), out balance);
+
+                        if (unstructuredResponse[i][j].Count > 2)
+                        {
+                            response.Account = unstructuredResponse[i][j][2].ToString();
+                        }
+
+                        if (structuredResponse.Count < i + 1)
+                        {
+                            structuredResponse.Add(new List<ListAddressGroupingsResponse>());
+                        }
+
+                        structuredResponse[i].Add(response);
+                    }
+                }
+            }
+            return structuredResponse;
         }
 
         public String ListLockUnspent()
