@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Auxiliary\ConsoleVisualizations.cs" />
     <Compile Include="Auxiliary\Constants.cs" />
+    <Compile Include="ExceptionHandling\RpcRequestTimeoutException.cs" />
+    <Compile Include="ExceptionHandling\RpcResponseDeserializationException.cs" />
     <Compile Include="Requests\AddNode\NodeAction.cs" />
     <Compile Include="Auxiliary\UnixTime.cs" />
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionInput.cs" />

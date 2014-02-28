@@ -35,7 +35,10 @@ namespace BitcoinLib.Requests.CreateRawTransaction
 
         public void AddInput(String transactionId, Int32 output)
         {
-            Inputs.Add(new CreateRawTransactionInput {TransactionId = transactionId, Output = output});
+            Inputs.Add(new CreateRawTransactionInput
+            {
+                TransactionId = transactionId, Output = output
+            });
         }
 
         public void AddOutput(String address, Decimal amount)
