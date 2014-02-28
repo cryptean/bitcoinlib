@@ -19,14 +19,13 @@ namespace BitcoinLib.RPC
             ? ConfigurationManager.AppSettings.Get("DaemonUrl")
             : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
 
-        private readonly Boolean _rpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
-
+        private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
         private readonly String _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
         private readonly Int16 _rpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
         private readonly Boolean _rpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
         private readonly Int16 _rpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
+        private readonly Boolean _rpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
         private readonly Boolean _rpcUseBase2ExpotentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExpotentialDelaysWhenResendingTimedOutRequests"));
-        private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
