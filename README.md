@@ -12,6 +12,8 @@ Features
 - Implicit JSON casting for all RPC messages.
 - Extended methods for every-day scenarios where the built-in methods fall short.
 - Exposure of all Qt API's functionality as well as the extended methods through a single interface.
+- Fallback mechanism for timed-out RPC requests.
+- Custom RPC exceptions.
 - Console and web test clients out of the box with demo methods implemented in them.
 - Testnet ready.
 - Fully configurable.

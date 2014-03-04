@@ -25,7 +25,7 @@ namespace BitcoinLib.RPC
         private readonly Boolean _rpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
         private readonly Int16 _rpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
         private readonly Boolean _rpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
-        private readonly Boolean _rpcUseBase2ExpotentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExpotentialDelaysWhenResendingTimedOutRequests"));
+        private readonly Boolean _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
@@ -49,8 +49,16 @@ namespace BitcoinLib.RPC
                     //  Note: effective delay = delayInSeconds + _rpcRequestTimeoutInSeconds
                     if (_rpcDelayResendingTimedOutRequests)
                     {
-                        Double delayInSeconds = _rpcUseBase2ExpotentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequests) : timedOutRequests;
-                        Thread.Sleep((Int32) delayInSeconds*Constants.MillisecondsInASecond);
+                        Double delayInSeconds = _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequests) : timedOutRequests;
+
+                        if (System.Diagnostics.Debugger.IsAttached)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequests, _rpcTimedOutRequestsResendAttempts, delayInSeconds, _rpcRequestTimeoutInSeconds);
+                            Console.ResetColor();
+                        }
+
+                        Thread.Sleep((Int32) delayInSeconds * Constants.MillisecondsInASecond);
                     }
 
                     return MakeRpcRequest<T>(jsonRpcRequest, timedOutRequests);
@@ -73,7 +81,7 @@ namespace BitcoinLib.RPC
             webRequest.Credentials = new NetworkCredential(_rpcUsername, _rpcPassword);
             webRequest.ContentType = "application/json-rpc";
             webRequest.Method = "POST";
-            webRequest.Timeout = _rpcRequestTimeoutInSeconds*Constants.MillisecondsInASecond;
+            webRequest.Timeout = _rpcRequestTimeoutInSeconds * Constants.MillisecondsInASecond;
 
             Byte[] byteArray = jsonRpcRequest.GetBytes();
             webRequest.ContentLength = byteArray.Length;
@@ -83,7 +91,7 @@ namespace BitcoinLib.RPC
                 using (Stream dataStream = webRequest.GetRequestStream())
                 {
                     dataStream.Write(byteArray, 0, byteArray.Length);
-                    dataStream.Close();
+                    dataStream.Dispose();
                 }
             }
             catch (Exception exception)
@@ -119,7 +127,7 @@ namespace BitcoinLib.RPC
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         String result = reader.ReadToEnd();
-                        reader.Close();
+                        reader.Dispose();
                         return result;
                     }
                 }
@@ -140,9 +148,10 @@ namespace BitcoinLib.RPC
                             throw new RpcException("The RPC request was either not understood by the Bitcoin server or there was a problem executing the request", webException);
                     }
                 }
-                    //  Qt RPC specific
+                //  Qt RPC specific
                 else if (webException.Message == "The operation has timed out")
                 {
+                    Console.WriteLine("RpcRequestTimeoutException: {0}", httpWebRequest.RequestUri.AbsoluteUri);
                     throw new RpcRequestTimeoutException(webException.Message);
                 }
 
