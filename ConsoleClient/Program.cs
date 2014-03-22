@@ -126,7 +126,7 @@ namespace ConsoleClient
                     {
                         String propertyInfoName = propertyInfo.Name;
 
-                        if (propertyInfoName != "Details")
+                        if (propertyInfoName != "Details" && propertyInfoName != "WalletConflicts")
                         {
                             Console.WriteLine(propertyInfoName + ": " + propertyInfo.GetValue(localWalletTransaction, null));
                         }
