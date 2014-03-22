@@ -3,15 +3,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using BitcoinLib.RPC;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Requests.SignRawTransaction;
 using BitcoinLib.Responses;
-using BitcoinLib.RPC;
+using Newtonsoft.Json.Linq;
 
 namespace BitcoinLib.Services
 {
-    //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date)
+    //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date, call "help" in your bitcoin-cli to get the most recent version)
     public partial class BitcoinService : IBitcoinService
     {
         private readonly IRpcConnector _rpcConnector = new RpcConnector();
@@ -46,9 +48,19 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<DecodeRawTransactionResponse>(RpcMethods.decoderawtransaction, rawTransactionHexString);
         }
 
+        public DecodeScriptResponse DecodeScript(String hexString)
+        {
+            return _rpcConnector.MakeRequest<DecodeScriptResponse>(RpcMethods.decodescript, hexString);
+        }
+
         public String DumpPrivKey(String bitcoinAddress)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.dumpprivkey, bitcoinAddress);
+        }
+
+        public void DumpWallet(String filename)
+        {
+            _rpcConnector.MakeRequest<String>(RpcMethods.dumpwallet, filename);
         }
 
         public String EncryptWallet(String passphrase)
@@ -69,8 +81,8 @@ namespace BitcoinLib.Services
         public GetAddedNodeInfoResponse GetAddedNodeInfo(String dns, String node)
         {
             return String.IsNullOrWhiteSpace(node)
-                ? _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns)
-                : _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns, node);
+                       ? _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns)
+                       : _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns, node);
         }
 
         public List<String> GetAddressesByAccount(String account)
@@ -81,21 +93,26 @@ namespace BitcoinLib.Services
         public Decimal GetBalance(String account, Int32 minConf)
         {
             return String.IsNullOrWhiteSpace(account)
-                ? _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance)
-                : _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, account, minConf);
+                       ? _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance)
+                       : _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, account, minConf);
         }
 
-        public GetBlockResponse GetBlock(String hash)
+        public String GetBestBlockHash()
         {
-            return _rpcConnector.MakeRequest<GetBlockResponse>(RpcMethods.getblock, hash);
+            return _rpcConnector.MakeRequest<String>(RpcMethods.getbestblockhash);
         }
 
-        public Int32 GetBlockCount()
+        public GetBlockResponse GetBlock(String hash, Boolean verbose)
         {
-            return _rpcConnector.MakeRequest<Int32>(RpcMethods.getblockcount);
+            return _rpcConnector.MakeRequest<GetBlockResponse>(RpcMethods.getblock, hash, verbose);
         }
 
-        public String GetBlockHash(Int32 index)
+        public UInt32 GetBlockCount()
+        {
+            return _rpcConnector.MakeRequest<UInt32>(RpcMethods.getblockcount);
+        }
+
+        public String GetBlockHash(UInt32 index)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.getblockhash, index);
         }
@@ -103,8 +120,8 @@ namespace BitcoinLib.Services
         public String GetBlockTemplate(params object[] parameters)
         {
             return parameters == null
-                ? _rpcConnector.MakeRequest<String>(RpcMethods.getblocktemplate)
-                : _rpcConnector.MakeRequest<String>(RpcMethods.getblocktemplate, parameters);
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.getblocktemplate)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.getblocktemplate, parameters);
         }
 
         public Int32 GetConnectionCount()
@@ -137,6 +154,16 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<GetMiningInfoResponse>(RpcMethods.getmininginfo);
         }
 
+        public GetNetTotalsResponse GetNetTotals()
+        {
+            return _rpcConnector.MakeRequest<GetNetTotalsResponse>(RpcMethods.getnettotals);
+        }
+
+        public UInt64 GetNetworkHashPs(UInt32 blocks, Int64 height)
+        {
+            return _rpcConnector.MakeRequest<UInt64>(RpcMethods.getnetworkhashps);
+        }
+
         public String GetNewAddress(String account)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress, account);
@@ -147,9 +174,126 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<List<GetPeerInfoResponse>>(RpcMethods.getpeerinfo);
         }
 
-        public String GetRawMemPool()
+        public GetRawMemPoolResponse GetRawMemPool(Boolean verbose)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getrawmempool);
+            GetRawMemPoolResponse getRawMemPoolResponse = new GetRawMemPoolResponse();
+            object rpcResponse = _rpcConnector.MakeRequest<object>(RpcMethods.getrawmempool, verbose);
+            getRawMemPoolResponse.IsVerbose = verbose;
+
+            if (!verbose)
+            {
+                JArray rpcResponseAsArray = (JArray) rpcResponse;
+
+                foreach (String txId in rpcResponseAsArray)
+                {
+                    getRawMemPoolResponse.TxIds.Add(txId);
+                }
+
+                return getRawMemPoolResponse;
+            }
+
+            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject) (rpcResponse)))).ToList();
+            IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
+
+            for (Int32 i = 0; i < children.Count(); i++)
+            {
+                GetRawMemPoolVerboseResponse getRawMemPoolVerboseResponse = new GetRawMemPoolVerboseResponse
+                    {
+                        TxId = rpcResponseAsKvp[i].Key
+                    };
+
+                getRawMemPoolResponse.TxIds.Add(getRawMemPoolVerboseResponse.TxId);
+
+                foreach (JProperty property in children[i].SelectMany(grandChild => grandChild.OfType<JProperty>()))
+                {
+                    switch (property.Name)
+                    {
+                        case "currentpriority":
+                            Double currentPriority;
+
+                            if (Double.TryParse(property.Value.ToString(), out currentPriority))
+                            {
+                                getRawMemPoolVerboseResponse.CurrentPriority = currentPriority;
+                            }
+
+                            break;
+
+                        case "depends":
+
+                            foreach (JToken jToken in property.Value)
+                            {
+                                getRawMemPoolVerboseResponse.Depends.Add(jToken.Value<String>());
+                            }
+
+                            break;
+
+                        case "fee":
+
+                            Decimal fee;
+
+                            if (Decimal.TryParse(property.Value.ToString(), out fee))
+                            {
+                                getRawMemPoolVerboseResponse.Fee = fee;
+                            }
+
+                            break;
+
+                        case "height":
+
+                            Int32 height;
+
+                            if (Int32.TryParse(property.Value.ToString(), out height))
+                            {
+                                getRawMemPoolVerboseResponse.Height = height;
+                            }
+
+                            break;
+
+                        case "size":
+
+                            Int32 size;
+
+                            if (Int32.TryParse(property.Value.ToString(), out size))
+                            {
+                                getRawMemPoolVerboseResponse.Size = size;
+                            }
+
+                            break;
+
+                        case "startingpriority":
+
+                            Double startingPriority;
+
+                            if (Double.TryParse(property.Value.ToString(), out startingPriority))
+                            {
+                                getRawMemPoolVerboseResponse.StartingPriority = startingPriority;
+                            }
+
+                            break;
+
+                        case "time":
+
+                            Int32 time;
+
+                            if (Int32.TryParse(property.Value.ToString(), out time))
+                            {
+                                getRawMemPoolVerboseResponse.Time = time;
+                            }
+
+                            break;
+
+                        default:
+                            throw new Exception("Unkown property: " + property.Name + " in GetRawMemPool()");
+                    }
+                }
+                getRawMemPoolResponse.VerboseResponses.Add(getRawMemPoolVerboseResponse);
+            }
+            return getRawMemPoolResponse;
+        }
+
+        public String GetRawChangeAddress()
+        {
+            return _rpcConnector.MakeRequest<String>(RpcMethods.getrawchangeaddress);
         }
 
         public String GetRawTransaction(String txId, Int32 verbose)
@@ -182,18 +326,23 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<GetTxOutSetInfoResponse>(RpcMethods.gettxoutsetinfo);
         }
 
+        public decimal GetUnconfirmedBalance()
+        {
+            return _rpcConnector.MakeRequest<Decimal>(RpcMethods.getunconfirmedbalance);
+        }
+
         public String GetWork(String data)
         {
             return String.IsNullOrWhiteSpace(data)
-                ? _rpcConnector.MakeRequest<String>(RpcMethods.getwork)
-                : _rpcConnector.MakeRequest<String>(RpcMethods.getwork, data);
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.getwork)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.getwork, data);
         }
 
         public String Help(String command)
         {
             return String.IsNullOrWhiteSpace(command)
-                ? _rpcConnector.MakeRequest<String>(RpcMethods.help)
-                : _rpcConnector.MakeRequest<String>(RpcMethods.help, command);
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.help)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.help, command);
         }
 
         public String ImportPrivKey(String privateKey, String label, Boolean rescan)
@@ -201,9 +350,14 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.importprivkey, privateKey, label, rescan);
         }
 
-        public String KeyPoolRefill()
+        public void ImportWallet(String filename)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.keypoolrefill);
+            _rpcConnector.MakeRequest<String>(RpcMethods.importwallet, filename);
+        }
+
+        public String KeyPoolRefill(UInt32 newSize)
+        {
+            return _rpcConnector.MakeRequest<String>(RpcMethods.keypoolrefill, newSize);
         }
 
         public Dictionary<String, Decimal> ListAccounts(Int32 minConf)
@@ -223,9 +377,9 @@ namespace BitcoinLib.Services
                     if (unstructuredResponse[i][j].Count > 1)
                     {
                         ListAddressGroupingsResponse response = new ListAddressGroupingsResponse
-                        {
-                            Address = unstructuredResponse[i][j][0].ToString()
-                        };
+                            {
+                                Address = unstructuredResponse[i][j][0].ToString()
+                            };
 
                         Decimal balance;
                         Decimal.TryParse(unstructuredResponse[i][j][1].ToString(), out balance);
@@ -265,15 +419,15 @@ namespace BitcoinLib.Services
         public ListSinceBlockResponse ListSinceBlock(String blockHash, Int32 targetConfirmations)
         {
             return String.IsNullOrWhiteSpace(blockHash)
-                ? _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock)
-                : _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, blockHash, targetConfirmations);
+                       ? _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock)
+                       : _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, blockHash, targetConfirmations);
         }
 
         public List<ListTransactionsResponse> ListTransactions(String account, Int32 count, Int32 from)
         {
             return (String.IsNullOrWhiteSpace(account))
-                ? _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions)
-                : _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, account, count, from);
+                       ? _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions)
+                       : _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, account, count, from);
         }
 
         public List<ListUnspentResponse> ListUnspent(Int32 minConf, Int32 maxConf, List<String> addreses)
@@ -284,6 +438,11 @@ namespace BitcoinLib.Services
         public String Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf, String comment)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.move, fromAccount, toAccount, amount, minConf, comment);
+        }
+
+        public void Ping()
+        {
+            _rpcConnector.MakeRequest<String>(RpcMethods.ping);
         }
 
         public String SendFrom(String fromAccount, String toBitcoinAddress, Decimal amount, Int32 minConf, String comment, String commentTo)
@@ -358,13 +517,18 @@ namespace BitcoinLib.Services
         public String SubmitBlock(String hexData, params object[] parameters)
         {
             return parameters == null
-                ? _rpcConnector.MakeRequest<String>(RpcMethods.submitblock, hexData)
-                : _rpcConnector.MakeRequest<String>(RpcMethods.submitblock, hexData, parameters);
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.submitblock, hexData)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.submitblock, hexData, parameters);
         }
 
         public ValidateAddressResponse ValidateAddress(String bitcoinAddress)
         {
             return _rpcConnector.MakeRequest<ValidateAddressResponse>(RpcMethods.validateaddress, bitcoinAddress);
+        }
+
+        public bool VerifyChain(UInt16 checkLevel, UInt32 numBlocks)
+        {
+            return _rpcConnector.MakeRequest<Boolean>(RpcMethods.verifychain, checkLevel, numBlocks);
         }
 
         public String VerifyMessage(String bitcoinAddress, String signature, String message)

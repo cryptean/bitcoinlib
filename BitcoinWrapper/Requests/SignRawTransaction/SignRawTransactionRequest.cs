@@ -24,12 +24,12 @@ namespace BitcoinLib.Requests.SignRawTransaction
         public void AddInput(String transactionId, Int32 output, String scriptPubKey, String redeemScript)
         {
             Inputs.Add(new SignRawTransactionInput
-            {
-                TransactionId = transactionId,
-                Output = output,
-                ScriptPubKey = scriptPubKey,
-                RedeemScript = redeemScript
-            });
+                {
+                    TransactionId = transactionId,
+                    Output = output,
+                    ScriptPubKey = scriptPubKey,
+                    RedeemScript = redeemScript
+                });
         }
 
         public void AddInput(SignRawTransactionInput signRawTransactionInput)

@@ -3,6 +3,7 @@
 
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -16,8 +17,8 @@ namespace BitcoinLib.RPC
     public sealed class RpcConnector : IRpcConnector
     {
         private readonly String _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"))
-            ? ConfigurationManager.AppSettings.Get("DaemonUrl")
-            : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
+                                                 ? ConfigurationManager.AppSettings.Get("DaemonUrl")
+                                                 : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
 
         private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
         private readonly String _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
@@ -26,7 +27,7 @@ namespace BitcoinLib.RPC
         private readonly Int16 _rpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
         private readonly Boolean _rpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
         private readonly Boolean _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
-
+        
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
             JsonRpcResponse<T> rpcResponse = MakeRpcRequest<T>(new JsonRpcRequest(1, rpcMethod.ToString(), parameters), 0);
@@ -51,7 +52,7 @@ namespace BitcoinLib.RPC
                     {
                         Double delayInSeconds = _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequests) : timedOutRequests;
 
-                        if (System.Diagnostics.Debugger.IsAttached)
+                        if (Debugger.IsAttached)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequests, _rpcTimedOutRequestsResendAttempts, delayInSeconds, _rpcRequestTimeoutInSeconds);
@@ -148,10 +149,8 @@ namespace BitcoinLib.RPC
                             throw new RpcException("The RPC request was either not understood by the Bitcoin server or there was a problem executing the request", webException);
                     }
                 }
-                //  Qt RPC specific
                 else if (webException.Message == "The operation has timed out")
                 {
-                    Console.WriteLine("RpcRequestTimeoutException: {0}", httpWebRequest.RequestUri.AbsoluteUri);
                     throw new RpcRequestTimeoutException(webException.Message);
                 }
 
