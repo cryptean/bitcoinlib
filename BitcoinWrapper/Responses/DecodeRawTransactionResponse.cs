@@ -37,7 +37,7 @@ namespace BitcoinLib.Responses
     {
         public String Asm { get; set; }
         public String Hex { get; set; }
-        public String ReqSigs { get; set; }
+        public Int32 ReqSigs { get; set; }
         public String Type { get; set; }
         public List<String> Addresses { get; set; }
     }

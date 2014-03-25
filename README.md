@@ -1,17 +1,17 @@
 BitcoinLib
 ==========
 
-**C# Bitcoin Qt RPC Library / Wrapper for .Net 4.5+ projects**
+**C# Bitcoin-Cli RPC Library & Wrapper for .Net projects**
 
 Features
 --------
 
-- Fully compatible with QT's 0.8.6 RPC API.
+- Fully compatible and up-to-date with Bitcoin-Cli 0.9 RPC API.
 - Design-by-contract, service-oriented architecture.
 - Strongly-typed structures for complex RPC requests and responses.
 - Implicit JSON casting for all RPC messages.
 - Extended methods for every-day scenarios where the built-in methods fall short.
-- Exposure of all Qt API's functionality as well as the extended methods through a single interface.
+- Exposure of all RPC API's functionality as well as the extended methods through a single interface.
 - Fallback mechanism for timed-out RPC requests.
 - Custom RPC exceptions.
 - Console and web test clients out of the box with demo methods implemented in them.
@@ -27,9 +27,9 @@ Instructions
 	- daemon=1
 	- txindex=1
 
-- Call `bitcoind -reindex -txindex -debugnet -printtoconsole` and wait until it's finished reindexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
+- Call `bitcoind -reindex -txindex -debug=net -printtoconsole` and wait until it's finished reindexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
 
-- Shut down bitcoind and launch it again with these arguments: `bitcoind -daemon -debugnet -printtoconsole`. Append `-testnet` if you want to run it for Testnet. Wait until it is fully synchronized. 
+- Shut down bitcoind and run it again with these arguments: `bitcoind -daemon -debug=net -printtoconsole`. Append `-testnet` if you want to run it for Testnet. Wait until it is fully synchronized. 
 
 - Edit the .config files in the solution to best fit your needs
 	- `app.config` for the Console test client

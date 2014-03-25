@@ -21,7 +21,7 @@ namespace ConsoleClient
 
         private static void Main()
         {
-            Console.Write("\n\nConnecting to Bitcoin {0}Net via Qt RPC API at {1}...", (UseTestNet ? "Test" : "Main"), DaemonUrl);
+            Console.Write("\n\nConnecting to Bitcoin-Cli {0}Net via RPC at {1}...", (UseTestNet ? "Test" : "Main"), DaemonUrl);
 
             //  Network difficulty
             try
@@ -37,10 +37,10 @@ namespace ConsoleClient
 
             //  My balance
             Decimal myBalance = BitcoinService.GetBalance();
-            Console.WriteLine("\nMy balance: " + myBalance + " BTC");
+            Console.WriteLine("\nMy balance: {0} BTC", myBalance);
 
             //  Current block
-            Int32 blockCount = BitcoinService.GetBlockCount();
+            UInt32 blockCount = BitcoinService.GetBlockCount();
             Console.WriteLine("\nCurrent block: {0} Hash: {1}", blockCount.ToString("#,#", CultureInfo.InvariantCulture), BitcoinService.GetBlockHash(blockCount));
 
             //  Keys and addresses
@@ -64,7 +64,7 @@ namespace ConsoleClient
                 //  My private keys
                 if (Boolean.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0)
                 {
-                    String walletPassword = ConfigurationManager.AppSettings.Get("WalletPassword"); //  be careful with this one - please do not store your password here //
+                    String walletPassword = ConfigurationManager.AppSettings.Get("WalletPassword");
                     const Int16 secondsToUnlockTheWallet = 3;
 
                     try
@@ -95,7 +95,7 @@ namespace ConsoleClient
                 //  My transactions 
                 Console.WriteLine("\n\nMy transactions: ");
                 List<ListTransactionsResponse> myTransactions = BitcoinService.ListTransactions(null, Int32.MaxValue, 0);
-
+                
                 foreach (ListTransactionsResponse transaction in myTransactions)
                 {
                     Console.WriteLine("\n---------------------------------------------------------------------------");
@@ -126,7 +126,7 @@ namespace ConsoleClient
                     {
                         String propertyInfoName = propertyInfo.Name;
 
-                        if (propertyInfoName != "Details")
+                        if (propertyInfoName != "Details" && propertyInfoName != "WalletConflicts")
                         {
                             Console.WriteLine(propertyInfoName + ": " + propertyInfo.GetValue(localWalletTransaction, null));
                         }

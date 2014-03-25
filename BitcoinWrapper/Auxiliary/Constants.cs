@@ -7,8 +7,11 @@ namespace BitcoinLib.Auxiliary
 {
     public static class Constants
     {
+        public const Int16 MillisecondsInASecond = 1000;
         public const Decimal OneSatoshiInBTC = 0.00000001M;
         public const Decimal MinimumNonDustTransactionAmountInBTC = 0.0000543M;
-        public const Int16 MillisecondsInASecond = 1000;
+        public const Decimal FeePerThousandBytesInBTC = 0.0001M;
+        public const Int16 FreeTransactionMaximumSizeInBytes = 1000;
+        public const Decimal FreeTransactionMinimumOutputAmountInBTC = 0.01M;
     }
 }

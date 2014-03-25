@@ -21,6 +21,7 @@ namespace BitcoinLib.Responses
         public Int32 Version { get; set; }
         public String MerkleRoot { get; set; }
         public Double Difficulty { get; set; }
+        public String ChainWork { get; set; }
         public String PreviousBlockHash { get; set; }
         public String NextBlockHash { get; set; }
         public String Bits { get; set; }
