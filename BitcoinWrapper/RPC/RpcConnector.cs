@@ -15,12 +15,27 @@ namespace BitcoinLib.RPC
 {
     public sealed class RpcConnector : IRpcConnector
     {
-        private readonly String _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"))
+        private readonly String _daemonUrl;
+        private readonly String _rpcUsername;
+        private readonly String _rpcPassword;
+
+        public RpcConnector()
+        {
+            _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"))
             ? ConfigurationManager.AppSettings.Get("DaemonUrl")
             : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
 
-        private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
-        private readonly String _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
+            _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
+            _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
+        }
+
+        public RpcConnector(string daemonURL, string username, string password)
+        {
+            _daemonUrl = daemonURL;
+            _rpcUsername = username;
+            _rpcPassword = password;
+        }
+
         private readonly Int16 _rpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
         private readonly Boolean _rpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
         private readonly Int16 _rpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
