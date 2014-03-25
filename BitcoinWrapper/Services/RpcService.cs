@@ -16,7 +16,16 @@ namespace BitcoinLib.Services
     //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date, call "help" in your bitcoin-cli to get the most recent version)
     public partial class BitcoinService : IBitcoinService
     {
-        private readonly IRpcConnector _rpcConnector = new RpcConnector();
+        private readonly IRpcConnector _rpcConnector;
+
+        public BitcoinService()
+        {
+            _rpcConnector = new RpcConnector();
+        }
+        public BitcoinService(string daemonUrl, string username, string password)
+        {
+            _rpcConnector = new RpcConnector(daemonUrl, username, password);
+        }
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
         {
