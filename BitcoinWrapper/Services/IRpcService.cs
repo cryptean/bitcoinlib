@@ -40,7 +40,7 @@ namespace BitcoinLib.Services
         GetMiningInfoResponse GetMiningInfo();
         GetNetTotalsResponse GetNetTotals();
         UInt64 GetNetworkHashPs(UInt32 blocks = 120, Int64 height = -1);
-        String GetNewAddress(String account = null);
+        String GetNewAddress(String account = "");
         List<GetPeerInfoResponse> GetPeerInfo();
         String GetRawChangeAddress();
         GetRawMemPoolResponse GetRawMemPool(Boolean verbose = false);

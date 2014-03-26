@@ -176,7 +176,9 @@ namespace BitcoinLib.Services
 
         public String GetNewAddress(String account)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress, account);
+            return String.IsNullOrWhiteSpace(account)
+                ? _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress)
+                : _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress, account);
         }
 
         public List<GetPeerInfoResponse> GetPeerInfo()
