@@ -63,6 +63,7 @@
     <Compile Include="Responses\GetPeerInfoResponse.cs" />
     <Compile Include="Responses\GetRawMemPoolResponse.cs" />
     <Compile Include="Responses\GetTransactionResponse.cs" />
+    <Compile Include="Responses\ITransactionResponse.cs" />
     <Compile Include="RPC\RpcMethods.cs" />
     <Compile Include="Responses\DecodeRawTransactionResponse.cs" />
     <Compile Include="ExceptionHandling\RpcException.cs" />

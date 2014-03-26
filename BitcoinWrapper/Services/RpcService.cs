@@ -16,7 +16,17 @@ namespace BitcoinLib.Services
     //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date, call "help" in your bitcoin-cli to get the most recent version)
     public partial class BitcoinService : IBitcoinService
     {
-        private readonly IRpcConnector _rpcConnector = new RpcConnector();
+        private readonly IRpcConnector _rpcConnector; 
+
+        public BitcoinService()
+        {
+            _rpcConnector = new RpcConnector();
+        }
+
+        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword)
+        {
+            _rpcConnector = new RpcConnector(daemonUrl, rpcUsername, rpcPassword);
+        }
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
         {
@@ -176,9 +186,12 @@ namespace BitcoinLib.Services
 
         public GetRawMemPoolResponse GetRawMemPool(Boolean verbose)
         {
-            GetRawMemPoolResponse getRawMemPoolResponse = new GetRawMemPoolResponse();
+            GetRawMemPoolResponse getRawMemPoolResponse = new GetRawMemPoolResponse
+                {
+                    IsVerbose = verbose
+                };
+
             object rpcResponse = _rpcConnector.MakeRequest<object>(RpcMethods.getrawmempool, verbose);
-            getRawMemPoolResponse.IsVerbose = verbose;
 
             if (!verbose)
             {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace BitcoinLib.Responses
 {
     //  Note: Local wallet transactions only
-    public class GetTransactionResponse
+    public class GetTransactionResponse : ITransactionResponse
     {
         public Decimal Amount { get; set; }
         public String Blockhash { get; set; }

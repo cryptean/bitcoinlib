@@ -16,18 +16,27 @@ namespace BitcoinLib.RPC
 {
     public sealed class RpcConnector : IRpcConnector
     {
-        private readonly String _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"))
-                                                 ? ConfigurationManager.AppSettings.Get("DaemonUrl")
-                                                 : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
-
-        private readonly String _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
-        private readonly String _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
+        private readonly String _daemonUrl, _rpcUsername, _rpcPassword; 
         private readonly Int16 _rpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
         private readonly Boolean _rpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
         private readonly Int16 _rpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
         private readonly Boolean _rpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
         private readonly Boolean _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
-        
+
+        public RpcConnector()
+        {
+            _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet")) ? ConfigurationManager.AppSettings.Get("DaemonUrl") : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
+            _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
+            _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
+        }
+
+        public RpcConnector(String daemonUrl, String rpcUsername, String rpcPassword)
+        {
+            _daemonUrl = daemonUrl;
+            _rpcUsername = rpcUsername;
+            _rpcPassword = rpcPassword;
+        }
+
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
             JsonRpcResponse<T> rpcResponse = MakeRpcRequest<T>(new JsonRpcRequest(1, rpcMethod.ToString(), parameters), 0);
@@ -59,7 +68,7 @@ namespace BitcoinLib.RPC
                             Console.ResetColor();
                         }
 
-                        Thread.Sleep((Int32) delayInSeconds * Constants.MillisecondsInASecond);
+                        Thread.Sleep((Int32)delayInSeconds * Constants.MillisecondsInASecond);
                     }
 
                     return MakeRpcRequest<T>(jsonRpcRequest, timedOutRequests);
@@ -77,7 +86,7 @@ namespace BitcoinLib.RPC
 
         private HttpWebRequest MakeHttpRequest(JsonRpcRequest jsonRpcRequest)
         {
-            HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(_daemonUrl);
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_daemonUrl);
             SetBasicAuthHeader(webRequest, _rpcUsername, _rpcPassword);
             webRequest.Credentials = new NetworkCredential(_rpcUsername, _rpcPassword);
             webRequest.ContentType = "application/json-rpc";
