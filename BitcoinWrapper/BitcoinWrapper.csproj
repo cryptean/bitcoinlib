@@ -40,6 +40,9 @@
   <ItemGroup>
     <Compile Include="Auxiliary\ConsoleVisualizations.cs" />
     <Compile Include="Auxiliary\Constants.cs" />
+    <Compile Include="CoinParameters\BitcoinParameters.cs" />
+    <Compile Include="CoinParameters\CoinParameters.cs" />
+    <Compile Include="CoinParameters\LitecoinParameters.cs" />
     <Compile Include="ExceptionHandling\RpcRequestTimeoutException.cs" />
     <Compile Include="ExceptionHandling\RpcResponseDeserializationException.cs" />
     <Compile Include="Requests\AddNode\NodeAction.cs" />
