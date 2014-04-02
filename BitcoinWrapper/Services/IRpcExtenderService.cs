@@ -14,5 +14,9 @@ namespace BitcoinLib.Services
         String GetTransactionSenderAddress(String txId);
         IEnumerable<String> GetTransactionSenderAddresses(String txId);
         Boolean IsInWalletTransaction(String txId);
+
+        //Functions around priority and transaction cost
+        public double GetTransactionPriority(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx);
+        public bool IsTransactionFree(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx);
     }
 }

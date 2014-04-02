@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Linq;
 using BitcoinLib.Responses;
 
+
 namespace BitcoinLib.Services
 {
     public sealed partial class BitcoinService : IBitcoinService
@@ -91,5 +92,61 @@ namespace BitcoinLib.Services
             //  Note: This might not be efficient if iterated, consider caching ListTransactions' results.
             return ListTransactions(null, Int32.MaxValue, 0).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
         }
+
+        public double GetTransactionPriority(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx)
+        {
+            int numOfRawInputs = rawTx.Inputs.Count;
+            int numOfRawOutputs = rawTx.Outputs.Count;
+
+            IRpcService svcInterface = ((IRpcService)this);
+
+            if (svcInterface == null)
+                throw new InvalidCastException("Implementations of IRpcExtender Service must also implement IRpcService to get priority");
+
+            var listOfUnspent = svcInterface.ListUnspent();
+
+            decimal coinAgeValue = 0m;
+
+            foreach (var input in rawTx.Inputs)
+            {
+                foreach (var unspent in listOfUnspent)
+                {
+                    if (input.TransactionId == unspent.TxId && input.Output == unspent.VOut)
+                    {
+                        coinAgeValue += unspent.Amount * unspent.Confirmations;
+                        //No reason to continue iterating on this unspent, won't find any more of them
+                        break;
+                    }
+                }
+            }
+
+            int size = coinParams.TransactionBaseSizeSingleIO + (numOfRawInputs - 1) * coinParams.TransactionIncrementalInputSize + (numOfRawOutputs - 1) * coinParams.TransactionIncrementalOutputSize;
+
+            double priority = (double)(coinAgeValue / size);
+
+            return priority;
+
+        }
+
+        public bool IsTransactionFree(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx)
+        {
+            int numOfRawInputs = rawTx.Inputs.Count;
+            int numOfRawOutputs = rawTx.Outputs.Count;
+
+            int size = coinParams.TransactionBaseSizeSingleIO + (numOfRawInputs - 1) * coinParams.TransactionIncrementalInputSize + (numOfRawOutputs - 1) * coinParams.TransactionIncrementalOutputSize;
+
+            if (size > coinParams.AllowedFreeSize)
+                return false;
+
+            double freeThreshold = 1 * coinParams.ConfirmationsForMediumAtOneCoin / coinParams.TransactionBaseSizeSingleIO;
+            double priority = GetTransactionPriority(coinParams, rawTx);
+
+            if (priority > freeThreshold)
+                return true;
+
+            return false;
+        }
+
+
     }
 }
