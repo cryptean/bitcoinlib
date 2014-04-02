@@ -16,7 +16,7 @@ namespace BitcoinLib.Services
         Boolean IsInWalletTransaction(String txId);
 
         //Functions around priority and transaction cost
-        public double GetTransactionPriority(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx);
-        public bool IsTransactionFree(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx);
+        double GetTransactionPriority(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx);
+        bool IsTransactionFree(CoinParameters.CoinParameters coinParams, BitcoinLib.Requests.CreateRawTransaction.CreateRawTransactionRequest rawTx);
     }
 }
