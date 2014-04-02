@@ -138,6 +138,9 @@ namespace BitcoinLib.Services
             if (size > coinParams.AllowedFreeSize)
                 return false;
 
+            if (rawTx.Outputs.Any(t => t.Value < coinParams.DustThreshold))
+                return false;
+
             double freeThreshold = 1 * coinParams.ConfirmationsForMediumAtOneCoin / coinParams.TransactionBaseSizeSingleIO;
             double priority = GetTransactionPriority(coinParams, rawTx);
 

@@ -56,8 +56,23 @@ namespace BitcoinLib.CoinParameters
             get { return confirmationsForMediumAtOneCoin; }
         }
 
+        decimal feePerKB;
 
-        public CoinParameters(string shortName, string longName, int confsForMedium, int baseTXSize, int incrInputSize, int incrOutputSize, int allowFreeSize)
+        public decimal FeePerKB
+        {
+            get { return feePerKB; }
+            set { feePerKB = value; }
+        }
+
+        decimal dustThreshold;
+
+        public decimal DustThreshold
+        {
+          get { return dustThreshold; }
+          set { dustThreshold = value; }
+        }
+        
+        public CoinParameters(string shortName, string longName, int confsForMedium, int baseTXSize, int incrInputSize, int incrOutputSize, int allowFreeSize, decimal feePerKilobyte, decimal dustThresholdIn)
         {
             confirmationsForMediumAtOneCoin = confsForMedium;
             coinShortName = shortName;
@@ -66,6 +81,8 @@ namespace BitcoinLib.CoinParameters
             transactionIncrementalInputSize = incrInputSize;
             transactionIncrementalOutputSize = incrOutputSize;
             allowedFreeSize = allowFreeSize;
+            feePerKB = feePerKilobyte;
+            dustThreshold = dustThresholdIn;
         }
     }
 }
