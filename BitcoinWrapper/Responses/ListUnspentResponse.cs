@@ -14,5 +14,10 @@ namespace BitcoinLib.Responses
         public String ScriptPubKey { get; set; }
         public Decimal Amount { get; set; }
         public Int32 Confirmations { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("Account: {0}; Address:{1}; Amount: {2}, Confirmations: {3}", Account, Address, Amount, Confirmations);
+        }
     }
 }
