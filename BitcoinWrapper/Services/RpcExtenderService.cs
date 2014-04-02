@@ -9,7 +9,7 @@ using BitcoinLib.Responses;
 
 namespace BitcoinLib.Services
 {
-    public sealed partial class BitcoinService
+    public sealed partial class BitcoinService : IBitcoinService
     {
         public Dictionary<String, String> GetMyPublicAndPrivateKeyPairs()
         {
