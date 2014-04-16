@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using BitcoinLib.Responses.Bridges;
 
 namespace BitcoinLib.Responses
 {
@@ -10,11 +11,11 @@ namespace BitcoinLib.Responses
 
     public class DecodeRawTransactionResponse : ITransactionResponse
     {
-        public String TxId { get; set; }
         public String Version { get; set; }
         public String LockTime { get; set; }
         public List<Vin> Vin { get; set; }
         public List<Vout> Vout { get; set; }
+        public String TxId { get; set; }
     }
 
     public class Vin

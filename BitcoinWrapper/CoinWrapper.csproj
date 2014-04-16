@@ -30,18 +30,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Auxiliary\ConsoleVisualizations.cs" />
-    <Compile Include="Auxiliary\Constants.cs" />
-    <Compile Include="ExceptionHandling\RpcRequestTimeoutException.cs" />
-    <Compile Include="ExceptionHandling\RpcResponseDeserializationException.cs" />
+    <Compile Include="Auxiliary\GlobalConstants.cs" />
+    <Compile Include="ExceptionHandling\Rpc\RpcRequestTimeoutException.cs" />
+    <Compile Include="ExceptionHandling\Rpc\RpcResponseDeserializationException.cs" />
+    <Compile Include="CoinParameters\Bitcoin\BitcoinConstants.cs" />
+    <Compile Include="CoinParameters\Base\CoinConstants.cs" />
+    <Compile Include="CoinParameters\Bitcoin\IBitcoinConstants.cs" />
+    <Compile Include="CoinParameters\Base\ICoinParameters.cs" />
+    <Compile Include="CoinParameters\Litecoin\ILitecoinConstants.cs" />
+    <Compile Include="CoinParameters\Litecoin\LitecoinConstants.cs" />
     <Compile Include="Requests\AddNode\NodeAction.cs" />
     <Compile Include="Auxiliary\UnixTime.cs" />
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionInput.cs" />
@@ -63,10 +69,11 @@
     <Compile Include="Responses\GetPeerInfoResponse.cs" />
     <Compile Include="Responses\GetRawMemPoolResponse.cs" />
     <Compile Include="Responses\GetTransactionResponse.cs" />
-    <Compile Include="Responses\ITransactionResponse.cs" />
+    <Compile Include="Responses\Bridges\ITransactionResponse.cs" />
+    <Compile Include="RPC\Connector\RawRpcConnector.cs" />
     <Compile Include="RPC\RpcMethods.cs" />
     <Compile Include="Responses\DecodeRawTransactionResponse.cs" />
-    <Compile Include="ExceptionHandling\RpcException.cs" />
+    <Compile Include="ExceptionHandling\Rpc\RpcException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\CreateMultiSigResponse.cs" />
     <Compile Include="Responses\GetTxOutSetInfoResponse.cs" />
@@ -78,19 +85,30 @@
     <Compile Include="Responses\SignRawTransactionResponse.cs" />
     <Compile Include="Responses\ListUnspentResponse.cs" />
     <Compile Include="Responses\ValidateAddressResponse.cs" />
-    <Compile Include="RPC\JsonRpcRequest.cs" />
-    <Compile Include="RPC\JsonRpcResponse.cs" />
-    <Compile Include="RPC\RpcConnector.cs" />
-    <Compile Include="Services\IBitcoinService.cs" />
-    <Compile Include="Services\RpcService.cs" />
-    <Compile Include="Services\RpcExtenderService.cs" />
-    <Compile Include="Services\IRpcService.cs" />
-    <Compile Include="RPC\IRpcConnector.cs" />
-    <Compile Include="Services\IRpcExtenderService.cs" />
+    <Compile Include="RPC\RequestResponse\JsonRpcRequest.cs" />
+    <Compile Include="RPC\RequestResponse\JsonRpcResponse.cs" />
+    <Compile Include="RPC\Connector\RpcConnector.cs" />
+    <Compile Include="ExtensionMethods\CoinServiceExtensionMethods.cs" />
+    <Compile Include="Services\Coins\Bitcoin\BitcoinService.cs" />
+    <Compile Include="CoinParameters\Base\CoinParameters.cs" />
+    <Compile Include="Services\Coins\Bitcoin\IBitcoinService.cs" />
+    <Compile Include="Services\Coins\Base\ICoinService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\Coins\Cryptocoin\CryptocoinService.cs" />
+    <Compile Include="Services\Coins\Cryptocoin\ICryptocoinService.cs" />
+    <Compile Include="Services\Coins\Litecoin\ILitecoinService.cs" />
+    <Compile Include="Services\Coins\Litecoin\LitecoinService.cs" />
+    <Compile Include="Services\RpcServices\RpcService\RpcService.cs" />
+    <Compile Include="Services\RpcServices\RpcExtenderService\RpcExtenderService.cs" />
+    <Compile Include="Services\RpcServices\RpcService\IRpcService.cs" />
+    <Compile Include="RPC\Connector\IRpcConnector.cs" />
+    <Compile Include="Services\RpcServices\RpcExtenderService\IRpcExtenderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace BitcoinLib.ExceptionHandling
+namespace BitcoinLib.ExceptionHandling.Rpc
 {
     [Serializable]
     public class RpcException : Exception

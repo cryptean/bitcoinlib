@@ -5,27 +5,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BitcoinLib.RPC;
+using BitcoinLib.RPC.Connector;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Requests.SignRawTransaction;
 using BitcoinLib.Responses;
+using BitcoinLib.Services.Coins.Base;
 using Newtonsoft.Json.Linq;
 
 namespace BitcoinLib.Services
 {
-    //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date, call "help" in your bitcoin-cli to get the most recent version)
-    public partial class BitcoinService : IBitcoinService
+    //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date so call "help" in your bitcoin-cli to get the latest signatures)
+    public partial class CoinService : ICoinService
     {
-        private readonly IRpcConnector _rpcConnector; 
+        private readonly IRpcConnector _rpcConnector;
 
-        public BitcoinService()
+        public CoinService()
         {
-            _rpcConnector = new RpcConnector();
+            _rpcConnector = new RpcConnector(this);
+            Parameters = new CoinParameters(this);
         }
 
-        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword)
+        public CoinService(Boolean useTestnet) : this()
         {
-            _rpcConnector = new RpcConnector(daemonUrl, rpcUsername, rpcPassword);
+            Parameters.UseTestnet = useTestnet;
+        }
+
+        public CoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) : this()
+        {
+            Parameters.DaemonUrl = daemonUrl;
+            Parameters.UseTestnet = false; //  this will force the CoinParameters.SelectedDaemonUrl dynamic property to automatically pick the daemonUrl defined above
+            Parameters.RpcUsername = rpcUsername;
+            Parameters.RpcPassword = rpcPassword;
+
+            if (!String.IsNullOrWhiteSpace(walletPassword))
+            {
+                Parameters.WalletPassword = walletPassword;
+            }
         }
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
@@ -177,8 +193,8 @@ namespace BitcoinLib.Services
         public String GetNewAddress(String account)
         {
             return String.IsNullOrWhiteSpace(account)
-                ? _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress)
-                : _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress, account);
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.getnewaddress, account);
         }
 
         public List<GetPeerInfoResponse> GetPeerInfo()
@@ -445,9 +461,9 @@ namespace BitcoinLib.Services
                        : _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, account, count, from);
         }
 
-        public List<ListUnspentResponse> ListUnspent(Int32 minConf, Int32 maxConf, List<String> addreses)
+        public List<ListUnspentResponse> ListUnspent(Int32 minConf, Int32 maxConf, List<String> addresses)
         {
-            return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addreses ?? new List<String>()));
+            return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addresses ?? new List<String>()));
         }
 
         public String Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf, String comment)

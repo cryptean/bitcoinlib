@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using BitcoinLib.Responses.Bridges;
 
 namespace BitcoinLib.Responses
 {
@@ -18,8 +19,8 @@ namespace BitcoinLib.Responses
         public String Hex { get; set; }
         public Int32 Time { get; set; }
         public Int32 TimeReceived { get; set; }
-        public String TxId { get; set; }
         public List<String> WalletConflicts { get; set; }
+        public String TxId { get; set; }
     }
 
     public class GetTransactionResponseDetails

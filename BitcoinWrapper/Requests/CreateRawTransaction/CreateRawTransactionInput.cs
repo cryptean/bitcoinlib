@@ -9,9 +9,9 @@ namespace BitcoinLib.Requests.CreateRawTransaction
     public class CreateRawTransactionInput
     {
         [JsonProperty("txid")]
-        public String TransactionId { get; set; }
+        public String TxId { get; set; }
 
         [JsonProperty("vout")]
-        public Int32 Output { get; set; }
+        public Int32 Vout { get; set; }
     }
 }

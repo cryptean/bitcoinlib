@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using BitcoinLib.Responses;
-using BitcoinLib.Services;
+using BitcoinLib.Services.Coins.Bitcoin;
 
 namespace WebClient.Controllers
 {
@@ -12,7 +12,7 @@ namespace WebClient.Controllers
         // GET: /Home/
         public HomeController()
         {
-            _bitcoinService = new BitcoinService();
+            _bitcoinService = new BitcoinService(useTestnet: true);
         }
 
         public ActionResult Index()

@@ -2,39 +2,26 @@
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
 using BitcoinLib.Auxiliary;
-using BitcoinLib.ExceptionHandling;
+using BitcoinLib.ExceptionHandling.Rpc;
+using BitcoinLib.RPC.RequestResponse;
+using BitcoinLib.Services.Coins.Base;
 using Newtonsoft.Json;
 
-namespace BitcoinLib.RPC
+namespace BitcoinLib.RPC.Connector
 {
     public sealed class RpcConnector : IRpcConnector
     {
-        private readonly String _daemonUrl, _rpcUsername, _rpcPassword; 
-        private readonly Int16 _rpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
-        private readonly Boolean _rpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
-        private readonly Int16 _rpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
-        private readonly Boolean _rpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
-        private readonly Boolean _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
+        private readonly ICoinService _coinService;
 
-        public RpcConnector()
+        public RpcConnector(ICoinService coinService)
         {
-            _daemonUrl = !Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet")) ? ConfigurationManager.AppSettings.Get("DaemonUrl") : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
-            _rpcUsername = ConfigurationManager.AppSettings.Get("RpcUsername");
-            _rpcPassword = ConfigurationManager.AppSettings.Get("RpcPassword");
-        }
-
-        public RpcConnector(String daemonUrl, String rpcUsername, String rpcPassword)
-        {
-            _daemonUrl = daemonUrl;
-            _rpcUsername = rpcUsername;
-            _rpcPassword = rpcPassword;
+            _coinService = coinService;
         }
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
@@ -54,21 +41,21 @@ namespace BitcoinLib.RPC
             }
             catch (RpcRequestTimeoutException rpcRequestTimeoutException)
             {
-                if (_rpcResendTimedOutRequests && ++timedOutRequests <= _rpcTimedOutRequestsResendAttempts)
+                if (_coinService.Parameters.RpcResendTimedOutRequests && ++timedOutRequests <= _coinService.Parameters.RpcTimedOutRequestsResendAttempts)
                 {
                     //  Note: effective delay = delayInSeconds + _rpcRequestTimeoutInSeconds
-                    if (_rpcDelayResendingTimedOutRequests)
+                    if (_coinService.Parameters.RpcDelayResendingTimedOutRequests)
                     {
-                        Double delayInSeconds = _rpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequests) : timedOutRequests;
+                        Double delayInSeconds = _coinService.Parameters.RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequests) : timedOutRequests;
 
                         if (Debugger.IsAttached)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequests, _rpcTimedOutRequestsResendAttempts, delayInSeconds, _rpcRequestTimeoutInSeconds);
+                            Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequests, _coinService.Parameters.RpcTimedOutRequestsResendAttempts, delayInSeconds, _coinService.Parameters.RpcRequestTimeoutInSeconds);
                             Console.ResetColor();
                         }
 
-                        Thread.Sleep((Int32)delayInSeconds * Constants.MillisecondsInASecond);
+                        Thread.Sleep((Int32) delayInSeconds * GlobalConstants.MillisecondsInASecond);
                     }
 
                     return MakeRpcRequest<T>(jsonRpcRequest, timedOutRequests);
@@ -86,13 +73,12 @@ namespace BitcoinLib.RPC
 
         private HttpWebRequest MakeHttpRequest(JsonRpcRequest jsonRpcRequest)
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_daemonUrl);
-            SetBasicAuthHeader(webRequest, _rpcUsername, _rpcPassword);
-            webRequest.Credentials = new NetworkCredential(_rpcUsername, _rpcPassword);
+            HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
+            SetBasicAuthHeader(webRequest, _coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
+            webRequest.Credentials = new NetworkCredential(_coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.ContentType = "application/json-rpc";
             webRequest.Method = "POST";
-            webRequest.Timeout = _rpcRequestTimeoutInSeconds * Constants.MillisecondsInASecond;
-
+            webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds * GlobalConstants.MillisecondsInASecond;
             Byte[] byteArray = jsonRpcRequest.GetBytes();
             webRequest.ContentLength = byteArray.Length;
 
@@ -106,7 +92,7 @@ namespace BitcoinLib.RPC
             }
             catch (Exception exception)
             {
-                throw new RpcException("There was a problem sending the request to the bitcoin wallet", exception);
+                throw new RpcException("There was a problem sending the request to the wallet", exception);
             }
 
             return webRequest;
@@ -122,7 +108,7 @@ namespace BitcoinLib.RPC
             }
             catch (JsonException jsonException)
             {
-                throw new RpcResponseDeserializationException("There was a problem deserializing the response from the bitcoin wallet", jsonException);
+                throw new RpcResponseDeserializationException("There was a problem deserializing the response from the wallet", jsonException);
             }
         }
 
@@ -144,7 +130,7 @@ namespace BitcoinLib.RPC
             }
             catch (ProtocolViolationException protocolViolationException)
             {
-                throw new RpcException("Unable to connect to the Bitcoin server", protocolViolationException);
+                throw new RpcException("Unable to connect to the server", protocolViolationException);
             }
             catch (WebException webException)
             {
@@ -155,7 +141,7 @@ namespace BitcoinLib.RPC
                     switch (webResponse.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
-                            throw new RpcException("The RPC request was either not understood by the Bitcoin server or there was a problem executing the request", webException);
+                            throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
                     }
                 }
                 else if (webException.Message == "The operation has timed out")

@@ -9,25 +9,27 @@ using System.Linq;
 using System.Reflection;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Responses;
-using BitcoinLib.Services;
+using BitcoinLib.Services.Coins.Base;
+using BitcoinLib.Services.Coins.Bitcoin;
+using BitcoinLib.Services.Coins.Litecoin;
 
 namespace ConsoleClient
 {
     internal sealed class Program
     {
-        private static readonly IBitcoinService BitcoinService = new BitcoinService();
-        private static readonly Boolean UseTestNet = Boolean.Parse(ConfigurationManager.AppSettings.Get("UseTestNet"));
-        private static readonly String DaemonUrl = !UseTestNet ? ConfigurationManager.AppSettings.Get("DaemonUrl") : ConfigurationManager.AppSettings.Get("TestNetDaemonUrl");
+        private static readonly IBitcoinService BitcoinService = new BitcoinService(useTestnet: true);
+        private static readonly ILitecoinService LitecoinService = new LitecoinService(useTestnet: true);
+        private static readonly ICoinService CoinService = BitcoinService;
 
         private static void Main()
         {
-            Console.Write("\n\nConnecting to Bitcoin-Cli {0}Net via RPC at {1}...", (UseTestNet ? "Test" : "Main"), DaemonUrl);
+            Console.Write("\n\nConnecting to {0} {1}Net via RPC at {2}...", CoinService.Parameters.CoinLongName, (CoinService.Parameters.UseTestnet ? "Test" : "Main"), CoinService.Parameters.SelectedDaemonUrl);
 
             //  Network difficulty
             try
             {
-                Double networkDifficulty = BitcoinService.GetDifficulty();
-                Console.WriteLine("[OK]\n\nBTC Network Difficulty: " + networkDifficulty.ToString("#,#", CultureInfo.InvariantCulture));
+                Double networkDifficulty = CoinService.GetDifficulty();
+                Console.WriteLine("[OK]\n\n{0} Network Difficulty: {1}", CoinService.Parameters.CoinLongName, networkDifficulty.ToString("#,###", CultureInfo.InvariantCulture));
             }
             catch (Exception exception)
             {
@@ -36,12 +38,14 @@ namespace ConsoleClient
             }
 
             //  My balance
-            Decimal myBalance = BitcoinService.GetBalance();
-            Console.WriteLine("\nMy balance: {0} BTC", myBalance);
+            Decimal myBalance = CoinService.GetBalance();
+            Console.WriteLine("\nMy balance: {0} {1}", myBalance, CoinService.Parameters.CoinShortName);
 
             //  Current block
-            UInt32 blockCount = BitcoinService.GetBlockCount();
-            Console.WriteLine("\nCurrent block: {0} Hash: {1}", blockCount.ToString("#,#", CultureInfo.InvariantCulture), BitcoinService.GetBlockHash(blockCount));
+            Console.WriteLine("Current block: {0}", CoinService.GetBlockCount().ToString("#,#", CultureInfo.InvariantCulture));
+
+            //  Wallet state
+            Console.WriteLine("Wallet state: {0}", CoinService.IsWalletEncrypted() ? "Encrypted" : "Unencrypted");
 
             //  Keys and addresses
             if (myBalance > 0)
@@ -49,7 +53,7 @@ namespace ConsoleClient
                 //  My non-empty addresses
                 Console.WriteLine("\n\nMy non-empty addresses:");
 
-                List<ListReceivedByAddressResponse> myNonEmptyAddresses = BitcoinService.ListReceivedByAddress();
+                List<ListReceivedByAddressResponse> myNonEmptyAddresses = CoinService.ListReceivedByAddress();
 
                 foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)
                 {
@@ -62,21 +66,19 @@ namespace ConsoleClient
                 }
 
                 //  My private keys
-                if (Boolean.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0)
+                if (Boolean.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0 && CoinService.IsWalletEncrypted())
                 {
-                    String walletPassword = ConfigurationManager.AppSettings.Get("WalletPassword");
                     const Int16 secondsToUnlockTheWallet = 3;
 
                     try
                     {
                         Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
-                        BitcoinService.WalletPassphrase(walletPassword, secondsToUnlockTheWallet);
-                        Console.WriteLine("[OK]");
-                        Console.WriteLine("\nMy private keys for non-empty addresses:\n");
+                        BitcoinService.WalletPassphrase(CoinService.Parameters.WalletPassword, secondsToUnlockTheWallet);
+                        Console.WriteLine("[OK]\n\nMy private keys for non-empty addresses:\n");
 
                         foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)
                         {
-                            Console.WriteLine("Private Key for " + address.Address + ": " + BitcoinService.DumpPrivKey(address.Address));
+                            Console.WriteLine("Private Key for address " + address.Address + ": " + CoinService.DumpPrivKey(address.Address));
                         }
                     }
                     catch (NullReferenceException)
@@ -87,15 +89,15 @@ namespace ConsoleClient
                     finally
                     {
                         Console.Write("\nLocking wallet...");
-                        BitcoinService.WalletLock();
+                        CoinService.WalletLock();
                         Console.WriteLine("[OK]");
                     }
                 }
 
                 //  My transactions 
                 Console.WriteLine("\n\nMy transactions: ");
-                List<ListTransactionsResponse> myTransactions = BitcoinService.ListTransactions(null, Int32.MaxValue, 0);
-                
+                List<ListTransactionsResponse> myTransactions = CoinService.ListTransactions(null, Int32.MaxValue, 0);
+
                 foreach (ListTransactionsResponse transaction in myTransactions)
                 {
                     Console.WriteLine("\n---------------------------------------------------------------------------");
@@ -117,7 +119,7 @@ namespace ConsoleClient
                 Console.WriteLine("\n\nMy transactions' details:");
                 foreach (ListTransactionsResponse transaction in myTransactions)
                 {
-                    GetTransactionResponse localWalletTransaction = BitcoinService.GetTransaction(transaction.TxId);
+                    GetTransactionResponse localWalletTransaction = CoinService.GetTransaction(transaction.TxId);
                     IEnumerable<PropertyInfo> localWalletTrasactionProperties = localWalletTransaction.GetType().GetProperties();
                     IList<GetTransactionResponseDetails> localWalletTransactionDetailsList = localWalletTransaction.Details.ToList();
 
@@ -146,7 +148,7 @@ namespace ConsoleClient
 
                 //  Unspent transactions
                 Console.WriteLine("My unspent transactions:");
-                List<ListUnspentResponse> unspentList = BitcoinService.ListUnspent();
+                List<ListUnspentResponse> unspentList = CoinService.ListUnspent();
 
                 foreach (ListUnspentResponse unspentResponse in unspentList)
                 {

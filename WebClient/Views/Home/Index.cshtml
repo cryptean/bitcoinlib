@@ -12,23 +12,16 @@
     <div id="step1" class="stepBackground">
         <div class="row">
             <div class="span4">
-                <h2>1. Step: Connect to Bitcoin-qt</h2>
+                <h2>1. Step: Connect to Bitcoin Daemon</h2>
                 <input id="confirmStepOneBtn" value="Check connnection" type="button" class="btn-large btn-primary" />
             </div>
             <div class="span4 offset2">
-                <h2>How to connect to Bitcoin-qt</h2>
-                <ol>
-                    <li>Configure RpcUsername, RpcPassword and DaemonUrl in your Bitcoin-qt configuration file (bitcoin.conf)</li>
-                    <li>Start Bitcoin-qt as a server and wait untill it is fully synchronized</li>
-                    <li>Edit RpcUsername, RpcPassword and DaemonUrl app settings in web.config</li>
-                    <li>Run!</li>
-                </ol>
             </div>
         </div>
     </div>
 
     <div id="step2" style="display: none;" class="stepBackground">
-        <h2>2. Step: Different functions with Bitcoin-qt</h2>
+        <h2>2. Step: Different functions with Bitcoin</h2>
         <div class="row bitFunction">
             <div class="span4">
                 <h2>Get balance</h2>
@@ -47,7 +40,6 @@
         <div class="row bitFunction">
             <div class="span4">
                 <h2>Info about a transaction</h2>
-                <p>(for instance transaction ef8ed4fdea8204b28c58d52c1764f9717e19f5246feb008d3b4309ba0290b5ab)</p>
                 <input id="infoTransactionTxIdBox" type="text" placeholder="tx id" />
                 <input id="getTransactioninfoBtn" class="btn-large btn-primary" type="button" value="Get transaction info" /><br />
                 Info about transaction:<br />
@@ -64,7 +56,6 @@
         <div class="row bitFunction">
             <div class="span4">
                 <h2>Get information about a block </h2>
-                <p>(for instance block 000000000000003359dff8a8bd1033b02a52c6c2ff3ebb2f8dbffd171c97e83c)</p>
                 <input id="blockInfoBox" type="text" placeholder="block hash id" />
                 <input id="submitBlockInfoBtn" class="btn-large btn-primary" type="button" value="Get block info" /><br />
                 Info about block:<br />
@@ -142,12 +133,12 @@
                 type: "GET",
                 url: "/Home/GetBalanceInWallet",
                 success: function () {
-                    alert('Connection works and we are communicating with the Bitcoin-qt server');
+                    alert('Connection works and we are communicating with the Bitcoin daemon');
                     step1.hide();
                     step2.show(450);
                 },
                 error: function (data) {
-                    alert('Error. We cannot communicate with the Bitcoin-qt server. Error message: ' + data);
+                    alert('Error. We cannot communicate with the Bitcoin daemon. Error message: ' + data);
                 }
             });
         });
