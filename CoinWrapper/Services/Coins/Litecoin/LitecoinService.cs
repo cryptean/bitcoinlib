@@ -12,7 +12,7 @@ namespace BitcoinLib.Services.Coins.Litecoin
         {
         }
 
-        public LitecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        public LitecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
         {
         }
 

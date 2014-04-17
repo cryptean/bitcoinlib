@@ -12,7 +12,7 @@ namespace BitcoinLib.Services.Coins.Bitcoin
         {
         }
 
-        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
         {
         }
 

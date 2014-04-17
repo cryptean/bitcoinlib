@@ -44,6 +44,11 @@ namespace BitcoinLib.Services
             }
         }
 
+        public override String ToString()
+        {
+            return Parameters.CoinLongName;
+        }
+
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account);
