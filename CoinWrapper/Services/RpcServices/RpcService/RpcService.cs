@@ -44,9 +44,9 @@ namespace BitcoinLib.Services
             }
         }
 
-        public override string ToString()
+        public override String ToString()
         {
-            return this.Parameters.CoinLongName;
+            return Parameters.CoinLongName;
         }
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
