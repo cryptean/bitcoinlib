@@ -16,8 +16,8 @@ Features
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- Litecoin integration is included.
-- Each coin instance can be fully parametrized at run-time and also implement its own constants.
+- Litecoin integration included.
+- Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console and web test clients out of the box with demo methods implemented in them.
 - Testnet ready.
 - Fully configurable.
@@ -87,4 +87,4 @@ Influenced by
 Credits
 -------
 
-Thanks to everyone who contributed to making this library better: @OperatorOverload, Angelo Leoussis, @makerofthings7, et al.
+Thanks to everyone who contributed to making this library better: [@OperatorOverload](https://github.com/OperatorOverload), Angelo Leoussis, [@makerofthings7](https://github.com/makerofthings7), everyone who reported any issues, et al.

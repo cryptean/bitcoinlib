@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auxiliary\GlobalConstants.cs" />
+    <Compile Include="ExceptionHandling\RawTransactions\RawTransactionExcessiveFeeException.cs" />
+    <Compile Include="ExceptionHandling\RawTransactions\RawTransactionInvalidAmountException.cs" />
+    <Compile Include="ExceptionHandling\RpcExtenderService\GetAddressBalanceException.cs" />
     <Compile Include="ExceptionHandling\Rpc\RpcRequestTimeoutException.cs" />
     <Compile Include="ExceptionHandling\Rpc\RpcResponseDeserializationException.cs" />
     <Compile Include="CoinParameters\Bitcoin\BitcoinConstants.cs" />

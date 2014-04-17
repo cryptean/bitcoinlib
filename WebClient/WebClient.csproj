@@ -204,7 +204,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BitcoinWrapper\CoinWrapper.csproj">
+    <ProjectReference Include="..\CoinWrapper\CoinWrapper.csproj">
       <Project>{b853e315-7103-4cba-8873-d5202019f267}</Project>
       <Name>CoinWrapper</Name>
     </ProjectReference>

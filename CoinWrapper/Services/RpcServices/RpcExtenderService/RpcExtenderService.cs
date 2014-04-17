@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BitcoinLib.ExceptionHandling.RpcExtenderService;
 using BitcoinLib.RPC;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Responses;
@@ -20,10 +21,14 @@ namespace BitcoinLib.Services
             {
                 ValidateAddressResponse validateAddressResponse = ValidateAddress(inWalletAddress);
 
-                if (!validateAddressResponse.IsValid || !validateAddressResponse.IsMine)
+                if (!validateAddressResponse.IsValid)
                 {
-                    //  Implicit exception: Address is invalid or not an in-wallet address
-                    return -1;
+                    throw new GetAddressBalanceException(String.Format("Address {0} is invalid!", inWalletAddress));
+                }
+
+                if (!validateAddressResponse.IsMine)
+                {
+                    throw new GetAddressBalanceException(String.Format("Address {0} is not an in-wallet address!", inWalletAddress));
                 }
             }
 
@@ -66,7 +71,7 @@ namespace BitcoinLib.Services
 
         public Decimal GetTransactionFee(CreateRawTransactionRequest transaction, Boolean checkIfTransactionQualifiesForFreeRelay)
         {
-            if (checkIfTransactionQualifiesForFreeRelay && TransactionQualifiesForFreeRelay(transaction))
+            if (checkIfTransactionQualifiesForFreeRelay && IsTransactionFree(transaction))
             {
                 return 0;
             }
@@ -114,16 +119,16 @@ namespace BitcoinLib.Services
             return ListTransactions(null, Int32.MaxValue, 0).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
         }
 
-        public Boolean IsWalletEncrypted()
-        {
-            return !Help(RpcMethods.walletlock.ToString()).Contains("unknown command");
-        }
-
-        public Boolean TransactionQualifiesForFreeRelay(CreateRawTransactionRequest transaction)
+        public Boolean IsTransactionFree(CreateRawTransactionRequest transaction)
         {
             return transaction.Outputs.Any(x => x.Amount < Parameters.FreeTransactionMinimumOutputAmountInCoins)
                    && GetTransactionSizeInBytes(transaction) < Parameters.FreeTransactionMaximumSizeInBytes
                    && GetTransactionPriority(transaction) > Parameters.FreeTransactionMinimumPriority;
+        }
+
+        public Boolean IsWalletEncrypted()
+        {
+            return !Help(RpcMethods.walletlock.ToString()).Contains("unknown command");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace BitcoinLib.Services.RpcServices.RpcExtenderService
         String GetTransactionSenderAddress(String txId);
         Int32 GetTransactionSizeInBytes(CreateRawTransactionRequest createRawTransactionRequest);
         Boolean IsInWalletTransaction(String txId);
+        Boolean IsTransactionFree(CreateRawTransactionRequest createRawTransactionRequest);
         Boolean IsWalletEncrypted();
-        Boolean TransactionQualifiesForFreeRelay(CreateRawTransactionRequest createRawTransactionRequest);
     }
 }
