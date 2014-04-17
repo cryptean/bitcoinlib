@@ -78,7 +78,7 @@ namespace BitcoinLib.Services
 
                     FreeTransactionMaximumSizeInBytes = 5000;
                     FreeTransactionMinimumOutputAmountInCoins = 0.001M;
-                    FreeTransactionMinimumPriority = 230400000; // see https://github.com/litecoin-project/litecoin/blob/master-0.8/src/main.h#L629
+                    FreeTransactionMinimumPriority = 230400000;
                     FeePerThousandBytesInCoins = 0.001M;
                     MinimumTransactionFeeInCoins = 0.001M;
                     MinimumNonDustTransactionAmountInCoins = 0.001M;

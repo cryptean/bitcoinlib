@@ -12,6 +12,10 @@ namespace BitcoinLib.Services.Coins.Bitcoin
         {
         }
 
+        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        {
+        }
+
         public BitcoinConstants.Constants Constants
         {
             get

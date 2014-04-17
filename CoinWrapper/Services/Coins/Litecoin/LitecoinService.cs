@@ -12,6 +12,10 @@ namespace BitcoinLib.Services.Coins.Litecoin
         {
         }
 
+        public LitecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        {
+        }
+
         public LitecoinConstants.Constants Constants
         {
             get
