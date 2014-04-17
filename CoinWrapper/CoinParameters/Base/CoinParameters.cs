@@ -47,7 +47,7 @@ namespace BitcoinLib.Services
 
                     FreeTransactionMaximumSizeInBytes = 1000;
                     FreeTransactionMinimumOutputAmountInCoins = 0.01M;
-                    FreeTransactionMinimumPriority = 57600000;
+                    FreeTransactionMinimumPriority = 14400000;
                     FeePerThousandBytesInCoins = 0.0001M;
                     MinimumTransactionFeeInCoins = 0.0001M;
                     MinimumNonDustTransactionAmountInCoins = 0.0000543M;
