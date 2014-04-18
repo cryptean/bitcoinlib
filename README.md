@@ -31,7 +31,6 @@ Instructions for Bitcoin
 	- rpcpassword = MyRpcPassword
 	- daemon=1
 	- txindex=1
-        - server=1
 
 - Call `bitcoind -reindex -txindex -debug=net -printtoconsole` and wait until it's finished re-indexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
 
