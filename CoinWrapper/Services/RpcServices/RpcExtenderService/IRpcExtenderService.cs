@@ -15,10 +15,13 @@ namespace BitcoinLib.Services.RpcServices.RpcExtenderService
         DecodeRawTransactionResponse GetPublicTransaction(String txId);
         Decimal GetTransactionFee(CreateRawTransactionRequest createRawTransactionRequest, Boolean checkIfTransactionQualifiesForFreeRelay = true);
         Decimal GetTransactionPriority(CreateRawTransactionRequest createRawTransactionRequest);
+        Decimal GetTransactionPriority(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs);
         String GetTransactionSenderAddress(String txId);
         Int32 GetTransactionSizeInBytes(CreateRawTransactionRequest createRawTransactionRequest);
+        Int32 GetTransactionSizeInBytes(Int32 numberOfInputs, Int32 numberOfOutputs);
         Boolean IsInWalletTransaction(String txId);
         Boolean IsTransactionFree(CreateRawTransactionRequest createRawTransactionRequest);
+        Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal maximumAmountAmongOutputs);
         Boolean IsWalletEncrypted();
     }
 }

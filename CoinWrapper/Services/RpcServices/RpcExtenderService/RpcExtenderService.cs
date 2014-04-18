@@ -92,6 +92,16 @@ namespace BitcoinLib.Services
             return sumOfInputsValueInBaseUnitsMultipliedByTheirAge / GetTransactionSizeInBytes(transaction);
         }
 
+        public Decimal GetTransactionPriority(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs)
+        {
+            if (transactionInputs.Count == 0)
+            {
+                return 0;
+            }
+
+            return transactionInputs.Sum(input => input.Amount * Parameters.OneCoinInBaseUnits * input.Confirmations) / GetTransactionSizeInBytes(transactionInputs.Count, numberOfOutputs);
+        }
+
         //  Note: Be careful when using GetTransactionSenderAddress(es) as it just gives you an address owned by someone who previously controlled the transaction's outputs
         //  which might not actually be the sender (e.g. for e-wallets) and who may not intend to receive anything there in the first place. 
         public String GetTransactionSenderAddress(String txId)
@@ -107,16 +117,21 @@ namespace BitcoinLib.Services
 
         public Int32 GetTransactionSizeInBytes(CreateRawTransactionRequest transaction)
         {
-            return (transaction.Inputs.Count * Parameters.TransactionSizeBytesContributedByEachInput)
-                   + (transaction.Outputs.Count * Parameters.TransactionSizeBytesContributedByEachOutput)
+            return GetTransactionSizeInBytes(transaction.Inputs.Count, transaction.Outputs.Count);
+        }
+
+        public Int32 GetTransactionSizeInBytes(Int32 numberOfInputs, Int32 numberOfOutputs)
+        {
+            return numberOfInputs * Parameters.TransactionSizeBytesContributedByEachInput
+                   + numberOfOutputs * Parameters.TransactionSizeBytesContributedByEachOutput
                    + Parameters.TransactionSizeFixedExtraSizeInBytes
-                   + transaction.Inputs.Count;
+                   + numberOfInputs;
         }
 
         public Boolean IsInWalletTransaction(String txId)
         {
             //  Note: This might not be efficient if iterated, consider caching ListTransactions' results.
-            return ListTransactions(null, Int32.MaxValue, 0).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
+            return (this as ICoinService).ListTransactions().Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
         }
 
         public Boolean IsTransactionFree(CreateRawTransactionRequest transaction)
@@ -124,6 +139,13 @@ namespace BitcoinLib.Services
             return transaction.Outputs.Any(x => x.Amount < Parameters.FreeTransactionMinimumOutputAmountInCoins)
                    && GetTransactionSizeInBytes(transaction) < Parameters.FreeTransactionMaximumSizeInBytes
                    && GetTransactionPriority(transaction) > Parameters.FreeTransactionMinimumPriority;
+        }
+
+        public Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal maximumAmountAmongOutputs)
+        {
+            return maximumAmountAmongOutputs < Parameters.FreeTransactionMinimumOutputAmountInCoins
+                   && GetTransactionSizeInBytes(transactionInputs.Count, numberOfOutputs) < Parameters.FreeTransactionMaximumSizeInBytes
+                   && GetTransactionPriority(transactionInputs, numberOfOutputs) > Parameters.FreeTransactionMinimumPriority;
         }
 
         public Boolean IsWalletEncrypted()

@@ -33,7 +33,7 @@ namespace ConsoleClient
             }
             catch (Exception exception)
             {
-                Console.WriteLine("[Failed]\n\nPlease check your configuration and make sure that the deamon is up and running and that it is synchronized. \n\nException: " + exception);
+                Console.WriteLine("[Failed]\n\nPlease check your configuration and make sure that the daemon is up and running and that it is synchronized. \n\nException: " + exception);
                 return;
             }
 
