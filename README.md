@@ -27,10 +27,11 @@ Instructions for Bitcoin
 ------------------------
 
 - Locate your `bitcoin.conf` file (in Windows it's under: `%AppData%\Roaming\Bitcoin`, if it's not there just go ahead and create it) and add these lines:
-	- rpcuser = myRpcUsername
-	- rpcpassword = myRpcPassword
+	- rpcuser = MyRpcUsername
+	- rpcpassword = MyRpcPassword
 	- daemon=1
 	- txindex=1
+        - server=1
 
 - Call `bitcoind -reindex -txindex -debug=net -printtoconsole` and wait until it's finished re-indexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
 
