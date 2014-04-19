@@ -7,8 +7,6 @@ using BitcoinLib.Responses.Bridges;
 
 namespace BitcoinLib.Responses
 {
-    //  Wiki reference: https://en.bitcoin.it/wiki/Transactions
-
     public class DecodeRawTransactionResponse : ITransactionResponse
     {
         public String Version { get; set; }

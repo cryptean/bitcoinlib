@@ -12,31 +12,17 @@ namespace BitcoinLib.Requests.CreateRawTransaction
         public CreateRawTransactionRequest()
         {
             Inputs = new List<CreateRawTransactionInput>();
-            Outputs = new List<CreateRawTransactionOutput>();
+            Outputs = new Dictionary<String, Decimal>();
         }
 
-        public CreateRawTransactionRequest(IList<CreateRawTransactionInput> inputs, IList<CreateRawTransactionOutput> outputs)
+        public CreateRawTransactionRequest(IList<CreateRawTransactionInput> inputs, IDictionary<String, Decimal> outputs) : this()
         {
             Inputs = inputs;
             Outputs = outputs;
         }
 
-        public CreateRawTransactionRequest(IList<CreateRawTransactionInput> inputs, Dictionary<String, Decimal> outputs) : this()
-        {
-            Inputs = inputs;
-
-            foreach (KeyValuePair<String, Decimal> keyValuePair in outputs)
-            {
-                Outputs.Add(new CreateRawTransactionOutput
-                    {
-                        Address = keyValuePair.Key,
-                        Amount = keyValuePair.Value
-                    });
-            }
-        }
-
         public IList<CreateRawTransactionInput> Inputs { get; private set; }
-        public IList<CreateRawTransactionOutput> Outputs { get; private set; }
+        public IDictionary<String, Decimal> Outputs { get; private set; }
 
         public void AddInput(CreateRawTransactionInput input)
         {
@@ -45,7 +31,7 @@ namespace BitcoinLib.Requests.CreateRawTransaction
 
         public void AddOutput(CreateRawTransactionOutput output)
         {
-            Outputs.Add(output);
+            Outputs.Add(output.Address, output.Amount);
         }
 
         public void AddInput(String txId, Int32 vout)
@@ -59,11 +45,7 @@ namespace BitcoinLib.Requests.CreateRawTransaction
 
         public void AddOutput(String address, Decimal amount)
         {
-            Outputs.Add(new CreateRawTransactionOutput
-                {
-                    Address = address,
-                    Amount = amount
-                });
+            Outputs.Add(address, amount);
         }
 
         public Boolean RemoveInput(CreateRawTransactionInput input)
@@ -73,7 +55,7 @@ namespace BitcoinLib.Requests.CreateRawTransaction
 
         public Boolean RemoveOutput(CreateRawTransactionOutput output)
         {
-            return Outputs.Contains(output) && Outputs.Remove(output);
+            return RemoveOutput(output.Address, output.Amount);
         }
 
         public Boolean RemoveInput(String txId, Int32 vout)
@@ -84,8 +66,8 @@ namespace BitcoinLib.Requests.CreateRawTransaction
 
         public Boolean RemoveOutput(String address, Decimal amount)
         {
-            CreateRawTransactionOutput output = Outputs.FirstOrDefault(x => x.Address == address && x.Amount == amount);
-            return output != null && Outputs.Remove(output);
+            KeyValuePair<String, Decimal> outputToBeRemoved = new KeyValuePair<String, Decimal>(address, amount);
+            return Outputs.Contains<KeyValuePair<String, Decimal>>(outputToBeRemoved) && Outputs.Remove(outputToBeRemoved);
         }
     }
 }

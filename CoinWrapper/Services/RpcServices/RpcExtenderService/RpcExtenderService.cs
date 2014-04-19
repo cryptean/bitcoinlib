@@ -77,7 +77,7 @@ namespace BitcoinLib.Services
             }
 
             Decimal transactionSizeInBytes = GetTransactionSizeInBytes(transaction);
-            return (transactionSizeInBytes / Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes % Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1) * Parameters.FeePerThousandBytesInCoins;
+            return ((transactionSizeInBytes / Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes % Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1)) * Parameters.FeePerThousandBytesInCoins;
         }
 
         public Decimal GetTransactionPriority(CreateRawTransactionRequest transaction)
@@ -102,7 +102,7 @@ namespace BitcoinLib.Services
             return transactionInputs.Sum(input => input.Amount * Parameters.OneCoinInBaseUnits * input.Confirmations) / GetTransactionSizeInBytes(transactionInputs.Count, numberOfOutputs);
         }
 
-        //  Note: Be careful when using GetTransactionSenderAddress(es) as it just gives you an address owned by someone who previously controlled the transaction's outputs
+        //  Note: Be careful when using GetTransactionSenderAddress() as it just gives you an address owned by someone who previously controlled the transaction's outputs
         //  which might not actually be the sender (e.g. for e-wallets) and who may not intend to receive anything there in the first place. 
         public String GetTransactionSenderAddress(String txId)
         {
@@ -136,7 +136,7 @@ namespace BitcoinLib.Services
 
         public Boolean IsTransactionFree(CreateRawTransactionRequest transaction)
         {
-            return transaction.Outputs.Any(x => x.Amount < Parameters.FreeTransactionMinimumOutputAmountInCoins)
+            return transaction.Outputs.Any(x => x.Value < Parameters.FreeTransactionMinimumOutputAmountInCoins)
                    && GetTransactionSizeInBytes(transaction) < Parameters.FreeTransactionMaximumSizeInBytes
                    && GetTransactionPriority(transaction) > Parameters.FreeTransactionMinimumPriority;
         }
