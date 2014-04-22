@@ -28,7 +28,7 @@ namespace BitcoinLib.Services
                     RpcUnlockWalletImplicitlyWhenRequired = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUnlockWalletImplicitlyWhenRequired"));
                     RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw new Exception("One or more required parameters were not found in the configuration file!");
                 }

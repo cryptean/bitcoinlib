@@ -21,7 +21,7 @@ namespace BitcoinLib.Services.RpcServices.RpcExtenderService
         Int32 GetTransactionSizeInBytes(Int32 numberOfInputs, Int32 numberOfOutputs);
         Boolean IsInWalletTransaction(String txId);
         Boolean IsTransactionFree(CreateRawTransactionRequest createRawTransactionRequest);
-        Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal maximumAmountAmongOutputs);
+        Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal minimumAmountAmongOutputs);
         Boolean IsWalletEncrypted();
     }
 }
