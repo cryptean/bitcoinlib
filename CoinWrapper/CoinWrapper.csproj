@@ -51,6 +51,7 @@
     <Compile Include="CoinParameters\Base\ICoinParameters.cs" />
     <Compile Include="CoinParameters\Litecoin\ILitecoinConstants.cs" />
     <Compile Include="CoinParameters\Litecoin\LitecoinConstants.cs" />
+    <Compile Include="ExtensionMethods\DecimalExtensionMethods.cs" />
     <Compile Include="Requests\AddNode\NodeAction.cs" />
     <Compile Include="Auxiliary\UnixTime.cs" />
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionInput.cs" />

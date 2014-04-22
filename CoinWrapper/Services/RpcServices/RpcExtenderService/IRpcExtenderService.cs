@@ -13,7 +13,7 @@ namespace BitcoinLib.Services.RpcServices.RpcExtenderService
         Decimal GetAddressBalance(String inWalletAddress, Int32 minConf = 0, Boolean validateAddressBeforeProcessing = true);
         Dictionary<String, String> GetMyPublicAndPrivateKeyPairs();
         DecodeRawTransactionResponse GetPublicTransaction(String txId);
-        Decimal GetTransactionFee(CreateRawTransactionRequest createRawTransactionRequest, Boolean checkIfTransactionQualifiesForFreeRelay = true);
+        Decimal GetTransactionFee(CreateRawTransactionRequest createRawTransactionRequest, Boolean checkIfTransactionQualifiesForFreeRelay = true, Boolean enforceMinimumTransactionFeePolicy = true);
         Decimal GetTransactionPriority(CreateRawTransactionRequest createRawTransactionRequest);
         Decimal GetTransactionPriority(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs);
         String GetTransactionSenderAddress(String txId);

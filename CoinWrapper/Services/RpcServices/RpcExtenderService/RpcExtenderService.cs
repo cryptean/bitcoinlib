@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BitcoinLib.ExceptionHandling.RpcExtenderService;
+using BitcoinLib.ExtensionMethods;
 using BitcoinLib.RPC;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Responses;
@@ -69,7 +70,7 @@ namespace BitcoinLib.Services
             return DecodeRawTransaction(rawTransaction);
         }
 
-        public Decimal GetTransactionFee(CreateRawTransactionRequest transaction, Boolean checkIfTransactionQualifiesForFreeRelay)
+        public Decimal GetTransactionFee(CreateRawTransactionRequest transaction, Boolean checkIfTransactionQualifiesForFreeRelay, Boolean enforceMinimumTransactionFeePolicy)
         {
             if (checkIfTransactionQualifiesForFreeRelay && IsTransactionFree(transaction))
             {
@@ -77,7 +78,19 @@ namespace BitcoinLib.Services
             }
 
             Decimal transactionSizeInBytes = GetTransactionSizeInBytes(transaction);
-            return ((transactionSizeInBytes / Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes % Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1)) * Parameters.FeePerThousandBytesInCoins;
+            Decimal transactionFee = ((transactionSizeInBytes / Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes % Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1)) * Parameters.FeePerThousandBytesInCoins;
+            
+            if (transactionFee.GetNumberOfDecimalPlaces() > Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces())
+            {
+                transactionFee = Decimal.Round(transactionFee, Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces(), MidpointRounding.AwayFromZero);
+            }
+
+            if (enforceMinimumTransactionFeePolicy && Parameters.MinimumTransactionFeeInCoins != 0 && transactionFee < Parameters.MinimumTransactionFeeInCoins)
+            {
+                transactionFee = Parameters.MinimumTransactionFeeInCoins;
+            }
+            
+            return transactionFee;
         }
 
         public Decimal GetTransactionPriority(CreateRawTransactionRequest transaction)
