@@ -154,9 +154,9 @@ namespace BitcoinLib.Services
                    && GetTransactionPriority(transaction) > Parameters.FreeTransactionMinimumPriority;
         }
 
-        public Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal maximumAmountAmongOutputs)
+        public Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal minimumAmountAmongOutputs)
         {
-            return maximumAmountAmongOutputs < Parameters.FreeTransactionMinimumOutputAmountInCoins
+            return minimumAmountAmongOutputs < Parameters.FreeTransactionMinimumOutputAmountInCoins
                    && GetTransactionSizeInBytes(transactionInputs.Count, numberOfOutputs) < Parameters.FreeTransactionMaximumSizeInBytes
                    && GetTransactionPriority(transactionInputs, numberOfOutputs) > Parameters.FreeTransactionMinimumPriority;
         }

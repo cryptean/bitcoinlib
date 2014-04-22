@@ -19,12 +19,19 @@ namespace BitcoinLib.Services
         {
             private CoinParameters()
             {
-                RpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
-                RpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
-                RpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
-                RpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
-                RpcUnlockWalletImplicitlyWhenRequired = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUnlockWalletImplicitlyWhenRequired"));
-                RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
+                try
+                {
+                    RpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
+                    RpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
+                    RpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
+                    RpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
+                    RpcUnlockWalletImplicitlyWhenRequired = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUnlockWalletImplicitlyWhenRequired"));
+                    RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("One or more required parameters were not found in the configuration file!");
+                }
             }
 
             public CoinParameters(ICoinService coinService) : this()
