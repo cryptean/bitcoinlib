@@ -79,7 +79,7 @@ namespace BitcoinLib.Services
 
             Decimal transactionSizeInBytes = GetTransactionSizeInBytes(transaction);
             Decimal transactionFee = ((transactionSizeInBytes / Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes % Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1)) * Parameters.FeePerThousandBytesInCoins;
-            
+
             if (transactionFee.GetNumberOfDecimalPlaces() > Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces())
             {
                 transactionFee = Decimal.Round(transactionFee, Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces(), MidpointRounding.AwayFromZero);
@@ -89,7 +89,7 @@ namespace BitcoinLib.Services
             {
                 transactionFee = Parameters.MinimumTransactionFeeInCoins;
             }
-            
+
             return transactionFee;
         }
 

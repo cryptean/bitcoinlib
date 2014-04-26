@@ -18,7 +18,7 @@ Features
 - Can operate on unlimited daemons with a single library reference.
 - Litecoin integration included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
-- Console and web test clients out of the box with demo methods implemented in them.
+- Console test client with demo methods implemented in it.
 - Testnet ready.
 - Fully configurable.
 
@@ -30,6 +30,7 @@ Instructions for Bitcoin
 	- rpcuser = MyRpcUsername
 	- rpcpassword = MyRpcPassword
 	- daemon=1
+	- server=1
 	- txindex=1
 
 - Call `bitcoind -reindex -txindex -debug=net -printtoconsole` and wait until it's finished re-indexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
@@ -57,9 +58,14 @@ Instructions for Litecoin and other Bitcoin clones
 	- Litecoin: ILitecoinService LitecoinService = new LitecoinService(); 
 
 - Any bitcoin clone can be adopted without any further installation steps with the use of the generic ICryptocoinService:
-	- ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword");
+	- ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword", "walletPassword");
 
 - Use `(ICryptocoinService).Parameters` to fully configure each coin pointer at run-time. 
+
+
+Web Test Client
+---------------
+The web test client is not maintained anymore. The latest operating version can be found [here](https://github.com/GeorgeKimionis/BitcoinLib-TestClient-Web).
 
 
 License
@@ -72,17 +78,26 @@ Support
 
 Please use GitHub's `Issues`
 
+
+Pull Requests
+-------------
+
+Please contact [the repository owner](https://github.com/GeorgeKimionis) via e-mail before submitting your first pull request.
+
+
 Donations
 ---------
 
-BTC: 17GDskinpoPb4k4Xaaf9R9VpXeXhdzBvd9
+BTC: 1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a
+
 
 Influenced by
 -------------
 
-- Bitnet, by Konstantin Ineshin (http://bitnet.sourceforge.net)
-- BitcoinRpcSharp, by BitKoot (https://github.com/BitKoot/BitcoinRpcSharp)
-- Bitcoin-wrapper, by Lars Holdgaard (https://github.com/LarsHoldgaard/bitcoin-wrapper)
+- [Bitnet](http://bitnet.sourceforge.net), by Konstantin Ineshin
+- [BitcoinRpcSharp](https://github.com/BitKoot/BitcoinRpcSharp), by BitKoot 
+- [Bitcoin-wrapper](https://github.com/LarsHoldgaard/bitcoin-wrapper), by Lars Holdgaard 
+
 
 Credits
 -------

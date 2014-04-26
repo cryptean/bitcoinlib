@@ -30,7 +30,7 @@ namespace BitcoinLib.Services
                 }
                 catch (Exception)
                 {
-                    throw new Exception("One or more required parameters were not found in the configuration file!");
+                    throw new Exception(String.Format("One or more required parameters, as defined in {0}, were not found in the configuration file!", GetType().Name));
                 }
             }
 
