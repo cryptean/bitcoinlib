@@ -69,6 +69,13 @@ License
 
 BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
 
+
+Updates and Notifications
+-------------------------
+
+If you use BitcoinLib in an application please sign up for [the announcement list](http://eepurl.com/Ts2ED) so you get notified by e-mail for any important announcements. 
+
+
 Support
 -------
 
