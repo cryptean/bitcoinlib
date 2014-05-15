@@ -51,11 +51,11 @@ Instructions for Litecoin and other Bitcoin clones
 - Litecoin configuration file is: `litecoin.conf` under: `%AppData%\Roaming\Litecoin` and its daemon is: `litecoind`.
 
 - Each coin can be initialized by its own interface specification:
-	- IBitcoinService BitcoinService = new BitcoinService(); 
-	- ILitecoinService LitecoinService = new LitecoinService(); 
+	- `IBitcoinService BitcoinService = new BitcoinService();` 
+	- `ILitecoinService LitecoinService = new LitecoinService();` 
 
 - Any bitcoin clone can be adopted without any further installation steps with the use of the generic ICryptocoinService:
-	- ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword", "walletPassword");
+	- `ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword", "walletPassword");`
 
 - Use `(ICryptocoinService).Parameters` to fully configure each coin pointer at run-time. 
 
