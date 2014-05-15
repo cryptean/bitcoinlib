@@ -138,7 +138,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<UInt32>(RpcMethods.getblockcount);
         }
 
-        public String GetBlockHash(UInt32 index)
+        public String GetBlockHash(Int64 index)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.getblockhash, index);
         }
@@ -240,6 +240,7 @@ namespace BitcoinLib.Services
                     switch (property.Name)
                     {
                         case "currentpriority":
+
                             Double currentPriority;
 
                             if (Double.TryParse(property.Value.ToString(), out currentPriority))
@@ -314,6 +315,7 @@ namespace BitcoinLib.Services
                             break;
 
                         default:
+
                             throw new Exception("Unkown property: " + property.Name + " in GetRawMemPool()");
                     }
                 }
@@ -466,9 +468,9 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addresses ?? new List<String>()));
         }
 
-        public String Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf, String comment)
+        public Boolean Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf, String comment)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.move, fromAccount, toAccount, amount, minConf, comment);
+            return _rpcConnector.MakeRequest<Boolean>(RpcMethods.move, fromAccount, toAccount, amount, minConf, comment);
         }
 
         public void Ping()

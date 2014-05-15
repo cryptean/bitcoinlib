@@ -19,6 +19,7 @@ Features
 - Litecoin integration included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
+- Disconnected raw RPC connector included for quick'n'dirty debugging.
 - Testnet ready.
 - Fully configurable.
 
@@ -50,8 +51,8 @@ Instructions for Litecoin and other Bitcoin clones
 - Litecoin configuration file is: `litecoin.conf` under: `%AppData%\Roaming\Litecoin` and its daemon is: `litecoind`.
 
 - Each coin can be initialized by its own interface specification:
-	- Bitcoin: IBitcoinService BitcoinService = new BitcoinService(); 
-	- Litecoin: ILitecoinService LitecoinService = new LitecoinService(); 
+	- IBitcoinService BitcoinService = new BitcoinService(); 
+	- ILitecoinService LitecoinService = new LitecoinService(); 
 
 - Any bitcoin clone can be adopted without any further installation steps with the use of the generic ICryptocoinService:
 	- ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword", "walletPassword");
@@ -91,7 +92,7 @@ Please contact [the repository owner](https://github.com/GeorgeKimionis) via e-m
 Donations
 ---------
 
-BTC: 1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a
+BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
 
 
 Influenced by
@@ -105,4 +106,4 @@ Influenced by
 Credits
 -------
 
-Thanks to everyone who contributed to making this library better: [@OperatorOverload](https://github.com/OperatorOverload), Angelo Leoussis, [@makerofthings7](https://github.com/makerofthings7), everyone who reported any issues, et al.
+Thanks to everyone who contributed to making this library better: [@OperatorOverload](https://github.com/OperatorOverload), Angelo Leoussis, everyone who reported any issues, et al.

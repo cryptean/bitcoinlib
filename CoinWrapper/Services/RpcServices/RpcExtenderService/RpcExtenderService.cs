@@ -100,7 +100,7 @@ namespace BitcoinLib.Services
                 return 0;
             }
 
-            List<ListUnspentResponse> unspentInputs = (this as ICoinService).ListUnspent().ToList();
+            List<ListUnspentResponse> unspentInputs = (this as ICoinService).ListUnspent(0).ToList();
             Decimal sumOfInputsValueInBaseUnitsMultipliedByTheirAge = transaction.Inputs.Select(input => unspentInputs.First(x => x.TxId == input.TxId)).Select(unspentResponse => (unspentResponse.Amount * Parameters.OneCoinInBaseUnits) * unspentResponse.Confirmations).Sum();
             return sumOfInputsValueInBaseUnitsMultipliedByTheirAge / GetTransactionSizeInBytes(transaction);
         }

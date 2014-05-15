@@ -30,7 +30,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String GetBestBlockHash();
         GetBlockResponse GetBlock(String hash, Boolean verbose = true);
         UInt32 GetBlockCount();
-        String GetBlockHash(UInt32 index);
+        String GetBlockHash(Int64 index);
         String GetBlockTemplate(params object[] parameters);
         Int32 GetConnectionCount();
         Double GetDifficulty();
@@ -65,7 +65,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0);
         List<ListUnspentResponse> ListUnspent(Int32 minConf = 1, Int32 maxConf = 9999999, List<String> addresses = null);
         //  todo: implement: lockunspent unlock [{"txid":"txid","vout":n},...]
-        String Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf = 1, String comment = null);
+        Boolean Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf = 1, String comment = "");
         void Ping();
         String SendFrom(String fromAccount, String toBitcoinAddress, Decimal amount, Int32 minConf = 1, String comment = null, String commentTo = null);
         String SendMany(String fromAccount, Dictionary<String, Decimal> toBitcoinAddress, Int32 minConf = 1, String comment = null);
