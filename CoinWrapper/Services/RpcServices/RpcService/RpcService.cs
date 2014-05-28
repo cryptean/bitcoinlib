@@ -46,7 +46,9 @@ namespace BitcoinLib.Services
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account);
+            return account != null
+                ? _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account)
+                : _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys);
         }
 
         public String AddNode(String node, NodeAction action)
@@ -213,7 +215,7 @@ namespace BitcoinLib.Services
 
             if (!verbose)
             {
-                JArray rpcResponseAsArray = (JArray) rpcResponse;
+                JArray rpcResponseAsArray = (JArray)rpcResponse;
 
                 foreach (String txId in rpcResponseAsArray)
                 {
@@ -223,7 +225,7 @@ namespace BitcoinLib.Services
                 return getRawMemPoolResponse;
             }
 
-            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject) (rpcResponse)))).ToList();
+            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject)(rpcResponse)))).ToList();
             IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
 
             for (Int32 i = 0; i < children.Count(); i++)

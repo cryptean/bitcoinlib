@@ -54,7 +54,7 @@ Instructions for Litecoin and other Bitcoin clones
 	- `IBitcoinService BitcoinService = new BitcoinService();` 
 	- `ILitecoinService LitecoinService = new LitecoinService();` 
 
-- Any bitcoin clone can be adopted without any further installation steps with the use of the generic ICryptocoinService:
+- Any bitcoin clone can be adopted without any further installation steps with the use of the generic `ICryptocoinService`:
 	- `ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword", "walletPassword");`
 
 - Use `(ICryptocoinService).Parameters` to fully configure each coin pointer at run-time. 
