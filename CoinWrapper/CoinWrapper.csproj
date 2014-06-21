@@ -59,7 +59,6 @@
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionRequest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Requests\SendRawTransactionRequest.cs" />
     <Compile Include="Requests\SignRawTransaction\SigHashType.cs" />
     <Compile Include="Requests\SignRawTransaction\SignRawTransactionInput.cs" />
     <Compile Include="Requests\SignRawTransaction\SignRawTransactionRequest.cs">

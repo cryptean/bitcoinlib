@@ -91,7 +91,7 @@ Please contact [the repository owner](https://github.com/GeorgeKimionis) via e-m
 Donations
 ---------
 
-BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](bitcoin:1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a?label=Donation for BicoinLib) [(info)](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
+BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
 
 
 Influenced by
