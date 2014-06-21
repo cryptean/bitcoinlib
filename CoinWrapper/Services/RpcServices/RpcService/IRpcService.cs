@@ -29,6 +29,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         Decimal GetBalance(String account = null, Int32 minConf = 1);
         String GetBestBlockHash();
         GetBlockResponse GetBlock(String hash, Boolean verbose = true);
+        GetBlockchainInfoResponse GetBlockchainInfo();
         UInt32 GetBlockCount();
         String GetBlockHash(Int64 index);
         String GetBlockTemplate(params object[] parameters);
@@ -40,6 +41,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         GetMiningInfoResponse GetMiningInfo();
         GetNetTotalsResponse GetNetTotals();
         UInt64 GetNetworkHashPs(UInt32 blocks = 120, Int64 height = -1);
+        GetNetworkInfoResponse GetNetworkInfo();
         String GetNewAddress(String account = "");
         List<GetPeerInfoResponse> GetPeerInfo();
         String GetRawChangeAddress();
@@ -51,6 +53,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool = true);
         GetTxOutSetInfoResponse GetTxOutSetInfo();
         Decimal GetUnconfirmedBalance();
+        GetWalletInfoResponse GetWalletInfo();
         String GetWork(String data = null);
         String Help(String command = null);
         String ImportPrivKey(String privateKey, String label = null, Boolean rescan = true);
@@ -69,7 +72,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         void Ping();
         String SendFrom(String fromAccount, String toBitcoinAddress, Decimal amount, Int32 minConf = 1, String comment = null, String commentTo = null);
         String SendMany(String fromAccount, Dictionary<String, Decimal> toBitcoinAddress, Int32 minConf = 1, String comment = null);
-        String SendRawTransaction(String rawTransactionHexString);
+        String SendRawTransaction(String rawTransactionHexString, Boolean? allowHighFees = false);
         String SendToAddress(String bitcoinAddress, Decimal amount, String comment = null, String commentTo = null);
         String SetAccount(String bitcoinAddress, String account);
         String SetGenerate(Boolean generate, Int16 generatingProcessorsLimit);

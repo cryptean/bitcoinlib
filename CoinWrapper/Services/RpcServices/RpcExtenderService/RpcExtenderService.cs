@@ -117,6 +117,7 @@ namespace BitcoinLib.Services
 
         //  Note: Be careful when using GetTransactionSenderAddress() as it just gives you an address owned by someone who previously controlled the transaction's outputs
         //  which might not actually be the sender (e.g. for e-wallets) and who may not intend to receive anything there in the first place. 
+        [Obsolete("Please don't use this method in production enviroment, it's for testing purposes only")]
         public String GetTransactionSenderAddress(String txId)
         {
             String rawTransaction = GetRawTransaction(txId, 0);

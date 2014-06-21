@@ -6,7 +6,7 @@ BitcoinLib
 Features
 --------
 
-- Fully compatible and up-to-date with Bitcoin 0.9.1 RPC API.
+- Fully compatible and up-to-date with Bitcoin 0.9.2 RPC API.
 - Design-by-contract, service-oriented architecture.
 - Strongly-typed structures for complex RPC requests and responses.
 - Implicit JSON casting for all RPC messages.
@@ -30,7 +30,6 @@ Instructions for Bitcoin
 - Locate your `bitcoin.conf` file (in Windows it's under: `%AppData%\Roaming\Bitcoin`, if it's not there just go ahead and create it) and add these lines:
 	- rpcuser = MyRpcUsername
 	- rpcpassword = MyRpcPassword
-	- daemon=1
 	- server=1
 	- txindex=1
 
@@ -92,7 +91,7 @@ Please contact [the repository owner](https://github.com/GeorgeKimionis) via e-m
 Donations
 ---------
 
-BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
+BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](bitcoin:1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a?label=Donation for BicoinLib) [(info)](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
 
 
 Influenced by

@@ -59,6 +59,7 @@
     <Compile Include="Requests\CreateRawTransaction\CreateRawTransactionRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Requests\SendRawTransactionRequest.cs" />
     <Compile Include="Requests\SignRawTransaction\SigHashType.cs" />
     <Compile Include="Requests\SignRawTransaction\SignRawTransactionInput.cs" />
     <Compile Include="Requests\SignRawTransaction\SignRawTransactionRequest.cs">
@@ -66,14 +67,17 @@
     </Compile>
     <Compile Include="Responses\DecodeScriptResponse.cs" />
     <Compile Include="Responses\GetAddedNodeInfoResponse.cs" />
+    <Compile Include="Responses\GetBlockchainInfoResponse.cs" />
     <Compile Include="Responses\GetBlockResponse.cs" />
     <Compile Include="Responses\GetInfoResponse.cs" />
     <Compile Include="Responses\GetMiningInfoResponse.cs" />
     <Compile Include="Responses\GetNetTotalsResponse.cs" />
+    <Compile Include="Responses\GetNetworkInfoResponse.cs" />
     <Compile Include="Responses\GetPeerInfoResponse.cs" />
     <Compile Include="Responses\GetRawMemPoolResponse.cs" />
     <Compile Include="Responses\GetTransactionResponse.cs" />
     <Compile Include="Responses\Bridges\ITransactionResponse.cs" />
+    <Compile Include="Responses\GetWalletInfoResponse.cs" />
     <Compile Include="RPC\Connector\RawRpcConnector.cs" />
     <Compile Include="RPC\RpcMethods.cs" />
     <Compile Include="Responses\DecodeRawTransactionResponse.cs" />

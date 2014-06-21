@@ -47,8 +47,8 @@ namespace BitcoinLib.Services
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)
         {
             return account != null
-                ? _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account)
-                : _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys);
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys);
         }
 
         public String AddNode(String node, NodeAction action)
@@ -135,6 +135,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<GetBlockResponse>(RpcMethods.getblock, hash, verbose);
         }
 
+        public GetBlockchainInfoResponse GetBlockchainInfo()
+        {
+            return _rpcConnector.MakeRequest<GetBlockchainInfoResponse>(RpcMethods.getblockchaininfo);
+        }
+
         public UInt32 GetBlockCount()
         {
             return _rpcConnector.MakeRequest<UInt32>(RpcMethods.getblockcount);
@@ -172,6 +177,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<Int32>(RpcMethods.gethashespersec);
         }
 
+        [Obsolete("Please use calls: GetWalletInfo(), GetBlockchainInfo() and GetNetworkInfo() instead")]
         public GetInfoResponse GetInfo()
         {
             return _rpcConnector.MakeRequest<GetInfoResponse>(RpcMethods.getinfo);
@@ -190,6 +196,11 @@ namespace BitcoinLib.Services
         public UInt64 GetNetworkHashPs(UInt32 blocks, Int64 height)
         {
             return _rpcConnector.MakeRequest<UInt64>(RpcMethods.getnetworkhashps);
+        }
+
+        public GetNetworkInfoResponse GetNetworkInfo()
+        {
+            return _rpcConnector.MakeRequest<GetNetworkInfoResponse>(RpcMethods.getnetworkinfo);
         }
 
         public String GetNewAddress(String account)
@@ -215,7 +226,7 @@ namespace BitcoinLib.Services
 
             if (!verbose)
             {
-                JArray rpcResponseAsArray = (JArray)rpcResponse;
+                JArray rpcResponseAsArray = (JArray) rpcResponse;
 
                 foreach (String txId in rpcResponseAsArray)
                 {
@@ -225,7 +236,7 @@ namespace BitcoinLib.Services
                 return getRawMemPoolResponse;
             }
 
-            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject)(rpcResponse)))).ToList();
+            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject) (rpcResponse)))).ToList();
             IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
 
             for (Int32 i = 0; i < children.Count(); i++)
@@ -366,6 +377,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<Decimal>(RpcMethods.getunconfirmedbalance);
         }
 
+        public GetWalletInfoResponse GetWalletInfo()
+        {
+            return _rpcConnector.MakeRequest<GetWalletInfoResponse>(RpcMethods.getwalletinfo);
+        }
+
         public String GetWork(String data)
         {
             return String.IsNullOrWhiteSpace(data)
@@ -490,9 +506,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.sendmany, fromAccount, toBitcoinAddress, minConf, comment);
         }
 
-        public String SendRawTransaction(String rawTransactionHexString)
+        public String SendRawTransaction(String rawTransactionHexString, Boolean? allowHighFees)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.sendrawtransaction, rawTransactionHexString);
+            return allowHighFees == null
+                       ? _rpcConnector.MakeRequest<String>(RpcMethods.sendrawtransaction, rawTransactionHexString)
+                       : _rpcConnector.MakeRequest<String>(RpcMethods.sendrawtransaction, rawTransactionHexString, allowHighFees);
         }
 
         public String SendToAddress(String bitcoinAddress, Decimal amount, String comment, String commentTo)
