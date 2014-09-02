@@ -8,6 +8,7 @@ using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
 using BitcoinLib.Services.Coins.Cryptocoin;
 using BitcoinLib.Services.Coins.Litecoin;
+using BitcoinLib.Services.Coins.Dogecoin;
 
 namespace BitcoinLib.Services
 {
@@ -99,6 +100,38 @@ namespace BitcoinLib.Services
                     BaseUnitsPerCoin = 100000000;
                     CoinsPerBaseUnit = 0.00000001M;
                 }
+				else if (coinService is DogecoinService)
+				{
+					DaemonUrl = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl");
+					DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl_Testnet");
+					RpcUsername = ConfigurationManager.AppSettings.Get("Dogecoin_RpcUsername");
+					RpcPassword = ConfigurationManager.AppSettings.Get("Dogecoin_RpcPassword");
+					WalletPassword = ConfigurationManager.AppSettings.Get("Dogecoin_WalletPassword");
+
+					CoinShortName = "Doge";
+					CoinLongName = "Dogecoin";
+					IsoCurrencyCode = "XDG";
+
+					TransactionSizeBytesContributedByEachInput = 148;
+					TransactionSizeBytesContributedByEachOutput = 34;
+					TransactionSizeFixedExtraSizeInBytes = 10;
+
+					FreeTransactionMaximumSizeInBytes = 5000;
+					FreeTransactionMinimumOutputAmountInCoins = 0.001M;
+					FreeTransactionMinimumPriority = 230400000;
+					FeePerThousandBytesInCoins = 0.001M;
+					MinimumTransactionFeeInCoins = 0.001M;
+					MinimumNonDustTransactionAmountInCoins = 0.001M;
+
+					TotalCoinSupplyInCoins = 84000000;
+					EstimatedBlockGenerationTimeInMinutes = 2.5;
+					BlocksHighestPriorityTransactionsReservedSizeInBytes = 16000;
+					BlockMaximumSizeInBytes = 250000;
+
+					BaseUnitName = "Koinu";
+					BaseUnitsPerCoin = 100000000;
+					CoinsPerBaseUnit = 0.00000001M;
+				}
                 else if (coinService is CryptocoinService)
                 {
                     CoinShortName = "XXX";

@@ -12,6 +12,7 @@ using BitcoinLib.Responses;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
 using BitcoinLib.Services.Coins.Litecoin;
+using BitcoinLib.Services.Coins.Dogecoin;
 
 namespace ConsoleClient
 {
@@ -19,7 +20,8 @@ namespace ConsoleClient
     {
         private static readonly IBitcoinService BitcoinService = new BitcoinService(useTestnet: true);
         private static readonly ILitecoinService LitecoinService = new LitecoinService(useTestnet: true);
-        private static readonly ICoinService CoinService = BitcoinService;
+		private static readonly IDogecoinService DogecoinService = new DogecoinService(useTestnet: true);
+		private static readonly ICoinService CoinService = DogecoinService;
 
         private static void Main()
         {

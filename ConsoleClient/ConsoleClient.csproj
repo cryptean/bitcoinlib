@@ -11,6 +11,8 @@
     <AssemblyName>ConsoleClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoinWrapper\CoinWrapper.csproj">
-      <Project>{b853e315-7103-4cba-8873-d5202019f267}</Project>
+      <Project>{B853E315-7103-4CBA-8873-D5202019F267}</Project>
       <Name>CoinWrapper</Name>
     </ProjectReference>
   </ItemGroup>

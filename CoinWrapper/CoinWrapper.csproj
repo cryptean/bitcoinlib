@@ -11,6 +11,8 @@
     <AssemblyName>BitcoinLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +34,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\cryptobattles\CryptoBattlesConsole - No Repos\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -110,6 +113,12 @@
     <Compile Include="Services\RpcServices\RpcService\IRpcService.cs" />
     <Compile Include="RPC\Connector\IRpcConnector.cs" />
     <Compile Include="Services\RpcServices\RpcExtenderService\IRpcExtenderService.cs" />
+    <Compile Include="Services\Coins\Dogecoin\DogecoinService.cs" />
+    <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
+    <Compile Include="CoinParameters\Dogecoin\IDogecoinConstants.cs">
+      <DependentUpon>DogecoinConstants.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Coins\Dogecoin\IDogecoinService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -122,4 +131,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Services\Coins\Dogecoin\" />
+    <Folder Include="CoinParameters\Dogecoin\" />
+  </ItemGroup>
 </Project>
