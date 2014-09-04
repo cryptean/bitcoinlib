@@ -1,10 +1,29 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ConsoleClient/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CoinWrapper/CoinParameters/Base/CoinParameters.cs">
     <Files>
-      <File FileName="ConsoleClient/Program.cs" Line="24" Column="70" />
-      <File FileName="CoinWrapper/Services/Coins/Dogecoin/DogecoinService.cs" Line="9" Column="62" />
+      <File FileName="ConsoleClient/Program.cs" Line="26" Column="3" />
+      <File FileName="CoinWrapper/Services/Coins/Dogecoin/DogecoinService.cs" Line="1" Column="1" />
+      <File FileName="CoinWrapper/CoinParameters/Base/CoinParameters.cs" Line="124" Column="6" />
+      <File FileName="ConsoleClient/App.config" Line="1" Column="1" />
+      <File FileName="CoinWrapper/CoinParameters/Dogecoin/DogecoinConstants.cs" Line="16" Column="56" />
+      <File FileName="CoinWrapper/CoinParameters/Base/CoinConstants.cs" Line="1" Column="1" />
+      <File FileName="CoinWrapper/CoinParameters/Base/ICoinParameters.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="CoinWrapper" expanded="True">
+            <Node name="CoinParameters" expanded="True">
+              <Node name="Base" expanded="True">
+                <Node name="CoinParameters.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+          <Node name="ConsoleClient" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

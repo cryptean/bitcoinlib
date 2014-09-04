@@ -116,17 +116,20 @@ namespace BitcoinLib.Services
 					TransactionSizeBytesContributedByEachOutput = 34;
 					TransactionSizeFixedExtraSizeInBytes = 10;
 
-					FreeTransactionMaximumSizeInBytes = 5000;
-					FreeTransactionMinimumOutputAmountInCoins = 0.001M;
+					FreeTransactionMaximumSizeInBytes = 1; // There are no free transactions
+					FreeTransactionMinimumOutputAmountInCoins = 1;
 					FreeTransactionMinimumPriority = 230400000;
-					FeePerThousandBytesInCoins = 0.001M;
-					MinimumTransactionFeeInCoins = 0.001M;
+
+					FeePerThousandBytesInCoins = 1;
+
+					MinimumTransactionFeeInCoins = 1;
 					MinimumNonDustTransactionAmountInCoins = 0.001M;
 
-					TotalCoinSupplyInCoins = 84000000;
-					EstimatedBlockGenerationTimeInMinutes = 2.5;
+					TotalCoinSupplyInCoins = 100000000000;
+					EstimatedBlockGenerationTimeInMinutes = 1;
+
 					BlocksHighestPriorityTransactionsReservedSizeInBytes = 16000;
-					BlockMaximumSizeInBytes = 250000;
+					BlockMaximumSizeInBytes = 1000000;
 
 					BaseUnitName = "Koinu";
 					BaseUnitsPerCoin = 100000000;

@@ -21,7 +21,9 @@ namespace ConsoleClient
         private static readonly IBitcoinService BitcoinService = new BitcoinService(useTestnet: true);
         private static readonly ILitecoinService LitecoinService = new LitecoinService(useTestnet: true);
 		private static readonly IDogecoinService DogecoinService = new DogecoinService(useTestnet: true);
-		private static readonly ICoinService CoinService = DogecoinService;
+
+		private static readonly ICoinService CoinService = BitcoinService; 
+
 
         private static void Main()
         {
