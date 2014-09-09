@@ -1,7 +1,7 @@
 BitcoinLib
 ==========
 
-**C# Bitcoin, Litecoin and Bitcoin-Clones Library & RPC Wrapper**
+**C# Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library & RPC Wrapper**
 
 Features
 --------
@@ -16,11 +16,13 @@ Features
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- Litecoin integration included.
+- Litecoin and Dogecoin integrations included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
 - Testnet ready.
+- MONO compatible.
+- Blockchain.info compatible.
 - Fully configurable.
 
 
@@ -70,28 +72,22 @@ License
 BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
 
 
-Updates and Notifications
--------------------------
-
-If you use BitcoinLib in an application please sign up for [the announcement list](http://eepurl.com/Ts2ED) so you get notified by e-mail for any important announcements. 
-
-
 Support
 -------
 
-Please use GitHub's `Issues`
+Please use GitHub's `Issues`. Premium support is also available [here](mailto:mcaizgk2+bitcoinlib@gmail.com).
 
 
 Pull Requests
 -------------
 
-Please contact [the repository owner](https://github.com/GeorgeKimionis) via e-mail before submitting your first pull request.
+Please contact [the repository owner](mailto:mcaizgk2+bitcoinlib@gmail.com) via e-mail before submitting your first pull request.
 
 
 Donations
 ---------
 
-BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
+If you use BitcoinLib for a commercial project you are expected to make a donation. BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
 
 
 Influenced by
@@ -105,4 +101,4 @@ Influenced by
 Credits
 -------
 
-Thanks to everyone who contributed to making this library better: [@OperatorOverload](https://github.com/OperatorOverload), Angelo Leoussis, everyone who reported any issues, et al.
+Thanks to everyone who contributed to making this library better: [@OperatorOverload](https://github.com/OperatorOverload), Angelos Leoussis, everyone who reported any issues, et al.
