@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using BitcoinLib.ExceptionHandling.RpcExtenderService;
 using BitcoinLib.ExtensionMethods;
@@ -39,6 +40,25 @@ namespace BitcoinLib.Services
                 });
 
             return listUnspentResponses.Any() ? listUnspentResponses.Sum(x => x.Amount) : 0;
+        }
+
+        //  Get a rough estimate on fees for non-free txs, depending on the total number of tx inputs and outputs
+        [Obsolete("Please don't use this method to calculate tx fees, its purpose is to provide a rough estimate only")]
+        public decimal GetMinimumNonZeroTransactionFeeEstimate(short numberOfInputs = 1, short numberOfOutputs = 1)
+        {
+            CreateRawTransactionRequest rawTransactionRequest = new CreateRawTransactionRequest(new List<CreateRawTransactionInput>(numberOfInputs), new Dictionary<String, Decimal>(numberOfOutputs));
+
+            for (short i = 0; i < numberOfInputs; i++)
+            {
+                rawTransactionRequest.AddInput(new CreateRawTransactionInput { TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture), Vout = i });
+            }
+
+            for (short i = 0; i < numberOfOutputs; i++)
+            {
+                rawTransactionRequest.AddOutput(new CreateRawTransactionOutput { Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture), Amount = i + 1 });
+            }
+
+            return GetTransactionFee(rawTransactionRequest, false, true);
         }
 
         public Dictionary<String, String> GetMyPublicAndPrivateKeyPairs()

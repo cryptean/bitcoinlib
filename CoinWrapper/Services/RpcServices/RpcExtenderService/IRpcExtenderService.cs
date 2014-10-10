@@ -11,6 +11,7 @@ namespace BitcoinLib.Services.RpcServices.RpcExtenderService
     public interface IRpcExtenderService
     {
         Decimal GetAddressBalance(String inWalletAddress, Int32 minConf = 0, Boolean validateAddressBeforeProcessing = true);
+        Decimal GetMinimumNonZeroTransactionFeeEstimate(Int16 numberOfInputs = 1, Int16 numberOfOutputs = 1);
         Dictionary<String, String> GetMyPublicAndPrivateKeyPairs();
         DecodeRawTransactionResponse GetPublicTransaction(String txId);
         Decimal GetTransactionFee(CreateRawTransactionRequest createRawTransactionRequest, Boolean checkIfTransactionQualifiesForFreeRelay = true, Boolean enforceMinimumTransactionFeePolicy = true);
