@@ -1,7 +1,7 @@
 BitcoinLib
 ==========
 
-**C# Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library & RPC Wrapper**
+**C# Bitcoin, Litecoin and Bitcoin-Clones Library & RPC Wrapper**
 
 Features
 --------
@@ -16,7 +16,7 @@ Features
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- Litecoin and Dogecoin integrations included.
+- Litecoin integration included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
