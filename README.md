@@ -23,6 +23,7 @@ Features
 - Testnet ready.
 - MONO compatible.
 - Blockchain.info compatible.
+- Available at NuGet.
 - Fully configurable.
 
 

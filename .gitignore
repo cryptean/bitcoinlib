@@ -59,6 +59,9 @@ _ReSharper*
 *.ncrunch*
 .*crunch*.local.xml
 
+# NuGet Packages Directory
+NuGetPackages
+
 # Installshield output folder 
 [Ee]xpress
 
@@ -77,9 +80,6 @@ publish
 
 # Publish Web Output
 *.Publish.xml
-
-# NuGet Packages Directory
-packages
 
 # Windows Azure Build Output
 csx

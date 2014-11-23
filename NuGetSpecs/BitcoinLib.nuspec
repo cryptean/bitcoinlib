@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>BitcoinLib</id>
+        <version>2.2</version>
+        <title>BitcoinLib</title>
+        <authors>George Kimionis</authors>
+        <owners>GeorgeKimionis</owners>
+		<dependencies>
+			<dependency id="Newtonsoft.Json" version="6.0.3" />
+		</dependencies>
+        <description>.NET Bitcoin, Litecoin and Bitcoin-Clones Library and RPC Wrapper.</description>
+        <projectUrl>https://github.com/GeorgeKimionis/BitcoinLib</projectUrl>
+        <language>en-US</language>
+    </metadata>
+    <files>
+        <file src="BitcoinLib.dll" target="lib\net45" />
+    </files>
+</package>
