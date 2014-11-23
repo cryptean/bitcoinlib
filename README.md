@@ -21,9 +21,9 @@ Features
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
 - Testnet ready.
-- MONO compatible.
+- Available at NuGet: https://www.nuget.org/packages/BitcoinLib/
+- Mono compatible.
 - Blockchain.info compatible.
-- Available at NuGet.
 - Fully configurable.
 
 
@@ -60,6 +60,48 @@ Instructions for Litecoin and other Bitcoin clones
 	- `ICryptocoinService cryptocoinService = new CryptocoinService("daemonUrl", "rpcUsername", "rpcPassword", "walletPassword");`
 
 - Use `(ICryptocoinService).Parameters` to fully configure each coin pointer at run-time. 
+
+
+Configuration
+-------------
+
+Sample configuration:
+
+	﻿<?xml version="1.0" encoding="utf-8"?>
+	<configuration>
+		<appSettings>
+
+			<!-- BitcoinLib settings start -->
+
+				<!-- Shared RPC settings start -->
+				<add key="RpcRequestTimeoutInSeconds" value="10" />
+				<add key="RpcResendTimedOutRequests" value="true" />
+				<add key="RpcTimedOutRequestsResendAttempts" value="5" />
+				<add key="RpcDelayResendingTimedOutRequests" value="true" />
+				<add key="RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests" value="true" />
+				<add key="RpcUnlockWalletImplicitlyWhenRequired" value="true" />
+				<!-- Shared RPC settings end -->
+
+				<!-- Bitcoin settings start -->
+				<add key="Bitcoin_DaemonUrl" value="http://localhost:8332" />
+				<add key="Bitcoin_DaemonUrl_Testnet" value="http://localhost:18332" />
+				<add key="Bitcoin_WalletPassword" value="MyWalletPassword" />
+				<add key="Bitcoin_RpcUsername" value="MyRpcUsername" />
+				<add key="Bitcoin_RpcPassword" value="MyRpcPassword" />
+				<!-- Bitcoin settings end -->
+
+				<!-- Litecoin settings start -->
+				<add key="Litecoin_DaemonUrl" value="http://localhost:9332" />
+				<add key="Litecoin_DaemonUrl_Testnet" value="http://localhost:19332" />
+				<add key="Litecoin_WalletPassword" value="MyWalletPassword" />
+				<add key="Litecoin_RpcUsername" value="MyRpcUsername" />
+				<add key="Litecoin_RpcPassword" value="MyRpcPassword" />
+				<!-- Litecoin settings end -->
+
+			<!-- BitcoinLib settings end -->
+			
+		</appSettings>
+	</configuration>
 
 
 Web Test Client
