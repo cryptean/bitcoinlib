@@ -105,6 +105,7 @@ namespace ConsoleClient
                     Console.WriteLine("Address: " + transaction.Address);
                     Console.WriteLine("Category: " + transaction.Category);
                     Console.WriteLine("Amount: " + transaction.Amount);
+                    Console.WriteLine("Fee: " + transaction.Fee);
                     Console.WriteLine("Confirmations: " + transaction.Confirmations);
                     Console.WriteLine("BlockHash: " + transaction.BlockHash);
                     Console.WriteLine("BlockIndex: " + transaction.BlockIndex);
@@ -112,6 +113,29 @@ namespace ConsoleClient
                     Console.WriteLine("TxId: " + transaction.TxId);
                     Console.WriteLine("Time: " + transaction.Time + " - " + UnixTime.UnixTimeToDateTime(transaction.Time));
                     Console.WriteLine("TimeReceived: " + transaction.TimeReceived + " - " + UnixTime.UnixTimeToDateTime(transaction.TimeReceived));
+
+                    if (!String.IsNullOrWhiteSpace(transaction.Comment))
+                    {
+                        Console.WriteLine("Comment: " + transaction.Comment);
+                    }
+
+                    if (!String.IsNullOrWhiteSpace(transaction.OtherAccount))
+                    {
+                        Console.WriteLine("Other Account: " + transaction.OtherAccount);
+                    }
+
+                    if (transaction.WalletConflicts.Any())
+                    {
+                        Console.Write("Conflicted Transactions: ");
+
+                        foreach (String conflictedTxId in transaction.WalletConflicts)
+                        {
+                            Console.Write(conflictedTxId + " ");
+                        }
+
+                        Console.WriteLine();
+                    }
+
                     Console.WriteLine("---------------------------------------------------------------------------");
                 }
 
