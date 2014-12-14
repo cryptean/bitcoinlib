@@ -64,7 +64,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String ListLockUnspent();
         List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false);
         List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf = 1, Boolean includeEmpty = false);
-        ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 0); //  Note: [target-confirmations] is set default to 1 so the optional parameters signature will not break, plus in most cases it won't affect the results as minConf (for source txs) is almost always initialized at the value of 1
+        ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 1);
         List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0);
         List<ListUnspentResponse> ListUnspent(Int32 minConf = 1, Int32 maxConf = 9999999, List<String> addresses = null);
         //  todo: implement: lockunspent unlock [{"txid":"txid","vout":n},...]
