@@ -24,6 +24,7 @@ namespace BitcoinLib.Responses
         public Int64 BlockIndex { get; set; }
         public Int32 BlockTime { get; set; }
         public String TxId { get; set; }
+        public List<String> WalletConflicts { get; set; }
         public Int32 Time { get; set; }
         public Int32 TimeReceived { get; set; }
         public String Comment { get; set; }
