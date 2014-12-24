@@ -20,6 +20,8 @@ namespace BitcoinLib.Services.RpcServices.RpcExtenderService
         String GetTransactionSenderAddress(String txId);
         Int32 GetTransactionSizeInBytes(CreateRawTransactionRequest createRawTransactionRequest);
         Int32 GetTransactionSizeInBytes(Int32 numberOfInputs, Int32 numberOfOutputs);
+        GetRawTransactionResponse GetRawTxFromRigidTxId(String rigidTxId, Int32 listTransactionsCount = Int32.MaxValue, Int32 listTransactionsFrom = 0, Boolean getRawTransactionVersbose = true, Boolean rigidTxIdIsSha256 = false);
+        String GetRigidTxId(String txId, Boolean getSha256Hash = false);
         Boolean IsInWalletTransaction(String txId);
         Boolean IsTransactionFree(CreateRawTransactionRequest createRawTransactionRequest);
         Boolean IsTransactionFree(IList<ListUnspentResponse> transactionInputs, Int32 numberOfOutputs, Decimal minimumAmountAmongOutputs);

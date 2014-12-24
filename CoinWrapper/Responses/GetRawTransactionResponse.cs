@@ -8,12 +8,17 @@ using BitcoinLib.Responses.SharedComponents;
 
 namespace BitcoinLib.Responses
 {
-    public class DecodeRawTransactionResponse : ITransactionResponse
+    public class GetRawTransactionResponse : ITransactionResponse
     {
-        public String Version { get; set; }
-        public String LockTime { get; set; }
+        public String Hex { get; set; }
+        public String TxId { get; set; }
+        public UInt32 Version { get; set; }
+        public UInt32 LockTime { get; set; }
         public List<Vin> Vin { get; set; }
         public List<Vout> Vout { get; set; }
-        public String TxId { get; set; }
+        public String BlockHash { get; set; }
+        public Int32 Confirmations { get; set; }
+        public UInt32 Time { get; set; }
+        public UInt32 BlockTime { get; set; }
     }
 }

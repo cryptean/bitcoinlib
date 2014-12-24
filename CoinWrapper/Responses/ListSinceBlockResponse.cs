@@ -35,6 +35,8 @@ namespace BitcoinLib.Responses
     public enum TransactionSinceBlockCategory
     {
         send,
-        receive
+        receive,
+        generate,
+        immature
     }
 }

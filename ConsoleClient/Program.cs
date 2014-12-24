@@ -11,15 +11,12 @@ using BitcoinLib.Auxiliary;
 using BitcoinLib.Responses;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
-using BitcoinLib.Services.Coins.Litecoin;
 
 namespace ConsoleClient
 {
     internal sealed class Program
     {
-        private static readonly IBitcoinService BitcoinService = new BitcoinService(useTestnet: true);
-        private static readonly ILitecoinService LitecoinService = new LitecoinService(useTestnet: true);
-        private static readonly ICoinService CoinService = BitcoinService;
+        private static readonly ICoinService CoinService = new BitcoinService(useTestnet:true);
 
         private static void Main()
         {
@@ -73,7 +70,7 @@ namespace ConsoleClient
                     try
                     {
                         Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
-                        BitcoinService.WalletPassphrase(CoinService.Parameters.WalletPassword, secondsToUnlockTheWallet);
+                        CoinService.WalletPassphrase(CoinService.Parameters.WalletPassword, secondsToUnlockTheWallet);
                         Console.WriteLine("[OK]\n\nMy private keys for non-empty addresses:\n");
 
                         foreach (ListReceivedByAddressResponse address in myNonEmptyAddresses)

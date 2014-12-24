@@ -46,7 +46,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         List<GetPeerInfoResponse> GetPeerInfo();
         String GetRawChangeAddress();
         GetRawMemPoolResponse GetRawMemPool(Boolean verbose = false);
-        String GetRawTransaction(String txId, Int32 verbose = 0);
+        GetRawTransactionResponse GetRawTransaction(String txId, Int32 verbose = 0);
         String GetReceivedByAccount(String account, Int32 minConf = 1);
         String GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);
         GetTransactionResponse GetTransaction(String txId);

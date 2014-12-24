@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.RpcExtenderService;
 using BitcoinLib.ExtensionMethods;
 using BitcoinLib.RPC;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Responses;
+using BitcoinLib.Responses.SharedComponents;
 using BitcoinLib.Services.Coins.Base;
 
 namespace BitcoinLib.Services
@@ -86,7 +88,7 @@ namespace BitcoinLib.Services
         //  Note: As RPC's gettransaction works only for in-wallet transactions this had to be extended so it will work for every single transaction.
         public DecodeRawTransactionResponse GetPublicTransaction(String txId)
         {
-            String rawTransaction = GetRawTransaction(txId, 0);
+            String rawTransaction = GetRawTransaction(txId, 0).Hex;
             return DecodeRawTransaction(rawTransaction);
         }
 
@@ -140,10 +142,10 @@ namespace BitcoinLib.Services
         [Obsolete("Please don't use this method in production enviroment, it's for testing purposes only")]
         public String GetTransactionSenderAddress(String txId)
         {
-            String rawTransaction = GetRawTransaction(txId, 0);
+            String rawTransaction = GetRawTransaction(txId, 0).Hex;
             DecodeRawTransactionResponse decodedRawTransaction = DecodeRawTransaction(rawTransaction);
             List<Vin> transactionInputs = decodedRawTransaction.Vin;
-            String rawTransactionHex = GetRawTransaction(transactionInputs[0].TxId, 0);
+            String rawTransactionHex = GetRawTransaction(transactionInputs[0].TxId, 0).Hex;
             DecodeRawTransactionResponse inputDecodedRawTransaction = DecodeRawTransaction(rawTransactionHex);
             List<Vout> vouts = inputDecodedRawTransaction.Vout;
             return vouts[0].ScriptPubKey.Addresses[0];
@@ -162,10 +164,26 @@ namespace BitcoinLib.Services
                    + numberOfInputs;
         }
 
+        public GetRawTransactionResponse GetRawTxFromRigidTxId(String rigidTxId, Int32 listTransactionsCount, Int32 listTransactionsFrom, Boolean getRawTransactionVersbose, Boolean rigidTxIdIsSha256)
+        {
+            List<ListTransactionsResponse> allTransactions = ListTransactions("*", listTransactionsCount, listTransactionsFrom);
+
+            return (from listTransactionsResponse in allTransactions
+                    where rigidTxId == GetRigidTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
+                    select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
+        }
+
+        public String GetRigidTxId(String txId, Boolean getSha256Hash)
+        {
+            GetRawTransactionResponse response = GetRawTransaction(txId, 1);
+            String text = response.Vin.First().TxId + "|" + response.Vin.First().Vout + "|" + response.Vout.First().Value;
+            return getSha256Hash ? Hashing.GetSha256(text) : text;
+        }
+
         public Boolean IsInWalletTransaction(String txId)
         {
             //  Note: This might not be efficient if iterated, consider caching ListTransactions' results.
-            return (this as ICoinService).ListTransactions().Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
+            return (this as ICoinService).ListTransactions(null, Int32.MaxValue).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
         }
 
         public Boolean IsTransactionFree(CreateRawTransactionRequest transaction)

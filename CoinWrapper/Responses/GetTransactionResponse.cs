@@ -11,7 +11,7 @@ namespace BitcoinLib.Responses
     public class GetTransactionResponse : ITransactionResponse
     {
         public Decimal Amount { get; set; }
-        public String Blockhash { get; set; }
+        public String BlockHash { get; set; }
         public Int32 BlockIndex { get; set; }
         public Int32 BlockTime { get; set; }
         public Int32 Confirmations { get; set; }

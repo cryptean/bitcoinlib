@@ -226,7 +226,7 @@ namespace BitcoinLib.Services
 
             if (!verbose)
             {
-                JArray rpcResponseAsArray = (JArray) rpcResponse;
+                JArray rpcResponseAsArray = (JArray)rpcResponse;
 
                 foreach (String txId in rpcResponseAsArray)
                 {
@@ -236,7 +236,7 @@ namespace BitcoinLib.Services
                 return getRawMemPoolResponse;
             }
 
-            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject) (rpcResponse)))).ToList();
+            IList<KeyValuePair<String, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<String, JToken>>(((JObject)(rpcResponse)))).ToList();
             IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
 
             for (Int32 i = 0; i < children.Count(); i++)
@@ -342,9 +342,19 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.getrawchangeaddress);
         }
 
-        public String GetRawTransaction(String txId, Int32 verbose)
+        public GetRawTransactionResponse GetRawTransaction(String txId, Int32 verbose)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getrawtransaction, txId, verbose);
+            if (verbose == 0)
+            {
+                return new GetRawTransactionResponse { Hex = _rpcConnector.MakeRequest<String>(RpcMethods.getrawtransaction, txId, verbose) };
+            }
+            
+            if (verbose == 1)
+            {
+                return _rpcConnector.MakeRequest<GetRawTransactionResponse>(RpcMethods.getrawtransaction, txId, verbose);
+            }
+
+            throw new Exception("Invalid verbose value: " + verbose + " in GetRawTransaction()!");
         }
 
         public String GetReceivedByAccount(String account, Int32 minConf)
@@ -477,7 +487,7 @@ namespace BitcoinLib.Services
         public List<ListTransactionsResponse> ListTransactions(String account, Int32 count, Int32 from)
         {
             return (String.IsNullOrWhiteSpace(account))
-                       ? _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions)
+                       ? _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, "*", count, from)
                        : _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, account, count, from);
         }
 

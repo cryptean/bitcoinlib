@@ -1,4 +1,4 @@
-BitcoinLib
+﻿BitcoinLib
 ==========
 
 **C# Bitcoin, Litecoin and Bitcoin-Clones Library & RPC Wrapper**
@@ -121,16 +121,10 @@ Support
 Please use GitHub's `Issues`. Premium support is also available [here](mailto:mcaizgk2+bitcoinlib@gmail.com).
 
 
-Pull Requests
--------------
-
-Please contact [the repository owner](mailto:mcaizgk2+bitcoinlib@gmail.com) via e-mail before submitting your first pull request.
-
-
 Donations
 ---------
 
-If you use BitcoinLib for a commercial project you are expected to make a donation. BTC: [1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a](https://blockchain.info/address/1GeorgeKZn9SaTmGsuRQRasvoJS3YWzQ5a)
+BTC: 14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3
 
 
 Influenced by
