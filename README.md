@@ -1,7 +1,7 @@
 ﻿BitcoinLib
 ==========
 
-**C# Bitcoin, Litecoin and Bitcoin-Clones Library & RPC Wrapper**
+**.Net Bitcoin, Litecoin and Bitcoin-Clones Library & RPC Wrapper in C#**
 
 Features
 --------
@@ -11,19 +11,19 @@ Features
 - Strongly-typed structures for complex RPC requests and responses.
 - Implicit JSON casting for all RPC messages.
 - Extended methods for every-day scenarios where the built-in methods fall short.
-- Exposure of all RPC API's functionality as well as the extended methods through a single interface.
+- Exposure of all [RPC API's functionality](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list) as well as the extended methods through a single interface.
 - Fallback mechanism for timed-out RPC requests.
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- Litecoin integration included.
+- [Litecoin](http://en.wikipedia.org/wiki/Litecoin) integration included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
-- Testnet ready.
-- Available at NuGet: https://www.nuget.org/packages/BitcoinLib/
-- Mono compatible.
-- Blockchain.info compatible.
+- [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
+- Available at [NuGet](https://www.nuget.org/packages/BitcoinLib/): https://www.nuget.org/packages/BitcoinLib/
+- [Mono](http://www.mono-project.com/) compatible.
+- [Blockchain.info API](https://blockchain.info/api) compatible.
 - Fully configurable.
 
 
@@ -104,17 +104,6 @@ Sample configuration:
 	</configuration>
 
 
-Web Test Client
----------------
-The web test client is not maintained anymore. The latest operating version can be found [here](https://github.com/GeorgeKimionis/BitcoinLib-TestClient-Web).
-
-
-License
--------
-
-BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
-
-
 Support
 -------
 
@@ -124,7 +113,18 @@ Please use GitHub's `Issues`. Premium support is also available [here](mailto:mc
 Donations
 ---------
 
-BTC: 14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3
+This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it alive by donating at: 14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3
+
+
+Web Test Client
+---------------
+The web test client is not maintained anymore. The latest operating version can be found [here](https://github.com/GeorgeKimionis/BitcoinLib-TestClient-Web).
+
+
+License
+-------
+
+BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
 
 
 Influenced by
