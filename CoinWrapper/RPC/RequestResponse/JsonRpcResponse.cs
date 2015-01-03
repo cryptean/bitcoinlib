@@ -8,13 +8,6 @@ namespace BitcoinLib.RPC.RequestResponse
 {
     public class JsonRpcResponse<T>
     {
-        public JsonRpcResponse(Int32 id, String error, T result)
-        {
-            Id = id;
-            Error = error;
-            Result = result;
-        }
-
         [JsonProperty(PropertyName = "result", Order = 0)]
         public T Result { get; set; }
 
@@ -22,6 +15,6 @@ namespace BitcoinLib.RPC.RequestResponse
         public Int32 Id { get; set; }
 
         [JsonProperty(PropertyName = "error", Order = 2)]
-        public String Error { get; set; }
+        public JsonRpcError Error { get; set; }
     }
 }

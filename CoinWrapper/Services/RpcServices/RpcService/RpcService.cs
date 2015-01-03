@@ -4,12 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BitcoinLib.RPC;
 using BitcoinLib.RPC.Connector;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Requests.SignRawTransaction;
 using BitcoinLib.Responses;
+using BitcoinLib.RPC.Specifications;
 using BitcoinLib.Services.Coins.Base;
 using Newtonsoft.Json.Linq;
 
@@ -382,7 +382,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<GetTxOutSetInfoResponse>(RpcMethods.gettxoutsetinfo);
         }
 
-        public decimal GetUnconfirmedBalance()
+        public Decimal GetUnconfirmedBalance()
         {
             return _rpcConnector.MakeRequest<Decimal>(RpcMethods.getunconfirmedbalance);
         }
@@ -496,6 +496,18 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addresses ?? new List<String>()));
         }
 
+        public Boolean LockUnspent(Boolean unlock, IList<ListUnspentResponse> listUnspentResponses)
+        {
+            IList<Object> transactions = new List<object>();
+
+            foreach (ListUnspentResponse listUnspentResponse in listUnspentResponses)
+            {
+                transactions.Add(new { txid = listUnspentResponse.TxId, vout = listUnspentResponse.VOut });
+            }
+
+            return _rpcConnector.MakeRequest<Boolean>(RpcMethods.lockunspent, unlock, transactions.ToArray());
+        }
+
         public Boolean Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf, String comment)
         {
             return _rpcConnector.MakeRequest<Boolean>(RpcMethods.move, fromAccount, toAccount, amount, minConf, comment);
@@ -528,7 +540,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.sendtoaddress, bitcoinAddress, amount, comment, commentTo);
         }
 
-        public string SetAccount(String bitcoinAddress, String account)
+        public String SetAccount(String bitcoinAddress, String account)
         {
             return _rpcConnector.MakeRequest<String>(RpcMethods.setaccount, bitcoinAddress, account);
         }
@@ -589,7 +601,7 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<ValidateAddressResponse>(RpcMethods.validateaddress, bitcoinAddress);
         }
 
-        public bool VerifyChain(UInt16 checkLevel, UInt32 numBlocks)
+        public Boolean VerifyChain(UInt16 checkLevel, UInt32 numBlocks)
         {
             return _rpcConnector.MakeRequest<Boolean>(RpcMethods.verifychain, checkLevel, numBlocks);
         }

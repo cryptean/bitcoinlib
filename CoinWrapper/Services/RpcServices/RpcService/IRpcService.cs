@@ -67,7 +67,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 1);
         List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0);
         List<ListUnspentResponse> ListUnspent(Int32 minConf = 1, Int32 maxConf = 9999999, List<String> addresses = null);
-        //  todo: implement: lockunspent unlock [{"txid":"txid","vout":n},...]
+        Boolean LockUnspent(Boolean unlock, IList<ListUnspentResponse> listUnspentResponses);
         Boolean Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf = 1, String comment = "");
         void Ping();
         String SendFrom(String fromAccount, String toBitcoinAddress, Decimal amount, Int32 minConf = 1, String comment = null, String commentTo = null);
@@ -80,7 +80,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String SignMessage(String bitcoinAddress, String message);
         SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest signRawTransactionRequest);
         String Stop();
-        String SubmitBlock(String hexData, params object[] parameters);
+        String SubmitBlock(String hexData, params Object[] parameters);
         ValidateAddressResponse ValidateAddress(String bitcoinAddress);
         Boolean VerifyChain(UInt16 checkLevel = 3, UInt32 numBlocks = 288); //  Note: numBlocks: 0 => ALL
         String VerifyMessage(String bitcoinAddress, String signature, String message);

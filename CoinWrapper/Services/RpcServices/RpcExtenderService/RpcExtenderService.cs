@@ -8,10 +8,10 @@ using System.Linq;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.RpcExtenderService;
 using BitcoinLib.ExtensionMethods;
-using BitcoinLib.RPC;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Responses;
 using BitcoinLib.Responses.SharedComponents;
+using BitcoinLib.RPC.Specifications;
 using BitcoinLib.Services.Coins.Base;
 
 namespace BitcoinLib.Services
@@ -46,16 +46,16 @@ namespace BitcoinLib.Services
 
         //  Get a rough estimate on fees for non-free txs, depending on the total number of tx inputs and outputs
         [Obsolete("Please don't use this method to calculate tx fees, its purpose is to provide a rough estimate only")]
-        public decimal GetMinimumNonZeroTransactionFeeEstimate(short numberOfInputs = 1, short numberOfOutputs = 1)
+        public Decimal GetMinimumNonZeroTransactionFeeEstimate(Int16 numberOfInputs = 1, Int16 numberOfOutputs = 1)
         {
             CreateRawTransactionRequest rawTransactionRequest = new CreateRawTransactionRequest(new List<CreateRawTransactionInput>(numberOfInputs), new Dictionary<String, Decimal>(numberOfOutputs));
 
-            for (short i = 0; i < numberOfInputs; i++)
+            for (Int16 i = 0; i < numberOfInputs; i++)
             {
                 rawTransactionRequest.AddInput(new CreateRawTransactionInput { TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture), Vout = i });
             }
 
-            for (short i = 0; i < numberOfOutputs; i++)
+            for (Int16 i = 0; i < numberOfOutputs; i++)
             {
                 rawTransactionRequest.AddOutput(new CreateRawTransactionOutput { Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture), Amount = i + 1 });
             }

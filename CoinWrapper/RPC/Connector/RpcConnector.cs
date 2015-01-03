@@ -10,6 +10,7 @@ using System.Threading;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.RPC.RequestResponse;
+using BitcoinLib.RPC.Specifications;
 using BitcoinLib.Services.Coins.Base;
 using Newtonsoft.Json;
 
@@ -55,7 +56,7 @@ namespace BitcoinLib.RPC.Connector
                             Console.ResetColor();
                         }
 
-                        Thread.Sleep((Int32) delayInSeconds * GlobalConstants.MillisecondsInASecond);
+                        Thread.Sleep((Int32)delayInSeconds * GlobalConstants.MillisecondsInASecond);
                     }
 
                     return MakeRpcRequest<T>(jsonRpcRequest, timedOutRequests);
@@ -73,7 +74,7 @@ namespace BitcoinLib.RPC.Connector
 
         private HttpWebRequest MakeHttpRequest(JsonRpcRequest jsonRpcRequest)
         {
-            HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
             SetBasicAuthHeader(webRequest, _coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.Credentials = new NetworkCredential(_coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.ContentType = "application/json-rpc";
@@ -98,7 +99,7 @@ namespace BitcoinLib.RPC.Connector
             return webRequest;
         }
 
-        private JsonRpcResponse<T> GetRpcResponse<T>(HttpWebRequest httpWebRequest)
+        private static JsonRpcResponse<T> GetRpcResponse<T>(HttpWebRequest httpWebRequest)
         {
             String json = GetJsonResponse(httpWebRequest);
 
@@ -141,10 +142,44 @@ namespace BitcoinLib.RPC.Connector
                     switch (webResponse.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
+                            {
+                                using (Stream stream = webResponse.GetResponseStream())
+                                {
+                                    if (stream == null)
+                                    {
+                                        throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
+                                    }
+
+                                    using (StreamReader reader = new StreamReader(stream))
+                                    {
+                                        String result = reader.ReadToEnd();
+                                        reader.Dispose();
+
+                                        try
+                                        {
+                                            JsonRpcResponse<Object> jsonRpcResponseObject = JsonConvert.DeserializeObject<JsonRpcResponse<Object>>(result);
+
+                                            RpcInternalServerErrorException internalServerErrorException = new RpcInternalServerErrorException(jsonRpcResponseObject.Error.Message, webException)
+                                            {
+                                                RpcErrorCode = jsonRpcResponseObject.Error.Code
+                                            };
+
+                                            throw internalServerErrorException;
+                                        }
+                                        catch (JsonException)
+                                        {
+                                            throw new RpcException(result, webException);
+                                        }
+                                    }
+                                }
+                            }
+
+                        default:
                             throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
                     }
                 }
-                else if (webException.Message == "The operation has timed out")
+
+                if (webException.Message == "The operation has timed out")
                 {
                     throw new RpcRequestTimeoutException(webException.Message);
                 }

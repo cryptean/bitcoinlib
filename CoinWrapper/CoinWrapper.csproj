@@ -51,6 +51,7 @@
     <Compile Include="CoinParameters\Base\ICoinParameters.cs" />
     <Compile Include="CoinParameters\Litecoin\ILitecoinConstants.cs" />
     <Compile Include="CoinParameters\Litecoin\LitecoinConstants.cs" />
+    <Compile Include="ExceptionHandling\Rpc\RpcInternalServerErrorException.cs" />
     <Compile Include="ExtensionMethods\DecimalExtensionMethods.cs" />
     <Compile Include="Requests\AddNode\NodeAction.cs" />
     <Compile Include="Auxiliary\UnixTime.cs" />
@@ -81,7 +82,9 @@
     <Compile Include="Responses\GetWalletInfoResponse.cs" />
     <Compile Include="Responses\SharedComponents\Vin.cs" />
     <Compile Include="RPC\Connector\RawRpcConnector.cs" />
-    <Compile Include="RPC\RpcMethods.cs" />
+    <Compile Include="RPC\Specifications\RpcErrorCode.cs" />
+    <Compile Include="RPC\RequestResponse\JsonRpcError.cs" />
+    <Compile Include="RPC\Specifications\RpcMethods.cs" />
     <Compile Include="Responses\DecodeRawTransactionResponse.cs" />
     <Compile Include="ExceptionHandling\Rpc\RpcException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
