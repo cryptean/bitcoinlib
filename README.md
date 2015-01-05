@@ -20,8 +20,10 @@ Features
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
+- Handles and relays RPC internal server errors along with their error code.
+- Can be configured to work without a .config file.
 - [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
-- Available at [NuGet](https://www.nuget.org/packages/BitcoinLib/): https://www.nuget.org/packages/BitcoinLib/
+- Available on [NuGet](https://www.nuget.org/packages/BitcoinLib/): https://www.nuget.org/packages/BitcoinLib/
 - [Mono](http://www.mono-project.com/) compatible.
 - [Blockchain.info API](https://blockchain.info/api) compatible.
 - Fully configurable.

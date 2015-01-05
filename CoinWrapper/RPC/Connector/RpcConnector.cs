@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -40,7 +41,7 @@ namespace BitcoinLib.RPC.Connector
                 HttpWebRequest httpWebRequest = MakeHttpRequest(jsonRpcRequest);
                 response = GetRpcResponse<T>(httpWebRequest);
             }
-            catch (RpcRequestTimeoutException rpcRequestTimeoutException)
+            catch (RpcRequestTimeoutException)
             {
                 if (_coinService.Parameters.RpcResendTimedOutRequests && ++timedOutRequests <= _coinService.Parameters.RpcTimedOutRequestsResendAttempts)
                 {
@@ -62,11 +63,12 @@ namespace BitcoinLib.RPC.Connector
                     return MakeRpcRequest<T>(jsonRpcRequest, timedOutRequests);
                 }
 
-                throw rpcRequestTimeoutException;
+                throw;
             }
             catch (Exception exception)
             {
-                throw exception;
+                String parameters = jsonRpcRequest.Parameters.Cast<String>().Aggregate(String.Empty, (current, parameter) => current + (parameter + " "));
+                throw new Exception(String.Format("A problem was encountered while calling MakeRpcRequest() for: {0} with parameters: {1}. \nException: {2}", jsonRpcRequest.Method, parameters, exception.Message));
             }
 
             return response;

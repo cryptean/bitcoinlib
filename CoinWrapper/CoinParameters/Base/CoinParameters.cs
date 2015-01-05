@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2014 George Kimionis
+﻿// Copyright (c) 2015 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
 using System;
@@ -19,6 +19,11 @@ namespace BitcoinLib.Services
         {
             private CoinParameters()
             {
+                if (IgnoreConfigValues)
+                {
+                    return;
+                }
+
                 try
                 {
                     RpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
@@ -36,13 +41,18 @@ namespace BitcoinLib.Services
 
             public CoinParameters(ICoinService coinService) : this()
             {
+                #region Bitcoin
+
                 if (coinService is BitcoinService)
                 {
-                    DaemonUrl = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl");
-                    DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl_Testnet");
-                    RpcUsername = ConfigurationManager.AppSettings.Get("Bitcoin_RpcUsername");
-                    RpcPassword = ConfigurationManager.AppSettings.Get("Bitcoin_RpcPassword");
-                    WalletPassword = ConfigurationManager.AppSettings.Get("Bitcoin_WalletPassword");
+                    if (!IgnoreConfigValues)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Bitcoin_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Bitcoin_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Bitcoin_WalletPassword");
+                    }
 
                     CoinShortName = "BTC";
                     CoinLongName = "Bitcoin";
@@ -67,13 +77,21 @@ namespace BitcoinLib.Services
                     BaseUnitsPerCoin = 100000000;
                     CoinsPerBaseUnit = 0.00000001M;
                 }
+
+                #endregion
+
+                #region Litecoin
+
                 else if (coinService is LitecoinService)
                 {
-                    DaemonUrl = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl");
-                    DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl_Testnet");
-                    RpcUsername = ConfigurationManager.AppSettings.Get("Litecoin_RpcUsername");
-                    RpcPassword = ConfigurationManager.AppSettings.Get("Litecoin_RpcPassword");
-                    WalletPassword = ConfigurationManager.AppSettings.Get("Litecoin_WalletPassword");
+                    if (!IgnoreConfigValues)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Litecoin_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Litecoin_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Litecoin_WalletPassword");
+                    }
 
                     CoinShortName = "LTC";
                     CoinLongName = "Litecoin";
@@ -99,6 +117,11 @@ namespace BitcoinLib.Services
                     BaseUnitsPerCoin = 100000000;
                     CoinsPerBaseUnit = 0.00000001M;
                 }
+
+                #endregion
+
+                #region Agnostic coin (cryptocoin)
+
                 else if (coinService is CryptocoinService)
                 {
                     CoinShortName = "XXX";
@@ -107,10 +130,17 @@ namespace BitcoinLib.Services
 
                     //  Note: The rest of the parameters will have to be defined at run-time
                 }
+                
+                #endregion
+
+                #region Uknown coin exception
+
                 else
                 {
                     throw new Exception("Unknown coin!");
                 }
+
+                #endregion
             }
 
             public String BaseUnitName { get; set; }
@@ -136,6 +166,7 @@ namespace BitcoinLib.Services
             public Int16 FreeTransactionMaximumSizeInBytes { get; set; }
             public Decimal FreeTransactionMinimumOutputAmountInCoins { get; set; }
             public Int32 FreeTransactionMinimumPriority { get; set; }
+            public Boolean IgnoreConfigValues { get; set; }  //  this must only be set true when using a .config file is not possible; all ConfigurationManager.AppSettings.Get("*") values listed above must be defined at run-time
             public String IsoCurrencyCode { get; set; }
             public Decimal MinimumNonDustTransactionAmountInCoins { get; set; }
             public Decimal MinimumTransactionFeeInCoins { get; set; }
@@ -173,10 +204,9 @@ namespace BitcoinLib.Services
                 }
             }
 
-            public UInt32 TotalCoinSupplyInCoins { get; set; }
+            public UInt64 TotalCoinSupplyInCoins { get; set; }
             public Int32 TransactionSizeBytesContributedByEachInput { get; set; }
             public Int32 TransactionSizeBytesContributedByEachOutput { get; set; }
-            public Double? TransactionSizeCalculationIntenionalOverheadPercentage { get; set; } //  apply an overhead to make sure numbers will always be a bit bigger than what is considered safe for the tx to be broadcasted by the miners
             public Int32 TransactionSizeFixedExtraSizeInBytes { get; set; }
             public Boolean UseTestnet { get; set; }
             public String WalletPassword { get; set; }
