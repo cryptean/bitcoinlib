@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Auxiliary\GlobalConstants.cs" />
     <Compile Include="Auxiliary\Hashing.cs" />
+    <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
+    <Compile Include="CoinParameters\Dogecoin\IDogecoinConstants.cs" />
     <Compile Include="ExceptionHandling\RawTransactions\RawTransactionExcessiveFeeException.cs" />
     <Compile Include="ExceptionHandling\RawTransactions\RawTransactionInvalidAmountException.cs" />
     <Compile Include="ExceptionHandling\RpcExtenderService\GetAddressBalanceException.cs" />
@@ -110,6 +112,8 @@
     </Compile>
     <Compile Include="Services\Coins\Cryptocoin\CryptocoinService.cs" />
     <Compile Include="Services\Coins\Cryptocoin\ICryptocoinService.cs" />
+    <Compile Include="Services\Coins\Dogecoin\DogecoinService.cs" />
+    <Compile Include="Services\Coins\Dogecoin\IDogecoinService.cs" />
     <Compile Include="Services\Coins\Litecoin\ILitecoinService.cs" />
     <Compile Include="Services\Coins\Litecoin\LitecoinService.cs" />
     <Compile Include="Services\RpcServices\RpcService\RpcService.cs" />

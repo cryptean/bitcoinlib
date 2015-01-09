@@ -1,7 +1,7 @@
 ﻿BitcoinLib
 ==========
 
-**.Net Bitcoin, Litecoin and Bitcoin-Clones Library & RPC Wrapper in C#**
+**.Net Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library & RPC Wrapper in C#**
 
 Features
 --------
@@ -16,7 +16,7 @@ Features
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- [Litecoin](http://en.wikipedia.org/wiki/Litecoin) integration included.
+- [Litecoin](http://en.wikipedia.org/wiki/Litecoin) and [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin) integrations included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
@@ -92,14 +92,6 @@ Sample configuration:
 				<add key="Bitcoin_RpcPassword" value="MyRpcPassword" />
 				<!-- Bitcoin settings end -->
 
-				<!-- Litecoin settings start -->
-				<add key="Litecoin_DaemonUrl" value="http://localhost:9332" />
-				<add key="Litecoin_DaemonUrl_Testnet" value="http://localhost:19332" />
-				<add key="Litecoin_WalletPassword" value="MyWalletPassword" />
-				<add key="Litecoin_RpcUsername" value="MyRpcUsername" />
-				<add key="Litecoin_RpcPassword" value="MyRpcPassword" />
-				<!-- Litecoin settings end -->
-
 			<!-- BitcoinLib settings end -->
 			
 		</appSettings>
@@ -140,4 +132,4 @@ Influenced by
 Credits
 -------
 
-Thanks to everyone who contributed to making this library better: [@OperatorOverload](https://github.com/OperatorOverload), Angelos Leoussis, everyone who reported any issues, et al.
+Thanks to everyone who contributed to making this library better: [OperatorOverload](https://github.com/OperatorOverload), Angelos Leoussis, [Shaun Barratt](https://github.com/LeCoffee), everyone who reported any issues, et al.
