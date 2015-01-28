@@ -28,62 +28,26 @@ namespace BitcoinLib.RPC.Connector
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
-            JsonRpcResponse<T> rpcResponse = MakeRpcRequest<T>(new JsonRpcRequest(1, rpcMethod.ToString(), parameters), 0);
-            return rpcResponse.Result;
+            return MakeRequest<T>(rpcMethod, 0, parameters);
         }
 
-        private JsonRpcResponse<T> MakeRpcRequest<T>(JsonRpcRequest jsonRpcRequest, Int16 timedOutRequests)
+        private T MakeRequest<T>(RpcMethods rpcMethod, Int16 timedOutRequestsCount, params object[] parameters)
         {
-            JsonRpcResponse<T> response;
-
-            try
-            {
-                HttpWebRequest httpWebRequest = MakeHttpRequest(jsonRpcRequest);
-                response = GetRpcResponse<T>(httpWebRequest);
-            }
-            catch (RpcRequestTimeoutException)
-            {
-                if (_coinService.Parameters.RpcResendTimedOutRequests && ++timedOutRequests <= _coinService.Parameters.RpcTimedOutRequestsResendAttempts)
-                {
-                    //  Note: effective delay = delayInSeconds + _rpcRequestTimeoutInSeconds
-                    if (_coinService.Parameters.RpcDelayResendingTimedOutRequests)
-                    {
-                        Double delayInSeconds = _coinService.Parameters.RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequests) : timedOutRequests;
-
-                        if (Debugger.IsAttached)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequests, _coinService.Parameters.RpcTimedOutRequestsResendAttempts, delayInSeconds, _coinService.Parameters.RpcRequestTimeoutInSeconds);
-                            Console.ResetColor();
-                        }
-
-                        Thread.Sleep((Int32)delayInSeconds * GlobalConstants.MillisecondsInASecond);
-                    }
-
-                    return MakeRpcRequest<T>(jsonRpcRequest, timedOutRequests);
-                }
-
-                throw;
-            }
-            catch (Exception exception)
-            {
-                String parameters = jsonRpcRequest.Parameters.Cast<String>().Aggregate(String.Empty, (current, parameter) => current + (parameter + " "));
-                throw new Exception(String.Format("A problem was encountered while calling MakeRpcRequest() for: {0} with parameters: {1}. \nException: {2}", jsonRpcRequest.Method, parameters, exception.Message));
-            }
-
-            return response;
-        }
-
-        private HttpWebRequest MakeHttpRequest(JsonRpcRequest jsonRpcRequest)
-        {
+            JsonRpcRequest jsonRpcRequest = new JsonRpcRequest(1, rpcMethod.ToString(), parameters);
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
             SetBasicAuthHeader(webRequest, _coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.Credentials = new NetworkCredential(_coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.ContentType = "application/json-rpc";
             webRequest.Method = "POST";
+            webRequest.Proxy = null;
             webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds * GlobalConstants.MillisecondsInASecond;
             Byte[] byteArray = jsonRpcRequest.GetBytes();
-            webRequest.ContentLength = byteArray.Length;
+            webRequest.ContentLength = jsonRpcRequest.GetBytes().Length;
+
+            if (_coinService.Parameters.RpcIgnoreSslCertificateErrors)
+            {
+                webRequest.ServerCertificateValidationCallback += Troubleshooting.IgnoreSslCertificateErrors;
+            }
 
             try
             {
@@ -98,28 +62,10 @@ namespace BitcoinLib.RPC.Connector
                 throw new RpcException("There was a problem sending the request to the wallet", exception);
             }
 
-            return webRequest;
-        }
-
-        private static JsonRpcResponse<T> GetRpcResponse<T>(HttpWebRequest httpWebRequest)
-        {
-            String json = GetJsonResponse(httpWebRequest);
-
             try
             {
-                return JsonConvert.DeserializeObject<JsonRpcResponse<T>>(json);
-            }
-            catch (JsonException jsonException)
-            {
-                throw new RpcResponseDeserializationException("There was a problem deserializing the response from the wallet", jsonException);
-            }
-        }
-
-        private static String GetJsonResponse(HttpWebRequest httpWebRequest)
-        {
-            try
-            {
-                WebResponse webResponse = httpWebRequest.GetResponse();
+                String json;
+                WebResponse webResponse = webRequest.GetResponse();
 
                 using (Stream stream = webResponse.GetResponseStream())
                 {
@@ -127,16 +73,17 @@ namespace BitcoinLib.RPC.Connector
                     {
                         String result = reader.ReadToEnd();
                         reader.Dispose();
-                        return result;
+                        json = result;
                     }
                 }
-            }
-            catch (ProtocolViolationException protocolViolationException)
-            {
-                throw new RpcException("Unable to connect to the server", protocolViolationException);
+
+                JsonRpcResponse<T> rpcResponse = JsonConvert.DeserializeObject<JsonRpcResponse<T>>(json);
+                return rpcResponse.Result;
             }
             catch (WebException webException)
             {
+                #region RPC Internal Server Error (with an Error Code)
+
                 HttpWebResponse webResponse = webException.Response as HttpWebResponse;
 
                 if (webResponse != null)
@@ -181,16 +128,51 @@ namespace BitcoinLib.RPC.Connector
                     }
                 }
 
+                #endregion
+
+                #region RPC Time-Out
+
                 if (webException.Message == "The operation has timed out")
                 {
+                    if (_coinService.Parameters.RpcResendTimedOutRequests && ++timedOutRequestsCount <= _coinService.Parameters.RpcTimedOutRequestsResendAttempts)
+                    {
+                        //  Note: effective delay = delayInSeconds + _rpcRequestTimeoutInSeconds
+                        if (_coinService.Parameters.RpcDelayResendingTimedOutRequests)
+                        {
+                            Double delayInSeconds = _coinService.Parameters.RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequestsCount) : timedOutRequestsCount;
+
+                            if (Debugger.IsAttached)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequestsCount, _coinService.Parameters.RpcTimedOutRequestsResendAttempts, delayInSeconds, _coinService.Parameters.RpcRequestTimeoutInSeconds);
+                                Console.ResetColor();
+                            }
+
+                            Thread.Sleep((Int32)delayInSeconds * GlobalConstants.MillisecondsInASecond);
+                        }
+
+                        return MakeRequest<T>(rpcMethod, timedOutRequestsCount, parameters);
+                    }
+
                     throw new RpcRequestTimeoutException(webException.Message);
                 }
 
+                #endregion
+
                 throw new RpcException("An unknown web exception occured while trying to read the JSON response", webException);
+            }
+            catch (JsonException jsonException)
+            {
+                throw new RpcResponseDeserializationException("There was a problem deserializing the response from the wallet", jsonException);
+            }
+            catch (ProtocolViolationException protocolViolationException)
+            {
+                throw new RpcException("Unable to connect to the server", protocolViolationException);
             }
             catch (Exception exception)
             {
-                throw new RpcException("An unknown exception occured while trying to read the JSON response", exception);
+                String queryParameters = jsonRpcRequest.Parameters.Cast<String>().Aggregate(String.Empty, (current, parameter) => current + (parameter + " "));
+                throw new Exception(String.Format("A problem was encountered while calling MakeRpcRequest() for: {0} with parameters: {1}. \nException: {2}", jsonRpcRequest.Method, queryParameters, exception.Message));
             }
         }
 

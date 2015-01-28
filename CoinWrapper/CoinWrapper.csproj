@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Auxiliary\GlobalConstants.cs" />
     <Compile Include="Auxiliary\Hashing.cs" />
+    <Compile Include="Auxiliary\Troubleshooting.cs" />
     <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
     <Compile Include="CoinParameters\Dogecoin\IDogecoinConstants.cs" />
     <Compile Include="ExceptionHandling\RawTransactions\RawTransactionExcessiveFeeException.cs" />

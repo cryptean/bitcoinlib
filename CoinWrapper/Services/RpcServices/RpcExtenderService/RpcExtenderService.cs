@@ -164,16 +164,16 @@ namespace BitcoinLib.Services
                    + numberOfInputs;
         }
 
-        public GetRawTransactionResponse GetRawTxFromRigidTxId(String rigidTxId, Int32 listTransactionsCount, Int32 listTransactionsFrom, Boolean getRawTransactionVersbose, Boolean rigidTxIdIsSha256)
+        public GetRawTransactionResponse GetRawTxFromImmutableTxId(String rigidTxId, Int32 listTransactionsCount, Int32 listTransactionsFrom, Boolean getRawTransactionVersbose, Boolean rigidTxIdIsSha256)
         {
             List<ListTransactionsResponse> allTransactions = ListTransactions("*", listTransactionsCount, listTransactionsFrom);
 
             return (from listTransactionsResponse in allTransactions
-                    where rigidTxId == GetRigidTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
+                    where rigidTxId == GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
                     select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
         }
 
-        public String GetRigidTxId(String txId, Boolean getSha256Hash)
+        public String GetImmutableTxId(String txId, Boolean getSha256Hash)
         {
             GetRawTransactionResponse response = GetRawTransaction(txId, 1);
             String text = response.Vin.First().TxId + "|" + response.Vin.First().Vout + "|" + response.Vout.First().Value;

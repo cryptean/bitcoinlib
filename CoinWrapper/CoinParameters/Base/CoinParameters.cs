@@ -225,6 +225,7 @@ namespace BitcoinLib.Services
             }
 
             public Boolean RpcDelayResendingTimedOutRequests { get; set; }
+            public Boolean RpcIgnoreSslCertificateErrors { get; set; }  //  use this as a *temporary only* workaround for invalid SSL certificate errors in new installations
             public String RpcPassword { get; set; }
             public Int16 RpcRequestTimeoutInSeconds { get; set; }
             public Boolean RpcResendTimedOutRequests { get; set; }

@@ -14,16 +14,16 @@ Features
 - Exposure of all [RPC API's functionality](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list) as well as the extended methods through a single interface.
 - Fallback mechanism for timed-out RPC requests.
 - Custom RPC exceptions.
+- Available on [NuGet](https://www.nuget.org/packages/BitcoinLib/).
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- [Litecoin](http://en.wikipedia.org/wiki/Litecoin) and [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin) integrations included.
+- [Bitcoin](http://en.wikipedia.org/wiki/Bitcoin), [Litecoin](http://en.wikipedia.org/wiki/Litecoin) and [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin) integrations included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Console test client with demo methods implemented in it.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
 - Handles and relays RPC internal server errors along with their error code.
 - Can be configured to work without a .config file.
 - [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
-- Available on [NuGet](https://www.nuget.org/packages/BitcoinLib/): https://www.nuget.org/packages/BitcoinLib/
 - [Mono](http://www.mono-project.com/) compatible.
 - [Blockchain.info API](https://blockchain.info/api) compatible.
 - Fully configurable.
@@ -121,15 +121,8 @@ License
 BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
 
 
-Influenced by
--------------
-
-- [Bitnet](http://bitnet.sourceforge.net), by Konstantin Ineshin
-- [BitcoinRpcSharp](https://github.com/BitKoot/BitcoinRpcSharp), by BitKoot 
-- [Bitcoin-wrapper](https://github.com/LarsHoldgaard/bitcoin-wrapper), by Lars Holdgaard 
-
-
 Credits
 -------
 
-Thanks to everyone who contributed to making this library better: [OperatorOverload](https://github.com/OperatorOverload), Angelos Leoussis, [Shaun Barratt](https://github.com/LeCoffee), everyone who reported any issues, et al.
+Thanks to everyone who contributed to making this library better: [OperatorOverload](https://github.com/OperatorOverload), Angelos Leoussis, [Shaun Barratt](https://github.com/LeCoffee), [Nikos Baxevanis](http://blog.nikosbaxevanis.com/), everyone who reported any issues, et al.
+Influenced by [Bitnet](http://bitnet.sourceforge.net) by Konstantin Ineshin, [BitcoinRpcSharp](https://github.com/BitKoot/BitcoinRpcSharp) by BitKoot and [Bitcoin-wrapper](https://github.com/LarsHoldgaard/bitcoin-wrapper) by Lars Holdgaard.

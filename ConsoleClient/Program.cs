@@ -173,7 +173,16 @@ namespace ConsoleClient
             }
             catch (RpcInternalServerErrorException exception)
             {
-                Console.WriteLine("[Failed] {0}", exception.Message);
+                Int32 errorCode = 0;
+                String errorMessage = String.Empty;
+
+                if (exception.RpcErrorCode.GetHashCode() != 0)
+                {
+                    errorCode = exception.RpcErrorCode.GetHashCode();
+                    errorMessage = exception.RpcErrorCode.ToString();
+                }
+
+                Console.WriteLine("[Failed] {0} {1} {2}", exception.Message, errorCode != 0 ? "Error code: " + errorCode : String.Empty, !String.IsNullOrWhiteSpace(errorMessage) ? errorMessage : String.Empty);
             }
             catch (Exception exception)
             {
