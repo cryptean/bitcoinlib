@@ -6,7 +6,7 @@
 Features
 --------
 
-- Fully compatible and up-to-date with Bitcoin 0.9.3 RPC API.
+- Fully compatible and up-to-date with Bitcoin 0.10.0 RPC API.
 - Design-by-contract, service-oriented architecture.
 - Strongly-typed structures for complex RPC requests and responses.
 - Implicit JSON casting for all RPC messages.
@@ -25,7 +25,6 @@ Features
 - Can be configured to work without a .config file.
 - [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
 - [Mono](http://www.mono-project.com/) compatible.
-- [Blockchain.info API](https://blockchain.info/api) compatible.
 - Fully configurable.
 
 
@@ -107,8 +106,7 @@ Please use GitHub's `Issues`. Premium support is also available [here](mailto:mc
 Donations
 ---------
 
-This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it alive by donating at: 14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3
-
+This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it alive by donating at: [14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3](bitcoin:14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3?label=BitcoinLib)
 
 Web Test Client
 ---------------

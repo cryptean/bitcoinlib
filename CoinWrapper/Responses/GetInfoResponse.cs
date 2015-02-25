@@ -2,6 +2,7 @@
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
 using System;
+using Newtonsoft.Json;
 
 namespace BitcoinLib.Responses
 {
@@ -19,7 +20,12 @@ namespace BitcoinLib.Responses
         public Boolean Testnet { get; set; }
         public Double KeyPoolEldest { get; set; }
         public Double KeyPoolSize { get; set; }
+
+        [JsonProperty("unlocked_until")]
+        public UInt64 UnlockedUntil { get; set; }
+
         public Decimal PayTxFee { get; set; }
+        public Decimal RelayTxFee { get; set; }
         public String Errors { get; set; }
     }
 }

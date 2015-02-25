@@ -44,6 +44,13 @@ namespace BitcoinLib.Services
             return listUnspentResponses.Any() ? listUnspentResponses.Sum(x => x.Amount) : 0;
         }
 
+        public String GetImmutableTxId(String txId, Boolean getSha256Hash)
+        {
+            GetRawTransactionResponse response = GetRawTransaction(txId, 1);
+            String text = response.Vin.First().TxId + "|" + response.Vin.First().Vout + "|" + response.Vout.First().Value;
+            return getSha256Hash ? Hashing.GetSha256(text) : text;
+        }
+
         //  Get a rough estimate on fees for non-free txs, depending on the total number of tx inputs and outputs
         [Obsolete("Please don't use this method to calculate tx fees, its purpose is to provide a rough estimate only")]
         public Decimal GetMinimumNonZeroTransactionFeeEstimate(Int16 numberOfInputs = 1, Int16 numberOfOutputs = 1)
@@ -68,7 +75,7 @@ namespace BitcoinLib.Services
             const Int16 secondsToUnlockTheWallet = 30;
             Dictionary<String, String> keyPairs = new Dictionary<String, String>();
             WalletPassphrase(Parameters.WalletPassword, secondsToUnlockTheWallet);
-            List<ListReceivedByAddressResponse> myAddresses = ListReceivedByAddress(0, true);
+            List<ListReceivedByAddressResponse> myAddresses = (this as ICoinService).ListReceivedByAddress(0, true);
 
             foreach (ListReceivedByAddressResponse listReceivedByAddressResponse in myAddresses)
             {
@@ -113,6 +120,15 @@ namespace BitcoinLib.Services
             }
 
             return transactionFee;
+        }
+
+        public GetRawTransactionResponse GetRawTxFromImmutableTxId(String rigidTxId, Int32 listTransactionsCount, Int32 listTransactionsFrom, Boolean getRawTransactionVersbose, Boolean rigidTxIdIsSha256)
+        {
+            List<ListTransactionsResponse> allTransactions = (this as ICoinService).ListTransactions("*", listTransactionsCount, listTransactionsFrom);
+
+            return (from listTransactionsResponse in allTransactions
+                    where rigidTxId == GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
+                    select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
         }
 
         public Decimal GetTransactionPriority(CreateRawTransactionRequest transaction)
@@ -163,23 +179,7 @@ namespace BitcoinLib.Services
                    + Parameters.TransactionSizeFixedExtraSizeInBytes
                    + numberOfInputs;
         }
-
-        public GetRawTransactionResponse GetRawTxFromImmutableTxId(String rigidTxId, Int32 listTransactionsCount, Int32 listTransactionsFrom, Boolean getRawTransactionVersbose, Boolean rigidTxIdIsSha256)
-        {
-            List<ListTransactionsResponse> allTransactions = ListTransactions("*", listTransactionsCount, listTransactionsFrom);
-
-            return (from listTransactionsResponse in allTransactions
-                    where rigidTxId == GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
-                    select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
-        }
-
-        public String GetImmutableTxId(String txId, Boolean getSha256Hash)
-        {
-            GetRawTransactionResponse response = GetRawTransaction(txId, 1);
-            String text = response.Vin.First().TxId + "|" + response.Vin.First().Vout + "|" + response.Vout.First().Value;
-            return getSha256Hash ? Hashing.GetSha256(text) : text;
-        }
-
+        
         public Boolean IsInWalletTransaction(String txId)
         {
             //  Note: This might not be efficient if iterated, consider caching ListTransactions' results.

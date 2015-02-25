@@ -9,6 +9,7 @@ namespace BitcoinLib.Responses
     {
         public String Chain { get; set; }
         public UInt64 Blocks { get; set; }
+        public UInt64 Headers { get; set; }
         public String BestBlockHash { get; set; }
         public Double Difficulty { get; set; }
         public Double VerificationProgress { get; set; }

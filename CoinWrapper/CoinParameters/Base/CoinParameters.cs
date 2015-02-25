@@ -27,11 +27,10 @@ namespace BitcoinLib.Services
 
                 try
                 {
-                    RpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
                     RpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
                     RpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
                     RpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
-                    RpcUnlockWalletImplicitlyWhenRequired = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUnlockWalletImplicitlyWhenRequired"));
+                    RpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
                     RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
                 }
                 catch (Exception)
@@ -230,7 +229,6 @@ namespace BitcoinLib.Services
             public Int16 RpcRequestTimeoutInSeconds { get; set; }
             public Boolean RpcResendTimedOutRequests { get; set; }
             public Int16 RpcTimedOutRequestsResendAttempts { get; set; }
-            public Boolean RpcUnlockWalletImplicitlyWhenRequired { get; set; }
             public Boolean RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests { get; set; }
             public String RpcUsername { get; set; }
 

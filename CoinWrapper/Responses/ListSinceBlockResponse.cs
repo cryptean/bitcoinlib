@@ -29,6 +29,7 @@ namespace BitcoinLib.Responses
         public Int32 TimeReceived { get; set; }
         public String Comment { get; set; }
         public String To { get; set; }
+        public Boolean InvolvesWatchonly { get; set; }
     }
 
     //  Note: Do not alter the capitalization of the enum members
