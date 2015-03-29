@@ -68,8 +68,11 @@
     <Compile Include="Requests\SignRawTransaction\SignRawTransactionRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Responses\GetBlockTemplateResponse.cs" />
+    <Compile Include="Responses\GetBlockTemplateCoinbaseaux.cs" />
     <Compile Include="Responses\GetChainTipsResponse.cs" />
     <Compile Include="Responses\GetMemPoolInfoResponse.cs" />
+    <Compile Include="Responses\RequestResult.cs" />
     <Compile Include="Responses\SharedComponents\Vout.cs" />
     <Compile Include="Responses\DecodeScriptResponse.cs" />
     <Compile Include="Responses\GetAddedNodeInfoResponse.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="Responses\Bridges\ITransactionResponse.cs" />
     <Compile Include="Responses\GetWalletInfoResponse.cs" />
     <Compile Include="Responses\SharedComponents\Vin.cs" />
+    <Compile Include="Responses\GetBlockTemplateTransaction.cs" />
     <Compile Include="RPC\Connector\RawRpcConnector.cs" />
     <Compile Include="RPC\Specifications\RpcErrorCode.cs" />
     <Compile Include="RPC\RequestResponse\JsonRpcError.cs" />
@@ -105,7 +109,7 @@
     <Compile Include="Responses\ValidateAddressResponse.cs" />
     <Compile Include="RPC\RequestResponse\JsonRpcRequest.cs" />
     <Compile Include="RPC\RequestResponse\JsonRpcResponse.cs" />
-    <Compile Include="RPC\Connector\RpcConnector.cs" />
+    <Compile Include="RPC\RequestResponse\RpcConnector.cs" />
     <Compile Include="ExtensionMethods\CoinServiceExtensionMethods.cs" />
     <Compile Include="Services\Coins\Bitcoin\BitcoinService.cs" />
     <Compile Include="CoinParameters\Base\CoinParameters.cs" />

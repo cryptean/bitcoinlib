@@ -34,7 +34,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         GetBlockchainInfoResponse GetBlockchainInfo();
         UInt32 GetBlockCount();
         String GetBlockHash(Int64 index);
-        String GetBlockTemplate(params object[] parameters);
+        GetBlockTemplateResponse GetBlockTemplate(params object[] parameters);
         List<GetChainTipsResponse> GetChainTips();
         Int32 GetConnectionCount();
         Double GetDifficulty();
