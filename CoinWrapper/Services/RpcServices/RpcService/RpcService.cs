@@ -160,11 +160,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.getblockhash, index);
         }
 
-        public String GetBlockTemplate(params object[] parameters)
+        public GetBlockTemplateResponse GetBlockTemplate(params object[] parameters)
         {
             return parameters == null
-                       ? _rpcConnector.MakeRequest<String>(RpcMethods.getblocktemplate)
-                       : _rpcConnector.MakeRequest<String>(RpcMethods.getblocktemplate, parameters);
+                       ? _rpcConnector.MakeRequest<GetBlockTemplateResponse>(RpcMethods.getblocktemplate)
+                       : _rpcConnector.MakeRequest<GetBlockTemplateResponse>(RpcMethods.getblocktemplate, parameters);
         }
 
         public List<GetChainTipsResponse> GetChainTips()
