@@ -11,8 +11,8 @@ namespace BitcoinLib.Responses
         public int Version {get; set;}
         public String PreviousBlockHash { get; set; }
         public List<GetBlockTemplateTransaction> Transactions { get; set; }
-        public GetBlockTemplateCoinbaseaux Coinbaseaux { get; set; }
-        public long Coinbasevalue { get; set; }
+        public GetBlockTemplateCoinbaseAux CoinbaseAux { get; set; }
+        public long CoinbaseValue { get; set; }
         public string Target { get; set; }
         public int MinTime { get; set; }
         public List<string> Mutable { get; set; }

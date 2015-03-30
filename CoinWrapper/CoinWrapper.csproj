@@ -90,7 +90,7 @@
     <Compile Include="Responses\SharedComponents\Vin.cs" />
     <Compile Include="Responses\GetBlockTemplateTransaction.cs" />
     <Compile Include="RPC\Connector\RawRpcConnector.cs" />
-    <Compile Include="RPC\RequestResponse\RpcConnector.cs" />
+    <Compile Include="RPC\Connector\RpcConnector.cs" />
     <Compile Include="RPC\Specifications\RpcErrorCode.cs" />
     <Compile Include="RPC\RequestResponse\JsonRpcError.cs" />
     <Compile Include="RPC\Specifications\RpcMethods.cs" />

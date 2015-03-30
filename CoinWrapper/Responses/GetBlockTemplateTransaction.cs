@@ -7,10 +7,10 @@ namespace BitcoinLib.Responses
 {
     public class GetBlockTemplateTransaction
     {
-        string Data { get; set; }
-        string Hash{ get; set; }
-        List<string> Depends{ get; set; }
-        int Fee{ get; set; }
-        int Sigops{ get; set; }
+        public string Data { get; set; }
+        public string Hash { get; set; }
+        public List<string> Depends { get; set; }
+        public int Fee { get; set; }
+        public int Sigops { get; set; }
     }
 }

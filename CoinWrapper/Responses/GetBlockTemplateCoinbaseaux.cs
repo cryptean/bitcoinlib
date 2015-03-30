@@ -3,7 +3,7 @@
 
 namespace BitcoinLib.Responses
 {
-    public class GetBlockTemplateCoinbaseaux
+    public class GetBlockTemplateCoinbaseAux
     {
         public string Flags { get; set; }
     }
