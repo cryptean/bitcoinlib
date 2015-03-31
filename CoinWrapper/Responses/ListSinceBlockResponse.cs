@@ -18,6 +18,7 @@ namespace BitcoinLib.Responses
         public String Address { get; set; }
         public String Category { get; set; }
         public Decimal Amount { get; set; }
+        public Int32 Vout { get; set; }
         public Decimal Fee { get; set; }
         public Int32 Confirmations { get; set; }
         public String BlockHash { get; set; }

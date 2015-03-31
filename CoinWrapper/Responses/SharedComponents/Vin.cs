@@ -10,6 +10,7 @@ namespace BitcoinLib.Responses.SharedComponents
         public String TxId { get; set; }
         public String Vout { get; set; }
         public ScriptSig ScriptSig { get; set; }
+        public String CoinBase { get; set; }
         public String Sequence { get; set; }
     }
 

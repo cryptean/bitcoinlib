@@ -8,7 +8,7 @@ namespace BitcoinLib.Responses
     public class ListUnspentResponse
     {
         public String TxId { get; set; }
-        public Int32 VOut { get; set; }
+        public Int32 Vout { get; set; }
         public String Address { get; set; }
         public String Account { get; set; }
         public String ScriptPubKey { get; set; }

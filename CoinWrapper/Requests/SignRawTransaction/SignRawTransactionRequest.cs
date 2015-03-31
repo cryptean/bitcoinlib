@@ -21,12 +21,12 @@ namespace BitcoinLib.Requests.SignRawTransaction
         public List<String> PrivateKeys { get; set; }
         public String SigHashType { get; set; }
 
-        public void AddInput(String transactionId, Int32 output, String scriptPubKey, String redeemScript)
+        public void AddInput(String txId, Int32 vout, String scriptPubKey, String redeemScript)
         {
             Inputs.Add(new SignRawTransactionInput
                 {
-                    TransactionId = transactionId,
-                    Output = output,
+                    TxId = txId,
+                    Vout = vout,
                     ScriptPubKey = scriptPubKey,
                     RedeemScript = redeemScript
                 });
