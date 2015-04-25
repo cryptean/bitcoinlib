@@ -12,7 +12,7 @@ namespace BitcoinLib.Responses
     {
         public String Hex { get; set; }
         public String TxId { get; set; }
-        public String Version { get; set; }
+        public Int64 Version { get; set; }
         public UInt32 LockTime { get; set; }
         public List<Vin> Vin { get; set; }
         public List<Vout> Vout { get; set; }
