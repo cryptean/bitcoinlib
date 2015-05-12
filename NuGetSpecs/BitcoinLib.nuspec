@@ -9,7 +9,7 @@
 		<dependencies>
 			<dependency id="Newtonsoft.Json" version="6.0.3" />
 		</dependencies>
-        <description>.NET Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library and RPC Wrapper.</description>
+        <description>The most complete, up-to-date, battle-tested Library and RPC Wrapper for Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones in C#.</description>
         <projectUrl>https://github.com/GeorgeKimionis/BitcoinLib</projectUrl>
         <language>en-US</language>
 		<tags>bitcoin litecoin crypto cryptocurrency wallet json rpc wrapper blockchain.info payments financial p2p blockchain api payment money merchant checkout cart gateway bank mono dogecoin</tags>

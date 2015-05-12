@@ -516,7 +516,7 @@ namespace BitcoinLib.Services
 
             foreach (ListUnspentResponse listUnspentResponse in listUnspentResponses)
             {
-                transactions.Add(new { txid = listUnspentResponse.TxId, vout = listUnspentResponse.Vout });
+                transactions.Add(new { txid = listUnspentResponse.TxId, Vout = listUnspentResponse.Vout });
             }
 
             return _rpcConnector.MakeRequest<Boolean>(RpcMethods.lockunspent, unlock, transactions.ToArray());
