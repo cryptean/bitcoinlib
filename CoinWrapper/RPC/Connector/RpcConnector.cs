@@ -65,15 +65,17 @@ namespace BitcoinLib.RPC.Connector
             try
             {
                 String json;
-                WebResponse webResponse = webRequest.GetResponse();
 
-                using (Stream stream = webResponse.GetResponseStream())
+                using (WebResponse webResponse = webRequest.GetResponse())
                 {
-                    using (StreamReader reader = new StreamReader(stream))
+                    using (Stream stream = webResponse.GetResponseStream())
                     {
-                        String result = reader.ReadToEnd();
-                        reader.Dispose();
-                        json = result;
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            String result = reader.ReadToEnd();
+                            reader.Dispose();
+                            json = result;
+                        }
                     }
                 }
 
