@@ -100,7 +100,7 @@ Sample configuration:
 Support
 -------
 
-Please use GitHub's `Issues`. Premium support is also available [here](mailto:mcaizgk2+bitcoinlib@gmail.com).
+Please use GitHub's `Issues`. Premium support is also available [here](mailto:hello@cryptean.com).
 
 
 Donations
