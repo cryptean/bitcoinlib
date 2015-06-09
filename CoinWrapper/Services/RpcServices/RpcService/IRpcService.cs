@@ -28,7 +28,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String GetAccountAddress(String account);
         GetAddedNodeInfoResponse GetAddedNodeInfo(String dns, String node = null);
         List<String> GetAddressesByAccount(String account);
-        Decimal GetBalance(String account = null, Int32 minConf = 1, Boolean includeWatchonly = false);
+        Decimal GetBalance(String account = null, Int32 minConf = 1, Boolean? includeWatchonly = false);
         String GetBestBlockHash();
         GetBlockResponse GetBlock(String hash, Boolean verbose = true);
         GetBlockchainInfoResponse GetBlockchainInfo();
@@ -53,7 +53,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         GetRawTransactionResponse GetRawTransaction(String txId, Int32 verbose = 0);
         String GetReceivedByAccount(String account, Int32 minConf = 1);
         String GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);
-        GetTransactionResponse GetTransaction(String txId, Boolean includeWatchonly = false);
+        GetTransactionResponse GetTransaction(String txId, Boolean? includeWatchonly = false);
         GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool = true);
         GetTxOutSetInfoResponse GetTxOutSetInfo();
         Decimal GetUnconfirmedBalance();
@@ -63,13 +63,13 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String ImportPrivKey(String privateKey, String label = null, Boolean rescan = true);
         void ImportWallet(String filename);
         String KeyPoolRefill(UInt32 newSize = 100);
-        Dictionary<String, Decimal> ListAccounts(Int32 minConf = 1, Boolean includeWatchonly = false);
+        Dictionary<String, Decimal> ListAccounts(Int32 minConf = 1, Boolean? includeWatchonly = false);
         List<List<ListAddressGroupingsResponse>> ListAddressGroupings();
         String ListLockUnspent();
-        List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false, Boolean includeWatchonly = false);
-        List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf = 1, Boolean includeEmpty = false, Boolean includeWatchonly = false);
-        ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 1, Boolean includeWatchonly = false);
-        List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0, Boolean includeWatchonly = false);
+        List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false, Boolean? includeWatchonly = false);
+        List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf = 1, Boolean includeEmpty = false, Boolean? includeWatchonly = false);
+        ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 1, Boolean? includeWatchonly = false);
+        List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0, Boolean? includeWatchonly = false);
         List<ListUnspentResponse> ListUnspent(Int32 minConf = 1, Int32 maxConf = 9999999, List<String> addresses = null);
         Boolean LockUnspent(Boolean unlock, IList<ListUnspentResponse> listUnspentResponses);
         Boolean Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf = 1, String comment = "");

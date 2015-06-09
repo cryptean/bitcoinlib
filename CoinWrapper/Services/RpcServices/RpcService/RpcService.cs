@@ -130,9 +130,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<List<String>>(RpcMethods.getaddressesbyaccount, account);
         }
 
-        public Decimal GetBalance(String account, Int32 minConf, Boolean includeWatchonly)
+        public Decimal GetBalance(String account, Int32 minConf, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, (String.IsNullOrWhiteSpace(account) ? "*" : account), minConf, includeWatchonly);
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, (String.IsNullOrWhiteSpace(account) ? "*" : account), minConf)
+                : _rpcConnector.MakeRequest<Decimal>(RpcMethods.getbalance, (String.IsNullOrWhiteSpace(account) ? "*" : account), minConf, includeWatchonly);
         }
 
         public String GetBestBlockHash()
@@ -387,9 +389,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
         }
 
-        public GetTransactionResponse GetTransaction(String txId, Boolean includeWatchonly)
+        public GetTransactionResponse GetTransaction(String txId, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId, includeWatchonly);
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId)
+                : _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId, includeWatchonly);
         }
 
         public GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool)
@@ -439,9 +443,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.keypoolrefill, newSize);
         }
 
-        public Dictionary<String, Decimal> ListAccounts(Int32 minConf, Boolean includeWatchonly)
+        public Dictionary<String, Decimal> ListAccounts(Int32 minConf, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<Dictionary<String, Decimal>>(RpcMethods.listaccounts, minConf, includeWatchonly);
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequest<Dictionary<String, Decimal>>(RpcMethods.listaccounts, minConf)
+                : _rpcConnector.MakeRequest<Dictionary<String, Decimal>>(RpcMethods.listaccounts, minConf, includeWatchonly);
         }
 
         public List<List<ListAddressGroupingsResponse>> ListAddressGroupings()
@@ -485,24 +491,32 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<String>(RpcMethods.listlockunspent);
         }
 
-        public List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf, Boolean includeEmpty, Boolean includeWatchonly)
+        public List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf, Boolean includeEmpty, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty, includeWatchonly);
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequest<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty)
+                : _rpcConnector.MakeRequest<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty, includeWatchonly);
         }
 
-        public List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf, Boolean includeEmpty, Boolean includeWatchonly)
+        public List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf, Boolean includeEmpty, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty, includeWatchonly);
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty)
+                : _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty, includeWatchonly);
         }
 
-        public ListSinceBlockResponse ListSinceBlock(String blockHash, Int32 targetConfirmations, Boolean includeWatchonly)
+        public ListSinceBlockResponse ListSinceBlock(String blockHash, Int32 targetConfirmations, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, (String.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations, includeWatchonly);
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, (String.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations)
+                : _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, (String.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations, includeWatchonly);
         }
 
-        public List<ListTransactionsResponse> ListTransactions(String account, Int32 count, Int32 from, Boolean includeWatchonly)
+        public List<ListTransactionsResponse> ListTransactions(String account, Int32 count, Int32 from, Boolean? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (String.IsNullOrWhiteSpace(account) ? "*" : account), count, from, includeWatchonly);
+            return includeWatchonly == null 
+                ? _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (String.IsNullOrWhiteSpace(account) ? "*" : account), count, from)
+                : _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (String.IsNullOrWhiteSpace(account) ? "*" : account), count, from, includeWatchonly);
         }
 
         public List<ListUnspentResponse> ListUnspent(Int32 minConf, Int32 maxConf, List<String> addresses)
