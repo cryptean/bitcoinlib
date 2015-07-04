@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using BitcoinLib.Responses.Bridges;
+using BitcoinLib.Responses.SharedComponents;
 
 namespace BitcoinLib.Responses
 {
@@ -30,6 +31,7 @@ namespace BitcoinLib.Responses
         public String Address { get; set; }
         public Decimal Amount { get; set; }
         public Decimal Fee { get; set; }
+        public List<Vout> Vout { get; set; }
         public String Category { get; set; }
     }
 }
