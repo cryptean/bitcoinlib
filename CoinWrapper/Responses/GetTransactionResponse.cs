@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using BitcoinLib.Responses.Bridges;
+using BitcoinLib.Responses.SharedComponents;
 
 namespace BitcoinLib.Responses
 {
@@ -11,6 +12,7 @@ namespace BitcoinLib.Responses
     public class GetTransactionResponse : ITransactionResponse
     {
         public Decimal Amount { get; set; }
+        public Decimal Fee { get; set; }
         public String BlockHash { get; set; }
         public Int32 BlockIndex { get; set; }
         public Int32 BlockTime { get; set; }
@@ -28,6 +30,8 @@ namespace BitcoinLib.Responses
         public String Account { get; set; }
         public String Address { get; set; }
         public Decimal Amount { get; set; }
+        public Decimal Fee { get; set; }
+        public Int32 Vout { get; set; }
         public String Category { get; set; }
     }
 }
