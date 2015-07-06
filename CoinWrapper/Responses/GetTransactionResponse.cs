@@ -31,7 +31,7 @@ namespace BitcoinLib.Responses
         public String Address { get; set; }
         public Decimal Amount { get; set; }
         public Decimal Fee { get; set; }
-        public List<Vout> Vout { get; set; }
+        public Int32 Vout { get; set; }
         public String Category { get; set; }
     }
 }
