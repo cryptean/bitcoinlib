@@ -99,6 +99,7 @@ namespace BitcoinLib.Services
             return DecodeRawTransaction(rawTransaction);
         }
 
+        [Obsolete("Please use EstimateFee() instead. You can however keep on using this method until the network fully adjusts to the new rules on calculating fees")]
         public Decimal GetTransactionFee(CreateRawTransactionRequest transaction, Boolean checkIfTransactionQualifiesForFreeRelay, Boolean enforceMinimumTransactionFeePolicy)
         {
             if (checkIfTransactionQualifiesForFreeRelay && IsTransactionFree(transaction))

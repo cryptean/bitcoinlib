@@ -14,5 +14,6 @@ namespace BitcoinLib.Responses
         public Double Difficulty { get; set; }
         public Double VerificationProgress { get; set; }
         public String ChainWork { get; set; }
+        public Boolean Pruned { get; set; }
     }
 }

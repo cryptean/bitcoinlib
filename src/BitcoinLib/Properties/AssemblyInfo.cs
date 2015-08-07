@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("BitcoinLib")]
-[assembly: AssemblyDescription("Bitcoin library for C#")]
+[assembly: AssemblyDescription(".Net Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library & RPC Wrapper in C#")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("George Kimionis")]
 [assembly: AssemblyProduct("BitcoinLib")]
@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.3.2.0")]
-[assembly: AssemblyFileVersion("1.3.2.0")]
+[assembly: AssemblyVersion("1.3.3.0")]
+[assembly: AssemblyFileVersion("1.3.3.0")]

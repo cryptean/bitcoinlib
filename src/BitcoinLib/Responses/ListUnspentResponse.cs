@@ -14,6 +14,7 @@ namespace BitcoinLib.Responses
         public String ScriptPubKey { get; set; }
         public Decimal Amount { get; set; }
         public Int32 Confirmations { get; set; }
+        public Boolean Spendable { get; set; }
 
         public override String ToString()
         {

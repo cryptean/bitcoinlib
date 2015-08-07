@@ -49,6 +49,7 @@ namespace BitcoinLib.RPC.Specifications
         getreceivedbyaddress,
         gettransaction,
         gettxout,
+        //gettxoutproof,
         gettxoutsetinfo,
         getunconfirmedbalance,
         getwalletinfo,
@@ -83,6 +84,7 @@ namespace BitcoinLib.RPC.Specifications
         validateaddress,
         verifychain,
         verifymessage,
+        //verifytxoutproof,
         walletlock,
         walletpassphrase,
         walletpassphrasechange

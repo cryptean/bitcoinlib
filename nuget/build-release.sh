@@ -19,10 +19,12 @@ function vsvers()
 }
 
 if [ "$1" != "" ]; then
-    $WINDIR/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe CoinWrapper/CoinWrapper.csproj /property:Configuration=Release
+    $WINDIR/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe ../src/BitcoinLib/BitcoinLib.csproj /property:Configuration=Release
 	$WINDIR/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe /property:AssemblyOriginatorKeyFile=`abspath $1` /property:SignAssembly=true BuildRelease.msbuild /property:Configuration=Release `vsvers`
 else
-    $WINDIR/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe CoinWrapper/CoinWrapper.csproj /property:Configuration=Release
+    $WINDIR/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe ../src/BitcoinLib/BitcoinLib.csproj /property:Configuration=Release
 	$WINDIR/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe BuildRelease.msbuild /property:Configuration=Release `vsvers`
 fi
+
+
 
