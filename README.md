@@ -1,4 +1,4 @@
-﻿BitcoinLib
+﻿BitcoinLib [![Build Status](https://travis-ci.org/GeorgeKimionis/BitcoinLib.svg?branch=master)](https://travis-ci.org/GeorgeKimionis/BitcoinLib)
 ==========
 
 **.Net Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library & RPC Wrapper in C#**
