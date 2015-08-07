@@ -14,7 +14,7 @@
         <language>en-US</language>
 		<tags>bitcoin litecoin crypto cryptocurrency wallet json rpc wrapper blockchain.info payments financial p2p blockchain api payment money merchant checkout cart gateway bank mono dogecoin</tags>
 		<licenseUrl>https://github.com/GeorgeKimionis/BitcoinLib/blob/master/LICENSE</licenseUrl>
-		<iconUrl>https://raw.githubusercontent.com/GeorgeKimionis/BitcoinLib/master/NuGetSpecs/BitcoinLib.jpg</iconUrl>
+		<iconUrl>https://raw.githubusercontent.com/GeorgeKimionis/BitcoinLib/master/nuget/NuGetSpecs/BitcoinLib.jpg</iconUrl>
     </metadata>
     <files>
         <file src="BitcoinLib.dll" target="lib\net45" />

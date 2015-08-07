@@ -100,19 +100,19 @@ Sample configuration:
 Support
 -------
 
-Please use GitHub's `Issues`. Premium support is also available [here](mailto:hello@cryptean.com).
+Please use GitHub's `Issues`. For Premium Support please contact: [hello@cryptean.com](mailto:hello@cryptean.com).
 
 
 License
 -------
 
-BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
+BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0. For Licensing Inquiries please contact: [hello@cryptean.com](mailto:hello@cryptean.com).
 
 
 Donations
 ---------
 
-This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it alive by donating at: [14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3](bitcoin:14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3?label=BitcoinLib)
+This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it up by donating at: [14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3](bitcoin:14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3?label=BitcoinLib)
 
 
 Credits
