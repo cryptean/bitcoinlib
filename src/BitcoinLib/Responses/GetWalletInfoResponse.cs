@@ -10,10 +10,19 @@ namespace BitcoinLib.Responses
     {
         public String WalletVersion { get; set; }
         public Decimal Balance { get; set; }
+        
+        [JsonProperty("unconfirmed_balance")]
+        public Decimal UnconfirmedBalance { get; set; }   
+     
+        [JsonProperty("immature_balance")]
+        public Decimal ImmatureBalance { get; set; }
+        
         public UInt64 TxCount { get; set; }
         public Double KeyPoolOldest { get; set; }
 
         [JsonProperty("unlocked_until")]
         public UInt64 UnlockedUntil { get; set; }
+
+        public UInt64 KeyPoolSize { get; set; }
     }
 }
