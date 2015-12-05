@@ -6,7 +6,7 @@
 Features
 --------
 
-- Fully compatible and up-to-date with Bitcoin 0.11.1 RPC API.
+- Fully compatible and up-to-date with Bitcoin 0.11.2 RPC API.
 - Available on [NuGet](https://www.nuget.org/packages/BitcoinLib/).
 - Design-by-contract, service-oriented architecture.
 - Strongly-typed structures for complex RPC requests and responses.
