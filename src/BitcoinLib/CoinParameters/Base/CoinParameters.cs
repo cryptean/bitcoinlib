@@ -3,49 +3,74 @@
 
 using System;
 using System.Configuration;
+using System.Diagnostics;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
 using BitcoinLib.Services.Coins.Cryptocoin;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
+using BitcoinLib.Services.Coins.Sarcoin;
 
 namespace BitcoinLib.Services
 {
     public partial class CoinService
     {
-        public CoinParameters Parameters { get; private set; }
+        public CoinParameters Parameters { get; }
 
         public class CoinParameters
         {
-            private CoinParameters()
+            #region Constructor
+
+            public CoinParameters(ICoinService coinService,
+                String daemonUrl,
+                String rpcUsername,
+                String rpcPassword,
+                String walletPassword,
+                Int16 rpcRequestTimeoutInSeconds)
             {
-                if (IgnoreConfigValues)
+
+                if (!String.IsNullOrWhiteSpace(daemonUrl))
                 {
-                    return;
+                    DaemonUrl = daemonUrl;
+                    UseTestnet = false; //  this will force the CoinParameters.SelectedDaemonUrl dynamic property to automatically pick the daemonUrl defined above
+                    IgnoreConfigFiles = true;
+                    RpcUsername = rpcUsername;
+                    RpcPassword = rpcPassword;
+                    WalletPassword = walletPassword;
                 }
 
-                try
+                if (rpcRequestTimeoutInSeconds > 0)
                 {
-                    RpcRequestTimeoutInSeconds = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"));
-                    RpcResendTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcResendTimedOutRequests"));
-                    RpcTimedOutRequestsResendAttempts = Int16.Parse(ConfigurationManager.AppSettings.Get("RpcTimedOutRequestsResendAttempts"));
-                    RpcDelayResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcDelayResendingTimedOutRequests"));
-                    RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests = Boolean.Parse(ConfigurationManager.AppSettings.Get("RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests"));
+                    RpcRequestTimeoutInSeconds = rpcRequestTimeoutInSeconds;
                 }
-                catch (Exception)
+                else
+                {
+                    Int16 rpcRequestTimeoutTryParse = 0;
+
+                    if (Int16.TryParse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"), out rpcRequestTimeoutTryParse))
+                    {
+                        RpcRequestTimeoutInSeconds = rpcRequestTimeoutTryParse;
+                    }
+                }
+
+                if (IgnoreConfigFiles && (String.IsNullOrWhiteSpace(DaemonUrl) || String.IsNullOrWhiteSpace(RpcUsername) || String.IsNullOrWhiteSpace(RpcPassword)))
                 {
                     throw new Exception(String.Format("One or more required parameters, as defined in {0}, were not found in the configuration file!", GetType().Name));
                 }
-            }
 
-            public CoinParameters(ICoinService coinService) : this()
-            {
+                if (IgnoreConfigFiles && Debugger.IsAttached && String.IsNullOrWhiteSpace(WalletPassword))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("[WARNING] The wallet password is either null or empty");
+                    Console.ResetColor();
+                }
+
                 #region Bitcoin
 
                 if (coinService is BitcoinService)
                 {
-                    if (!IgnoreConfigValues)
+                    if (!IgnoreConfigFiles)
                     {
                         DaemonUrl = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl");
                         DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl_Testnet");
@@ -84,7 +109,7 @@ namespace BitcoinLib.Services
 
                 else if (coinService is LitecoinService)
                 {
-                    if (!IgnoreConfigValues)
+                    if (!IgnoreConfigFiles)
                     {
                         DaemonUrl = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl");
                         DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl_Testnet");
@@ -124,7 +149,7 @@ namespace BitcoinLib.Services
 
                 else if (coinService is DogecoinService)
                 {
-                    if (!IgnoreConfigValues)
+                    if (!IgnoreConfigFiles)
                     {
                         DaemonUrl = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl");
                         DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl_Testnet");
@@ -156,6 +181,45 @@ namespace BitcoinLib.Services
 
                 #endregion
 
+                #region Sarcoin
+
+                else if (coinService is SarcoinService)
+                {
+                    if (!IgnoreConfigFiles)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Sarcoin_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Sarcoin_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Sarcoin_WalletPassword");
+                    }
+
+                    CoinShortName = "SAR";
+                    CoinLongName = "Sarcoin";
+                    IsoCurrencyCode = "SAR";
+
+                    TransactionSizeBytesContributedByEachInput = 148;
+                    TransactionSizeBytesContributedByEachOutput = 34;
+                    TransactionSizeFixedExtraSizeInBytes = 10;
+
+                    FreeTransactionMaximumSizeInBytes = 0;
+                    FreeTransactionMinimumOutputAmountInCoins = 0;
+                    FreeTransactionMinimumPriority = 0;
+                    FeePerThousandBytesInCoins = 0.00001M;
+                    MinimumTransactionFeeInCoins = 0.00001M;
+                    MinimumNonDustTransactionAmountInCoins = 0.00001M;
+
+                    TotalCoinSupplyInCoins = 2000000000;
+                    EstimatedBlockGenerationTimeInMinutes = 1.5;
+                    BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
+
+                    BaseUnitName = "Satoshi";
+                    BaseUnitsPerCoin = 100000000;
+                    CoinsPerBaseUnit = 0.00000001M;
+                }
+
+                #endregion
+
                 #region Agnostic coin (cryptocoin)
 
                 else if (coinService is CryptocoinService)
@@ -166,7 +230,7 @@ namespace BitcoinLib.Services
 
                     //  Note: The rest of the parameters will have to be defined at run-time
                 }
-                
+
                 #endregion
 
                 #region Uknown coin exception
@@ -177,7 +241,25 @@ namespace BitcoinLib.Services
                 }
 
                 #endregion
+
+                #region Invalid configuration / Missing parameters
+
+                if (RpcRequestTimeoutInSeconds <= 0)
+                {
+                    throw new Exception("RpcRequestTimeoutInSeconds must be greater than zero");
+                }
+
+                if (   String.IsNullOrWhiteSpace(DaemonUrl)
+                    || String.IsNullOrWhiteSpace(RpcUsername)
+                    || String.IsNullOrWhiteSpace(RpcPassword))
+                {
+                    throw new Exception(String.Format("One or more required parameters, as defined in {0}, were not found in the configuration file!", GetType().Name));
+                }
+
+                #endregion
             }
+
+            #endregion
 
             public String BaseUnitName { get; set; }
             public UInt32 BaseUnitsPerCoin { get; set; }
@@ -189,56 +271,21 @@ namespace BitcoinLib.Services
             public String DaemonUrl { private get; set; }
             public String DaemonUrlTestnet { private get; set; }
             public Double EstimatedBlockGenerationTimeInMinutes { get; set; }
-
-            public Int32 ExpectedNumberOfBlocksGeneratedPerDay
-            {
-                get
-                {
-                    return (Int32) EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
-                }
-            }
-
+            public Int32 ExpectedNumberOfBlocksGeneratedPerDay => (Int32)EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
             public Decimal FeePerThousandBytesInCoins { get; set; }
             public Int16 FreeTransactionMaximumSizeInBytes { get; set; }
             public Decimal FreeTransactionMinimumOutputAmountInCoins { get; set; }
             public Int32 FreeTransactionMinimumPriority { get; set; }
-            public Boolean IgnoreConfigValues { get; set; }  //  this must only be set true when using a .config file is not possible; all ConfigurationManager.AppSettings.Get("*") values listed above must be defined at run-time
+            public Boolean IgnoreConfigFiles { get; }
             public String IsoCurrencyCode { get; set; }
             public Decimal MinimumNonDustTransactionAmountInCoins { get; set; }
             public Decimal MinimumTransactionFeeInCoins { get; set; }
-
-            public Decimal OneBaseUnitInCoins
-            {
-                get
-                {
-                    return CoinsPerBaseUnit;
-                }
-            }
-
-            public UInt32 OneCoinInBaseUnits
-            {
-                get
-                {
-                    return BaseUnitsPerCoin;
-                }
-            }
-
-            public Boolean RpcDelayResendingTimedOutRequests { get; set; }
+            public Decimal OneBaseUnitInCoins => CoinsPerBaseUnit;
+            public UInt32 OneCoinInBaseUnits => BaseUnitsPerCoin;
             public String RpcPassword { get; set; }
             public Int16 RpcRequestTimeoutInSeconds { get; set; }
-            public Boolean RpcResendTimedOutRequests { get; set; }
-            public Int16 RpcTimedOutRequestsResendAttempts { get; set; }
-            public Boolean RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests { get; set; }
             public String RpcUsername { get; set; }
-
-            public String SelectedDaemonUrl
-            {
-                get
-                {
-                    return !UseTestnet ? DaemonUrl : DaemonUrlTestnet;
-                }
-            }
-
+            public String SelectedDaemonUrl => !UseTestnet ? DaemonUrl : DaemonUrlTestnet;
             public UInt64 TotalCoinSupplyInCoins { get; set; }
             public Int32 TransactionSizeBytesContributedByEachInput { get; set; }
             public Int32 TransactionSizeBytesContributedByEachOutput { get; set; }

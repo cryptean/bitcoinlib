@@ -164,8 +164,8 @@ namespace BitcoinLib.Services
             List<Vin> transactionInputs = decodedRawTransaction.Vin;
             String rawTransactionHex = GetRawTransaction(transactionInputs[0].TxId, 0).Hex;
             DecodeRawTransactionResponse inputDecodedRawTransaction = DecodeRawTransaction(rawTransactionHex);
-            List<Vout> Vouts = inputDecodedRawTransaction.Vout;
-            return Vouts[0].ScriptPubKey.Addresses[0];
+            List<Vout> vouts = inputDecodedRawTransaction.Vout;
+            return vouts[0].ScriptPubKey.Addresses[0];
         }
 
         public Int32 GetTransactionSizeInBytes(CreateRawTransactionRequest transaction)

@@ -12,16 +12,16 @@ namespace BitcoinLib.Services.Coins.Litecoin
         {
         }
 
-        public LitecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        public LitecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) 
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
         {
         }
 
-        public LitecoinConstants.Constants Constants
+        public LitecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword, Int16 rpcRequestTimeoutInSeconds)
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds)
         {
-            get
-            {
-                return LitecoinConstants.Constants.Instance;
-            }
         }
+
+        public LitecoinConstants.Constants Constants => LitecoinConstants.Constants.Instance;
     }
 }

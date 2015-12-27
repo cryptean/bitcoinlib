@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="Auxiliary\GlobalConstants.cs" />
     <Compile Include="Auxiliary\Hashing.cs" />
-    <Compile Include="Auxiliary\Troubleshooting.cs" />
     <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
     <Compile Include="CoinParameters\Dogecoin\IDogecoinConstants.cs" />
     <Compile Include="ExceptionHandling\RawTransactions\RawTransactionExcessiveFeeException.cs" />
@@ -120,6 +119,8 @@
     <Compile Include="Services\Coins\Dogecoin\IDogecoinService.cs" />
     <Compile Include="Services\Coins\Litecoin\ILitecoinService.cs" />
     <Compile Include="Services\Coins\Litecoin\LitecoinService.cs" />
+    <Compile Include="Services\Coins\Sarcoin\SarcoinService.cs" />
+    <Compile Include="Services\Coins\Sarcoin\ISarcoinService.cs" />
     <Compile Include="Services\RpcServices\RpcService\RpcService.cs" />
     <Compile Include="Services\RpcServices\RpcExtenderService\RpcExtenderService.cs" />
     <Compile Include="Services\RpcServices\RpcService\IRpcService.cs" />

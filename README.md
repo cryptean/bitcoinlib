@@ -1,23 +1,22 @@
 ﻿BitcoinLib [![Build Status](https://travis-ci.org/GeorgeKimionis/BitcoinLib.svg?branch=master)](https://travis-ci.org/GeorgeKimionis/BitcoinLib)
 ==========
 
-**.Net Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library & RPC Wrapper in C#**
+**.Net Bitcoin & Altcoins Library & RPC Wrapper in C#**
 
 Features
 --------
 
-- Fully compatible and up-to-date with Bitcoin 0.11.2 RPC API.
+- Fully compatible and up-to-date with [Bitcoin Core 0.11.2](https://bitcoin.org/en/download) RPC API.
 - Available on [NuGet](https://www.nuget.org/packages/BitcoinLib/).
 - Design-by-contract, service-oriented architecture.
 - Strongly-typed structures for complex RPC requests and responses.
 - Implicit JSON casting for all RPC messages.
 - Extended methods for every-day scenarios where the built-in methods fall short.
 - Exposure of all [RPC API's functionality](https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list) as well as the extended methods through a single interface.
-- Fallback mechanism for timed-out RPC requests.
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- [Bitcoin](http://en.wikipedia.org/wiki/Bitcoin), [Litecoin](http://en.wikipedia.org/wiki/Litecoin) and [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin) integrations included.
+- [Bitcoin](http://en.wikipedia.org/wiki/Bitcoin), [Litecoin](http://en.wikipedia.org/wiki/Litecoin), [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin)and [Sarcoin](https://github.com/sarcoin/SARCoin) integrations included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Demo client included.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
@@ -76,11 +75,6 @@ Sample configuration:
 
 				<!-- Shared RPC settings start -->
 				<add key="RpcRequestTimeoutInSeconds" value="10" />
-				<add key="RpcResendTimedOutRequests" value="false" />
-				<add key="RpcTimedOutRequestsResendAttempts" value="5" />
-				<add key="RpcDelayResendingTimedOutRequests" value="true" />
-				<add key="RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests" value="true" />
-				<add key="RpcUnlockWalletImplicitlyWhenRequired" value="true" />
 				<!-- Shared RPC settings end -->
 
 				<!-- Bitcoin settings start -->
@@ -106,7 +100,7 @@ BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICEN
 Donations
 ---------
 
-This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it up by donating at: [14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3](bitcoin:14cSZjrLSWU1QX7DsKr2ogAfULq9pbgQG3?label=BitcoinLib)
+This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it up by donating at: [15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA](bitcoin:15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA?label=BitcoinLib)
 
 
 Support

@@ -12,16 +12,16 @@ namespace BitcoinLib.Services.Coins.Dogecoin
         {
         }
 
-        public DogecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        public DogecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword) 
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
         {
         }
 
-        public DogecoinConstants.Constants Constants
+        public DogecoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword, Int16 rpcRequestTimeoutInSeconds)
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds)
         {
-            get
-            {
-                return DogecoinConstants.Constants.Instance;
-            }
         }
+
+        public DogecoinConstants.Constants Constants => DogecoinConstants.Constants.Instance;
     }
 }

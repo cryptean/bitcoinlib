@@ -12,16 +12,16 @@ namespace BitcoinLib.Services.Coins.Bitcoin
         {
         }
 
-        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null) : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword) 
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
         {
         }
 
-        public BitcoinConstants.Constants Constants
+        public BitcoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword, Int16 rpcRequestTimeoutInSeconds)
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds)
         {
-            get
-            {
-                return BitcoinConstants.Constants.Instance;
-            }
         }
+
+        public BitcoinConstants.Constants Constants => BitcoinConstants.Constants.Instance;
     }
 }

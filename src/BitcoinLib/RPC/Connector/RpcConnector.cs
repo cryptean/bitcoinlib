@@ -131,26 +131,6 @@ namespace BitcoinLib.RPC.Connector
 
                 if (webException.Message == "The operation has timed out")
                 {
-                    if (_coinService.Parameters.RpcResendTimedOutRequests && ++timedOutRequestsCount <= _coinService.Parameters.RpcTimedOutRequestsResendAttempts)
-                    {
-                        //  Note: effective delay = delayInSeconds + _rpcRequestTimeoutInSeconds
-                        if (_coinService.Parameters.RpcDelayResendingTimedOutRequests)
-                        {
-                            Double delayInSeconds = _coinService.Parameters.RpcUseBase2ExponentialDelaysWhenResendingTimedOutRequests ? Math.Pow(2, timedOutRequestsCount) : timedOutRequestsCount;
-
-                            if (Debugger.IsAttached)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("RPC request timeout: {0}, will resend {1} of {2} total attempts after {3} seconds (request timeout: {4} seconds)", jsonRpcRequest.Method, timedOutRequestsCount, _coinService.Parameters.RpcTimedOutRequestsResendAttempts, delayInSeconds, _coinService.Parameters.RpcRequestTimeoutInSeconds);
-                                Console.ResetColor();
-                            }
-
-                            Thread.Sleep((Int32)delayInSeconds * GlobalConstants.MillisecondsInASecond);
-                        }
-
-                        return MakeRequest<T>(rpcMethod, timedOutRequestsCount, parameters);
-                    }
-
                     throw new RpcRequestTimeoutException(webException.Message);
                 }
 

@@ -23,27 +23,25 @@ namespace BitcoinLib.Services
         public CoinService()
         {
             _rpcConnector = new RpcConnector(this);
-            Parameters = new CoinParameters(this);
+            Parameters = new CoinParameters(this, null, null, null, null, 0);
         }
 
-        public CoinService(Boolean useTestnet)
-            : this()
+        public CoinService(Boolean useTestnet) : this()
         {
             Parameters.UseTestnet = useTestnet;
         }
 
-        public CoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword = null)
-            : this()
+        public CoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword)
         {
-            Parameters.DaemonUrl = daemonUrl;
-            Parameters.UseTestnet = false; //  this will force the CoinParameters.SelectedDaemonUrl dynamic property to automatically pick the daemonUrl defined above
-            Parameters.RpcUsername = rpcUsername;
-            Parameters.RpcPassword = rpcPassword;
+            _rpcConnector = new RpcConnector(this);
+            Parameters = new CoinParameters(this, daemonUrl, rpcUsername, rpcPassword, walletPassword, 0);
+        }
 
-            if (!String.IsNullOrWhiteSpace(walletPassword))
-            {
-                Parameters.WalletPassword = walletPassword;
-            }
+        //  this provides support for cases where *.config files are not an option
+        public CoinService(String daemonUrl, String rpcUsername, String rpcPassword, String walletPassword, Int16 rpcRequestTimeoutInSeconds)
+        {
+            _rpcConnector = new RpcConnector(this);
+            Parameters = new CoinParameters(this, daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds);
         }
 
         public String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account)

@@ -8,13 +8,6 @@ namespace BitcoinLib.CoinParameters.Base
     public abstract class CoinConstants<T> where T : CoinConstants<T>, new()
     {
         private static readonly Lazy<T> Lazy = new Lazy<T>(() => new T());
-
-        public static T Instance
-        {
-            get
-            {
-                return Lazy.Value;
-            }
-        }
+        public static T Instance => Lazy.Value;
     }
 }
