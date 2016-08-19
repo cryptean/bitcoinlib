@@ -51,14 +51,14 @@ namespace BitcoinLib.Services
                        : _rpcConnector.MakeRequest<String>(RpcMethods.addmultisigaddress, nRquired, publicKeys);
         }
 
-        public String AddNode(String node, NodeAction action)
+        public void AddNode(String node, NodeAction action)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.addnode, node, action.ToString());
+            _rpcConnector.MakeRequest<String>(RpcMethods.addnode, node, action.ToString());
         }
 
-        public String BackupWallet(String destination)
+        public void BackupWallet(String destination)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.backupwallet, destination);
+            _rpcConnector.MakeRequest<String>(RpcMethods.backupwallet, destination);
         }
 
         public CreateMultiSigResponse CreateMultiSig(Int32 nRquired, List<String> publicKeys)
@@ -182,9 +182,9 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<Double>(RpcMethods.getdifficulty);
         }
 
-        public String GetGenerate()
+        public Boolean GetGenerate()
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getgenerate);
+            return _rpcConnector.MakeRequest<Boolean>(RpcMethods.getgenerate);
         }
 
         public Int32 GetHashesPerSec()
@@ -377,14 +377,14 @@ namespace BitcoinLib.Services
             throw new Exception("Invalid verbose value: " + verbose + " in GetRawTransaction()!");
         }
 
-        public String GetReceivedByAccount(String account, Int32 minConf)
+        public Decimal GetReceivedByAccount(String account, Int32 minConf)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getreceivedbyaccount, account, minConf);
+            return _rpcConnector.MakeRequest<Decimal>(RpcMethods.getreceivedbyaccount, account, minConf);
         }
 
-        public String GetReceivedByAddress(String bitcoinAddress, Int32 minConf)
+        public Decimal GetReceivedByAddress(String bitcoinAddress, Int32 minConf)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
+            return _rpcConnector.MakeRequest<Decimal>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
         }
 
         public GetTransactionResponse GetTransaction(String txId, Boolean? includeWatchonly)
@@ -637,9 +637,9 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<Boolean>(RpcMethods.verifychain, checkLevel, numBlocks);
         }
 
-        public String VerifyMessage(String bitcoinAddress, String signature, String message)
+        public Boolean VerifyMessage(String bitcoinAddress, String signature, String message)
         {
-            return _rpcConnector.MakeRequest<String>(RpcMethods.verifymessage, bitcoinAddress, signature, message);
+            return _rpcConnector.MakeRequest<Boolean>(RpcMethods.verifymessage, bitcoinAddress, signature, message);
         }
 
         public String WalletLock()

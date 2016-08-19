@@ -13,8 +13,8 @@ namespace BitcoinLib.Services.RpcServices.RpcService
     public interface IRpcService
     {
         String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account = null);
-        String AddNode(String node, NodeAction action);
-        String BackupWallet(String destination);
+        void AddNode(String node, NodeAction action);
+        void BackupWallet(String destination);
         CreateMultiSigResponse CreateMultiSig(Int32 nRquired, List<String> publicKeys);
         String CreateRawTransaction(CreateRawTransactionRequest rawTransaction);
         DecodeRawTransactionResponse DecodeRawTransaction(String rawTransactionHexString);
@@ -38,7 +38,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         List<GetChainTipsResponse> GetChainTips();
         Int32 GetConnectionCount();
         Double GetDifficulty();
-        String GetGenerate();
+        Boolean GetGenerate();
         Int32 GetHashesPerSec();
         GetInfoResponse GetInfo();
         GetMemPoolInfoResponse GetMemPoolInfo();
@@ -51,8 +51,8 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String GetRawChangeAddress();
         GetRawMemPoolResponse GetRawMemPool(Boolean verbose = false);
         GetRawTransactionResponse GetRawTransaction(String txId, Int32 verbose = 0);
-        String GetReceivedByAccount(String account, Int32 minConf = 1);
-        String GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);
+        Decimal GetReceivedByAccount(String account, Int32 minConf = 1);
+        Decimal GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);
         GetTransactionResponse GetTransaction(String txId, Boolean? includeWatchonly = null);
         GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool = true);
         GetTxOutSetInfoResponse GetTxOutSetInfo();
@@ -88,7 +88,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         String SubmitBlock(String hexData, params Object[] parameters);
         ValidateAddressResponse ValidateAddress(String bitcoinAddress);
         Boolean VerifyChain(UInt16 checkLevel = 3, UInt32 numBlocks = 288); //  Note: numBlocks: 0 => ALL
-        String VerifyMessage(String bitcoinAddress, String signature, String message);
+        Boolean VerifyMessage(String bitcoinAddress, String signature, String message);
         String WalletLock();
         String WalletPassphrase(String passphrase, Int32 timeoutInSeconds);
         String WalletPassphraseChange(String oldPassphrase, String newPassphrase);
