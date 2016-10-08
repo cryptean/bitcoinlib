@@ -2,12 +2,10 @@
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.RPC.RequestResponse;
@@ -28,25 +26,20 @@ namespace BitcoinLib.RPC.Connector
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
-            return MakeRequest<T>(rpcMethod, 0, parameters);
-        }
-
-        private T MakeRequest<T>(RpcMethods rpcMethod, Int16 timedOutRequestsCount, params object[] parameters)
-        {
-            JsonRpcRequest jsonRpcRequest = new JsonRpcRequest(1, rpcMethod.ToString(), parameters);
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
+            var jsonRpcRequest = new JsonRpcRequest(1, rpcMethod.ToString(), parameters);
+            var webRequest = (HttpWebRequest) WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
             SetBasicAuthHeader(webRequest, _coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.Credentials = new NetworkCredential(_coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
             webRequest.ContentType = "application/json-rpc";
             webRequest.Method = "POST";
             webRequest.Proxy = null;
-            webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds * GlobalConstants.MillisecondsInASecond;
-            Byte[] byteArray = jsonRpcRequest.GetBytes();
+            webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds*GlobalConstants.MillisecondsInASecond;
+            var byteArray = jsonRpcRequest.GetBytes();
             webRequest.ContentLength = jsonRpcRequest.GetBytes().Length;
 
             try
             {
-                using (Stream dataStream = webRequest.GetRequestStream())
+                using (var dataStream = webRequest.GetRequestStream())
                 {
                     dataStream.Write(byteArray, 0, byteArray.Length);
                     dataStream.Dispose();
@@ -59,66 +52,66 @@ namespace BitcoinLib.RPC.Connector
 
             try
             {
-                String json;
+                string json;
 
-                using (WebResponse webResponse = webRequest.GetResponse())
+                using (var webResponse = webRequest.GetResponse())
                 {
-                    using (Stream stream = webResponse.GetResponseStream())
+                    using (var stream = webResponse.GetResponseStream())
                     {
-                        using (StreamReader reader = new StreamReader(stream))
+                        using (var reader = new StreamReader(stream))
                         {
-                            String result = reader.ReadToEnd();
+                            var result = reader.ReadToEnd();
                             reader.Dispose();
                             json = result;
                         }
                     }
                 }
 
-                JsonRpcResponse<T> rpcResponse = JsonConvert.DeserializeObject<JsonRpcResponse<T>>(json);
+                var rpcResponse = JsonConvert.DeserializeObject<JsonRpcResponse<T>>(json);
                 return rpcResponse.Result;
             }
             catch (WebException webException)
             {
                 #region RPC Internal Server Error (with an Error Code)
 
-                HttpWebResponse webResponse = webException.Response as HttpWebResponse;
+                var webResponse = webException.Response as HttpWebResponse;
 
                 if (webResponse != null)
                 {
                     switch (webResponse.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
+                        {
+                            using (var stream = webResponse.GetResponseStream())
                             {
-                                using (Stream stream = webResponse.GetResponseStream())
+                                if (stream == null)
                                 {
-                                    if (stream == null)
+                                    throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
+                                }
+
+                                using (var reader = new StreamReader(stream))
+                                {
+                                    var result = reader.ReadToEnd();
+                                    reader.Dispose();
+
+                                    try
                                     {
-                                        throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
+                                        var jsonRpcResponseObject = JsonConvert.DeserializeObject<JsonRpcResponse<object>>(result);
+
+                                        var internalServerErrorException = new RpcInternalServerErrorException(jsonRpcResponseObject.Error.Message, webException)
+                                        {
+                                            RpcErrorCode = jsonRpcResponseObject.Error.Code
+                                        };
+
+                                        throw internalServerErrorException;
                                     }
-
-                                    using (StreamReader reader = new StreamReader(stream))
+                                    catch (JsonException)
                                     {
-                                        String result = reader.ReadToEnd();
-                                        reader.Dispose();
-
-                                        try
-                                        {
-                                            JsonRpcResponse<Object> jsonRpcResponseObject = JsonConvert.DeserializeObject<JsonRpcResponse<Object>>(result);
-
-                                            RpcInternalServerErrorException internalServerErrorException = new RpcInternalServerErrorException(jsonRpcResponseObject.Error.Message, webException)
-                                            {
-                                                RpcErrorCode = jsonRpcResponseObject.Error.Code
-                                            };
-
-                                            throw internalServerErrorException;
-                                        }
-                                        catch (JsonException)
-                                        {
-                                            throw new RpcException(result, webException);
-                                        }
+                                        throw new RpcException(result, webException);
                                     }
                                 }
                             }
+                        }
 
                         default:
                             throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
@@ -148,14 +141,14 @@ namespace BitcoinLib.RPC.Connector
             }
             catch (Exception exception)
             {
-                String queryParameters = jsonRpcRequest.Parameters.Cast<String>().Aggregate(String.Empty, (current, parameter) => current + (parameter + " "));
-                throw new Exception(String.Format("A problem was encountered while calling MakeRpcRequest() for: {0} with parameters: {1}. \nException: {2}", jsonRpcRequest.Method, queryParameters, exception.Message));
+                var queryParameters = jsonRpcRequest.Parameters.Cast<string>().Aggregate(string.Empty, (current, parameter) => current + (parameter + " "));
+                throw new Exception($"A problem was encountered while calling MakeRpcRequest() for: {jsonRpcRequest.Method} with parameters: {queryParameters}. \nException: {exception.Message}");
             }
         }
 
-        private static void SetBasicAuthHeader(WebRequest webRequest, String username, String password)
+        private static void SetBasicAuthHeader(WebRequest webRequest, string username, string password)
         {
-            String authInfo = username + ":" + password;
+            var authInfo = username + ":" + password;
             authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
             webRequest.Headers["Authorization"] = "Basic " + authInfo;
         }

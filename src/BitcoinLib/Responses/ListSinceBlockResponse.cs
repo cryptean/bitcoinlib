@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
 using System.Collections.Generic;
 
 namespace BitcoinLib.Responses
@@ -9,28 +8,28 @@ namespace BitcoinLib.Responses
     public class ListSinceBlockResponse
     {
         public List<TransactionSinceBlock> Transactions { get; set; }
-        public String Lastblock { get; set; }
+        public string Lastblock { get; set; }
     }
 
     public class TransactionSinceBlock
     {
-        public String Account { get; set; }
-        public String Address { get; set; }
-        public String Category { get; set; }
-        public Decimal Amount { get; set; }
-        public Int32 Vout { get; set; }
-        public Decimal Fee { get; set; }
-        public Int32 Confirmations { get; set; }
-        public String BlockHash { get; set; }
-        public Int64 BlockIndex { get; set; }
-        public Int32 BlockTime { get; set; }
-        public String TxId { get; set; }
-        public List<String> WalletConflicts { get; set; }
-        public Int32 Time { get; set; }
-        public Int32 TimeReceived { get; set; }
-        public String Comment { get; set; }
-        public String To { get; set; }
-        public Boolean InvolvesWatchonly { get; set; }
+        public string Account { get; set; }
+        public string Address { get; set; }
+        public string Category { get; set; }
+        public decimal Amount { get; set; }
+        public int Vout { get; set; }
+        public decimal Fee { get; set; }
+        public int Confirmations { get; set; }
+        public string BlockHash { get; set; }
+        public long BlockIndex { get; set; }
+        public int BlockTime { get; set; }
+        public string TxId { get; set; }
+        public List<string> WalletConflicts { get; set; }
+        public int Time { get; set; }
+        public int TimeReceived { get; set; }
+        public string Comment { get; set; }
+        public string To { get; set; }
+        public bool InvolvesWatchonly { get; set; }
     }
 
     //  Note: Do not alter the capitalization of the enum members

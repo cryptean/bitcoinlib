@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
 using System.Collections.Generic;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
@@ -12,85 +11,135 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 {
     public interface IRpcService
     {
-        String AddMultiSigAddress(Int32 nRquired, List<String> publicKeys, String account = null);
-        String AddNode(String node, NodeAction action);
-        String BackupWallet(String destination);
-        CreateMultiSigResponse CreateMultiSig(Int32 nRquired, List<String> publicKeys);
-        String CreateRawTransaction(CreateRawTransactionRequest rawTransaction);
-        DecodeRawTransactionResponse DecodeRawTransaction(String rawTransactionHexString);
-        DecodeScriptResponse DecodeScript(String hexString);
-        String DumpPrivKey(String bitcoinAddress);
-        void DumpWallet(String filename);
-        String EncryptWallet(String passphrame);
-        Decimal EstimateFee(UInt16 nBlocks);
-        Decimal EstimatePriority(UInt16 nBlocks);
-        String GetAccount(String bitcoinAddress);
-        String GetAccountAddress(String account);
-        GetAddedNodeInfoResponse GetAddedNodeInfo(String dns, String node = null);
-        List<String> GetAddressesByAccount(String account);
-        Decimal GetBalance(String account = null, Int32 minConf = 1, Boolean? includeWatchonly = null);
-        String GetBestBlockHash();
-        GetBlockResponse GetBlock(String hash, Boolean verbose = true);
+        #region Blockchain
+
+        string GetBestBlockHash();
+        GetBlockResponse GetBlock(string hash, bool verbose = true);
         GetBlockchainInfoResponse GetBlockchainInfo();
-        UInt32 GetBlockCount();
-        String GetBlockHash(Int64 index);
-        GetBlockTemplateResponse GetBlockTemplate(params object[] parameters);
+        uint GetBlockCount();
+        string GetBlockHash(long index);
+        //  getblockheader
+        //  getchaintips
+        double GetDifficulty();
         List<GetChainTipsResponse> GetChainTips();
-        Int32 GetConnectionCount();
-        Double GetDifficulty();
-        String GetGenerate();
-        Int32 GetHashesPerSec();
-        GetInfoResponse GetInfo();
         GetMemPoolInfoResponse GetMemPoolInfo();
-        GetMiningInfoResponse GetMiningInfo();
-        GetNetTotalsResponse GetNetTotals();
-        UInt64 GetNetworkHashPs(UInt32 blocks = 120, Int64 height = -1);
-        GetNetworkInfoResponse GetNetworkInfo();
-        String GetNewAddress(String account = "");
-        List<GetPeerInfoResponse> GetPeerInfo();
-        String GetRawChangeAddress();
-        GetRawMemPoolResponse GetRawMemPool(Boolean verbose = false);
-        GetRawTransactionResponse GetRawTransaction(String txId, Int32 verbose = 0);
-        String GetReceivedByAccount(String account, Int32 minConf = 1);
-        String GetReceivedByAddress(String bitcoinAddress, Int32 minConf = 1);
-        GetTransactionResponse GetTransaction(String txId, Boolean? includeWatchonly = null);
-        GetTransactionResponse GetTxOut(String txId, Int32 n, Boolean includeMemPool = true);
+        GetRawMemPoolResponse GetRawMemPool(bool verbose = false);
+        GetTransactionResponse GetTxOut(string txId, int n, bool includeMemPool = true);
+        //  gettxoutproof["txid",...] ( blockhash )
         GetTxOutSetInfoResponse GetTxOutSetInfo();
-        Decimal GetUnconfirmedBalance();
-        GetWalletInfoResponse GetWalletInfo();
-        String Help(String command = null);
-        void ImportAddress(String address, String label = null, Boolean rescan = true);
-        String ImportPrivKey(String privateKey, String label = null, Boolean rescan = true);
-        void ImportWallet(String filename);
-        String KeyPoolRefill(UInt32 newSize = 100);
-        Dictionary<String, Decimal> ListAccounts(Int32 minConf = 1, Boolean? includeWatchonly = null);
-        List<List<ListAddressGroupingsResponse>> ListAddressGroupings();
-        String ListLockUnspent();
-        List<ListReceivedByAccountResponse> ListReceivedByAccount(Int32 minConf = 1, Boolean includeEmpty = false, Boolean? includeWatchonly = null);
-        List<ListReceivedByAddressResponse> ListReceivedByAddress(Int32 minConf = 1, Boolean includeEmpty = false, Boolean? includeWatchonly = null);
-        ListSinceBlockResponse ListSinceBlock(String blockHash = null, Int32 targetConfirmations = 1, Boolean? includeWatchonly = null);
-        List<ListTransactionsResponse> ListTransactions(String account = null, Int32 count = 10, Int32 from = 0, Boolean? includeWatchonly = null);
-        List<ListUnspentResponse> ListUnspent(Int32 minConf = 1, Int32 maxConf = 9999999, List<String> addresses = null);
-        Boolean LockUnspent(Boolean unlock, IList<ListUnspentResponse> listUnspentResponses);
-        Boolean Move(String fromAccount, String toAccount, Decimal amount, Int32 minConf = 1, String comment = "");
+        bool VerifyChain(ushort checkLevel = 3, uint numBlocks = 288); //  Note: numBlocks: 0 => ALL
+
+        #endregion
+
+        #region Control
+
+        GetInfoResponse GetInfo();
+        string Help(string command = null);
+        string Stop();
+
+        #endregion
+
+        #region Generating
+
+        //  generate numblocks
+        string GetGenerate();
+        string SetGenerate(bool generate, short generatingProcessorsLimit);
+
+        #endregion
+
+        #region Mining
+
+        GetBlockTemplateResponse GetBlockTemplate(params object[] parameters);
+        GetMiningInfoResponse GetMiningInfo();
+        ulong GetNetworkHashPs(uint blocks = 120, long height = -1);
+        bool PrioritiseTransaction(string txId, decimal priorityDelta, decimal feeDelta);
+        string SubmitBlock(string hexData, params object[] parameters);
+
+        #endregion
+
+        #region Network
+
+        string AddNode(string node, NodeAction action);
+        //  clearbanned
+        //  disconnectnode
+        GetAddedNodeInfoResponse GetAddedNodeInfo(string dns, string node = null);
+        int GetConnectionCount();
+        GetNetTotalsResponse GetNetTotals();
+        GetNetworkInfoResponse GetNetworkInfo();
+        List<GetPeerInfoResponse> GetPeerInfo();
+        //  listbanned
         void Ping();
-        Boolean PrioritiseTransaction(String txId, Decimal priorityDelta, Decimal feeDelta);
-        String SendFrom(String fromAccount, String toBitcoinAddress, Decimal amount, Int32 minConf = 1, String comment = null, String commentTo = null);
-        String SendMany(String fromAccount, Dictionary<String, Decimal> toBitcoinAddress, Int32 minConf = 1, String comment = null);
-        String SendRawTransaction(String rawTransactionHexString, Boolean? allowHighFees = false);
-        String SendToAddress(String bitcoinAddress, Decimal amount, String comment = null, String commentTo = null);
-        String SetAccount(String bitcoinAddress, String account);
-        String SetGenerate(Boolean generate, Int16 generatingProcessorsLimit);
-        String SetTxFee(Decimal amount);
-        String SignMessage(String bitcoinAddress, String message);
+        //  setban
+
+        #endregion
+
+        #region Rawtransactions
+
+        string CreateRawTransaction(CreateRawTransactionRequest rawTransaction);
+        DecodeRawTransactionResponse DecodeRawTransaction(string rawTransactionHexString);
+        DecodeScriptResponse DecodeScript(string hexString);
+        //  fundrawtransaction
+        GetRawTransactionResponse GetRawTransaction(string txId, int verbose = 0);
+        string SendRawTransaction(string rawTransactionHexString, bool? allowHighFees = false);
         SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest signRawTransactionRequest);
-        String Stop();
-        String SubmitBlock(String hexData, params Object[] parameters);
-        ValidateAddressResponse ValidateAddress(String bitcoinAddress);
-        Boolean VerifyChain(UInt16 checkLevel = 3, UInt32 numBlocks = 288); //  Note: numBlocks: 0 => ALL
-        String VerifyMessage(String bitcoinAddress, String signature, String message);
-        String WalletLock();
-        String WalletPassphrase(String passphrase, Int32 timeoutInSeconds);
-        String WalletPassphraseChange(String oldPassphrase, String newPassphrase);
+
+        #endregion
+
+        #region Util
+
+        CreateMultiSigResponse CreateMultiSig(int nRquired, List<string> publicKeys);
+        decimal EstimateFee(ushort nBlocks);
+        decimal EstimatePriority(ushort nBlocks);
+        //  estimatesmartfee
+        //  estimatesmartpriority
+        ValidateAddressResponse ValidateAddress(string bitcoinAddress);
+        string VerifyMessage(string bitcoinAddress, string signature, string message);
+
+        #endregion
+
+        #region Wallet
+
+        //  abandontransaction
+        string AddMultiSigAddress(int nRquired, List<string> publicKeys, string account = null);
+        string BackupWallet(string destination);
+        string DumpPrivKey(string bitcoinAddress);
+        void DumpWallet(string filename);
+        string GetAccount(string bitcoinAddress);
+        string GetAccountAddress(string account);
+        List<string> GetAddressesByAccount(string account);
+        decimal GetBalance(string account = null, int minConf = 1, bool? includeWatchonly = null);
+        string GetNewAddress(string account = "");
+        string GetRawChangeAddress();
+        string GetReceivedByAccount(string account, int minConf = 1);
+        string GetReceivedByAddress(string bitcoinAddress, int minConf = 1);
+        GetTransactionResponse GetTransaction(string txId, bool? includeWatchonly = null);
+        decimal GetUnconfirmedBalance();
+        GetWalletInfoResponse GetWalletInfo();
+        void ImportAddress(string address, string label = null, bool rescan = true);
+        string ImportPrivKey(string privateKey, string label = null, bool rescan = true);
+        //  importpubkey
+        void ImportWallet(string filename);
+        string KeyPoolRefill(uint newSize = 100);
+        Dictionary<string, decimal> ListAccounts(int minConf = 1, bool? includeWatchonly = null);
+        List<List<ListAddressGroupingsResponse>> ListAddressGroupings();
+        string ListLockUnspent();
+        List<ListReceivedByAccountResponse> ListReceivedByAccount(int minConf = 1, bool includeEmpty = false, bool? includeWatchonly = null);
+        List<ListReceivedByAddressResponse> ListReceivedByAddress(int minConf = 1, bool includeEmpty = false, bool? includeWatchonly = null);
+        ListSinceBlockResponse ListSinceBlock(string blockHash = null, int targetConfirmations = 1, bool? includeWatchonly = null);
+        List<ListTransactionsResponse> ListTransactions(string account = null, int count = 10, int from = 0, bool? includeWatchonly = null);
+        List<ListUnspentResponse> ListUnspent(int minConf = 1, int maxConf = 9999999, List<string> addresses = null);
+        bool LockUnspent(bool unlock, IList<ListUnspentResponse> listUnspentResponses);
+        bool Move(string fromAccount, string toAccount, decimal amount, int minConf = 1, string comment = "");
+        string SendFrom(string fromAccount, string toBitcoinAddress, decimal amount, int minConf = 1, string comment = null, string commentTo = null);
+        string SendMany(string fromAccount, Dictionary<string, decimal> toBitcoinAddress, int minConf = 1, string comment = null);
+        string SendToAddress(string bitcoinAddress, decimal amount, string comment = null, string commentTo = null);
+        string SetAccount(string bitcoinAddress, string account);
+        string SetTxFee(decimal amount);
+        string SignMessage(string bitcoinAddress, string message);
+        string WalletLock();
+        string WalletPassphrase(string passphrase, int timeoutInSeconds);
+        string WalletPassphraseChange(string oldPassphrase, string newPassphrase);
+
+        #endregion
     }
 }

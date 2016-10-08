@@ -12,11 +12,11 @@ namespace BitcoinLib.ExceptionHandling.RawTransactions
         {
         }
 
-        public RawTransactionInvalidAmountException(String message) : base(message)
+        public RawTransactionInvalidAmountException(string message) : base(message)
         {
         }
 
-        public RawTransactionInvalidAmountException(String message, Exception innerException) : base(message, innerException)
+        public RawTransactionInvalidAmountException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,17 +11,17 @@ namespace BitcoinLib.Requests.CreateRawTransaction
         public CreateRawTransactionRequest()
         {
             Inputs = new List<CreateRawTransactionInput>();
-            Outputs = new Dictionary<String, Decimal>();
+            Outputs = new Dictionary<string, decimal>();
         }
 
-        public CreateRawTransactionRequest(IList<CreateRawTransactionInput> inputs, IDictionary<String, Decimal> outputs) : this()
+        public CreateRawTransactionRequest(IList<CreateRawTransactionInput> inputs, IDictionary<string, decimal> outputs) : this()
         {
             Inputs = inputs;
             Outputs = outputs;
         }
 
-        public IList<CreateRawTransactionInput> Inputs { get; private set; }
-        public IDictionary<String, Decimal> Outputs { get; private set; }
+        public IList<CreateRawTransactionInput> Inputs { get; }
+        public IDictionary<string, decimal> Outputs { get; }
 
         public void AddInput(CreateRawTransactionInput input)
         {
@@ -34,40 +33,40 @@ namespace BitcoinLib.Requests.CreateRawTransaction
             Outputs.Add(output.Address, output.Amount);
         }
 
-        public void AddInput(String txId, Int32 vout)
+        public void AddInput(string txId, int vout)
         {
             Inputs.Add(new CreateRawTransactionInput
-                {
-                    TxId = txId,
-                    Vout = vout
-                });
+            {
+                TxId = txId,
+                Vout = vout
+            });
         }
 
-        public void AddOutput(String address, Decimal amount)
+        public void AddOutput(string address, decimal amount)
         {
             Outputs.Add(address, amount);
         }
 
-        public Boolean RemoveInput(CreateRawTransactionInput input)
+        public bool RemoveInput(CreateRawTransactionInput input)
         {
             return Inputs.Contains(input) && Inputs.Remove(input);
         }
 
-        public Boolean RemoveOutput(CreateRawTransactionOutput output)
+        public bool RemoveOutput(CreateRawTransactionOutput output)
         {
             return RemoveOutput(output.Address, output.Amount);
         }
 
-        public Boolean RemoveInput(String txId, Int32 vout)
+        public bool RemoveInput(string txId, int vout)
         {
-            CreateRawTransactionInput input = Inputs.FirstOrDefault(x => x.TxId == txId && x.Vout == vout);
+            var input = Inputs.FirstOrDefault(x => x.TxId == txId && x.Vout == vout);
             return input != null && Inputs.Remove(input);
         }
 
-        public Boolean RemoveOutput(String address, Decimal amount)
+        public bool RemoveOutput(string address, decimal amount)
         {
-            KeyValuePair<String, Decimal> outputToBeRemoved = new KeyValuePair<String, Decimal>(address, amount);
-            return Outputs.Contains<KeyValuePair<String, Decimal>>(outputToBeRemoved) && Outputs.Remove(outputToBeRemoved);
+            var outputToBeRemoved = new KeyValuePair<string, decimal>(address, amount);
+            return Outputs.Contains<KeyValuePair<string, decimal>>(outputToBeRemoved) && Outputs.Remove(outputToBeRemoved);
         }
     }
 }

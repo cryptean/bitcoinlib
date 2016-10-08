@@ -1,24 +1,22 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
-
 namespace BitcoinLib.Responses
 {
     public class ListUnspentResponse
     {
-        public String TxId { get; set; }
-        public Int32 Vout { get; set; }
-        public String Address { get; set; }
-        public String Account { get; set; }
-        public String ScriptPubKey { get; set; }
-        public Decimal Amount { get; set; }
-        public Int32 Confirmations { get; set; }
-        public Boolean Spendable { get; set; }
+        public string TxId { get; set; }
+        public int Vout { get; set; }
+        public string Address { get; set; }
+        public string Account { get; set; }
+        public string ScriptPubKey { get; set; }
+        public decimal Amount { get; set; }
+        public int Confirmations { get; set; }
+        public bool Spendable { get; set; }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return String.Format("Account: {0}, Address: {1}, Amount: {2}, Confirmations: {3}", Account, Address, Amount, Confirmations);
+            return $"Account: {Account}, Address: {Address}, Amount: {Amount}, Confirmations: {Confirmations}";
         }
     }
 }

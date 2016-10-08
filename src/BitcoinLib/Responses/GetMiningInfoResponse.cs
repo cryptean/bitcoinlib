@@ -1,23 +1,21 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
-
 namespace BitcoinLib.Responses
 {
     public class GetMiningInfoResponse
     {
-        public Int32 Blocks { get; set; }
-        public Int32 CurrentBockSize { get; set; }
-        public Int32 CurrentBlockTx { get; set; }
-        public Double Difficulty { get; set; }
-        public String Errors { get; set; }
-        public Int32 GenProcLimit { get; set; }
-        public Int64 NetworkHashPS { get; set; }
-        public Int32 PooledTx { get; set; }
-        public Boolean Testnet { get; set; }
-        public String Chain { get; set; }
-        public Boolean Generate { get; set; }
-        public Int64 HashesPerSec { get; set; }
+        public int Blocks { get; set; }
+        public int CurrentBockSize { get; set; }
+        public int CurrentBlockTx { get; set; }
+        public double Difficulty { get; set; }
+        public string Errors { get; set; }
+        public int GenProcLimit { get; set; }
+        public long NetworkHashPS { get; set; }
+        public int PooledTx { get; set; }
+        public bool Testnet { get; set; }
+        public string Chain { get; set; }
+        public bool Generate { get; set; }
+        public long HashesPerSec { get; set; }
     }
 }

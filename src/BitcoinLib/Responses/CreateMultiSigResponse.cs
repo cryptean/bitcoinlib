@@ -1,13 +1,11 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
-
 namespace BitcoinLib.Responses
 {
     public class CreateMultiSigResponse
     {
-        public String Address { get; set; }
-        public String RedeemScript { get; set; }
+        public string Address { get; set; }
+        public string RedeemScript { get; set; }
     }
 }

@@ -1,31 +1,30 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
 using Newtonsoft.Json;
 
 namespace BitcoinLib.Responses
 {
     public class GetInfoResponse
     {
-        public String Version { get; set; }
-        public String ProtocolVersion { get; set; }
-        public String WalletVersion { get; set; }
-        public Decimal Balance { get; set; }
-        public Double Blocks { get; set; }
-        public Double TimeOffset { get; set; }
-        public Double Connections { get; set; }
-        public String Proxy { get; set; }
-        public Double Difficulty { get; set; }
-        public Boolean Testnet { get; set; }
-        public Double KeyPoolEldest { get; set; }
-        public Double KeyPoolSize { get; set; }
+        public string Version { get; set; }
+        public string ProtocolVersion { get; set; }
+        public string WalletVersion { get; set; }
+        public decimal Balance { get; set; }
+        public double Blocks { get; set; }
+        public double TimeOffset { get; set; }
+        public double Connections { get; set; }
+        public string Proxy { get; set; }
+        public double Difficulty { get; set; }
+        public bool Testnet { get; set; }
+        public double KeyPoolEldest { get; set; }
+        public double KeyPoolSize { get; set; }
 
         [JsonProperty("unlocked_until")]
-        public UInt64 UnlockedUntil { get; set; }
+        public ulong UnlockedUntil { get; set; }
 
-        public Decimal PayTxFee { get; set; }
-        public Decimal RelayTxFee { get; set; }
-        public String Errors { get; set; }
+        public decimal PayTxFee { get; set; }
+        public decimal RelayTxFee { get; set; }
+        public string Errors { get; set; }
     }
 }

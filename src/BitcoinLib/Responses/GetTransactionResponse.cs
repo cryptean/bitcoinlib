@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
 using System.Collections.Generic;
 using BitcoinLib.Responses.Bridges;
 
@@ -10,27 +9,27 @@ namespace BitcoinLib.Responses
     //  Note: Local wallet transactions only
     public class GetTransactionResponse : ITransactionResponse
     {
-        public Decimal Amount { get; set; }
-        public Decimal Fee { get; set; }
-        public String BlockHash { get; set; }
-        public Int32 BlockIndex { get; set; }
-        public Int32 BlockTime { get; set; }
-        public Int32 Confirmations { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Fee { get; set; }
+        public string BlockHash { get; set; }
+        public int BlockIndex { get; set; }
+        public int BlockTime { get; set; }
+        public int Confirmations { get; set; }
         public List<GetTransactionResponseDetails> Details { get; set; }
-        public String Hex { get; set; }
-        public Int32 Time { get; set; }
-        public Int32 TimeReceived { get; set; }
-        public List<String> WalletConflicts { get; set; }
-        public String TxId { get; set; }
+        public string Hex { get; set; }
+        public int Time { get; set; }
+        public int TimeReceived { get; set; }
+        public List<string> WalletConflicts { get; set; }
+        public string TxId { get; set; }
     }
 
     public class GetTransactionResponseDetails
     {
-        public String Account { get; set; }
-        public String Address { get; set; }
-        public Decimal Amount { get; set; }
-        public Decimal Fee { get; set; }
-        public Int32 Vout { get; set; }
-        public String Category { get; set; }
+        public string Account { get; set; }
+        public string Address { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Fee { get; set; }
+        public int Vout { get; set; }
+        public string Category { get; set; }
     }
 }

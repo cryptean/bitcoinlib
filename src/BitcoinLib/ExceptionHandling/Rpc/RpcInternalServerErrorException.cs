@@ -14,11 +14,11 @@ namespace BitcoinLib.ExceptionHandling.Rpc
         {
         }
 
-        public RpcInternalServerErrorException(String customMessage) : base(customMessage)
+        public RpcInternalServerErrorException(string customMessage) : base(customMessage)
         {
         }
 
-        public RpcInternalServerErrorException(String customMessage, Exception exception) : base(customMessage, exception)
+        public RpcInternalServerErrorException(string customMessage, Exception exception) : base(customMessage, exception)
         {
         }
 
@@ -31,7 +31,7 @@ namespace BitcoinLib.ExceptionHandling.Rpc
                 throw new ArgumentNullException("info");
             }
 
-            info.AddValue("RpcErrorCode", RpcErrorCode, typeof(RpcErrorCode));
+            info.AddValue("RpcErrorCode", RpcErrorCode, typeof (RpcErrorCode));
             base.GetObjectData(info, context);
         }
     }

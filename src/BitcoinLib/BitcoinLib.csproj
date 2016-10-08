@@ -38,6 +38,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auxiliary\Encoders\ASCIIEncoder.cs" />
+    <Compile Include="Auxiliary\Encoders\DataEncoder.cs" />
+    <Compile Include="Auxiliary\Encoders\HexEncoder.cs" />
     <Compile Include="Auxiliary\GlobalConstants.cs" />
     <Compile Include="Auxiliary\Hashing.cs" />
     <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
@@ -130,6 +133,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,19 +12,19 @@ namespace BitcoinLib.ExceptionHandling.RawTransactions
         {
         }
 
-        public RawTransactionExcessiveFeeException(Decimal maxSpecifiedFee) : base(String.Format("Fee in raw transaction is greater than specified amount of {0}.", maxSpecifiedFee))
+        public RawTransactionExcessiveFeeException(decimal maxSpecifiedFee) : base($"Fee in raw transaction is greater than specified amount of {maxSpecifiedFee}.")
         {
         }
 
-        public RawTransactionExcessiveFeeException(Decimal actualFee, Decimal maxSpecifiedFee) : base(String.Format("Fee of {0} in raw transaction is greater than specified amount of {1}.", actualFee, maxSpecifiedFee))
+        public RawTransactionExcessiveFeeException(decimal actualFee, decimal maxSpecifiedFee) : base($"Fee of {actualFee} in raw transaction is greater than specified amount of {maxSpecifiedFee}.")
         {
         }
 
-        public RawTransactionExcessiveFeeException(String message) : base(message)
+        public RawTransactionExcessiveFeeException(string message) : base(message)
         {
         }
 
-        public RawTransactionExcessiveFeeException(String message, Exception innerException) : base(message, innerException)
+        public RawTransactionExcessiveFeeException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

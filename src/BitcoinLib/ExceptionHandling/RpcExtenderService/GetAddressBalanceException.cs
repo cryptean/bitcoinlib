@@ -12,11 +12,11 @@ namespace BitcoinLib.ExceptionHandling.RpcExtenderService
         {
         }
 
-        public GetAddressBalanceException(String customMessage) : base(customMessage)
+        public GetAddressBalanceException(string customMessage) : base(customMessage)
         {
         }
 
-        public GetAddressBalanceException(String customMessage, Exception exception) : base(customMessage, exception)
+        public GetAddressBalanceException(string customMessage, Exception exception) : base(customMessage, exception)
         {
         }
     }

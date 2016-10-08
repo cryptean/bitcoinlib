@@ -1,19 +1,17 @@
-﻿// Copyright (c) 2014 George Kimionis
+﻿ // Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
-
-using System;
 
 namespace BitcoinLib.Responses
 {
     public class GetBlockchainInfoResponse
     {
-        public String Chain { get; set; }
-        public UInt64 Blocks { get; set; }
-        public UInt64 Headers { get; set; }
-        public String BestBlockHash { get; set; }
-        public Double Difficulty { get; set; }
-        public Double VerificationProgress { get; set; }
-        public String ChainWork { get; set; }
-        public Boolean Pruned { get; set; }
+        public string Chain { get; set; }
+        public ulong Blocks { get; set; }
+        public ulong Headers { get; set; }
+        public string BestBlockHash { get; set; }
+        public double Difficulty { get; set; }
+        public double VerificationProgress { get; set; }
+        public string ChainWork { get; set; }
+        public bool Pruned { get; set; }
     }
 }

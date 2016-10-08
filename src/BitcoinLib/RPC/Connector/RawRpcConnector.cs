@@ -13,25 +13,25 @@ namespace BitcoinLib.RPC.Connector
     public static class RawRpcConnector
     {
         //  Usage example:  String networkDifficultyJsonResult = RawRpcConnector.MakeRequest("{\"method\":\"getdifficulty\",\"params\":[],\"id\":1}", "http://127.0.0.1:8332/", "MyRpcUsername", "MyRpcPassword");
-        public static String MakeRequest(String jsonRequest, String daemonUrl, String rpcUsername, String rpcPassword)
+        public static string MakeRequest(string jsonRequest, string daemonUrl, string rpcUsername, string rpcPassword)
         {
             try
             {
-                CookieContainer tempCookies = new CookieContainer();
-                ASCIIEncoding encoding = new ASCIIEncoding();
-                Byte[] byteData = encoding.GetBytes(jsonRequest);
-                HttpWebRequest postReq = (HttpWebRequest) WebRequest.Create(daemonUrl);
+                var tempCookies = new CookieContainer();
+                var encoding = new ASCIIEncoding();
+                var byteData = encoding.GetBytes(jsonRequest);
+                var postReq = (HttpWebRequest) WebRequest.Create(daemonUrl);
                 postReq.Credentials = new NetworkCredential(rpcUsername, rpcPassword);
                 postReq.Method = "POST";
                 postReq.KeepAlive = true;
                 postReq.CookieContainer = tempCookies;
                 postReq.ContentType = "application/json";
                 postReq.ContentLength = byteData.Length;
-                Stream postreqstream = postReq.GetRequestStream();
+                var postreqstream = postReq.GetRequestStream();
                 postreqstream.Write(byteData, 0, byteData.Length);
                 postreqstream.Close();
-                HttpWebResponse postresponse = (HttpWebResponse) postReq.GetResponse();
-                StreamReader postreqreader = new StreamReader(postresponse.GetResponseStream());
+                var postresponse = (HttpWebResponse) postReq.GetResponse();
+                var postreqreader = new StreamReader(postresponse.GetResponseStream());
                 return postreqreader.ReadToEnd();
             }
             catch (Exception exception)
@@ -41,7 +41,7 @@ namespace BitcoinLib.RPC.Connector
         }
 
         //  Usage example:  String networkDifficultyJsonResult = RawRpcConnector.MakeRequest("{\"method\":\"getdifficulty\",\"params\":[],\"id\":1}", new BitcoinService());
-        public static String MakeRequest(String jsonRequest, ICoinService coinService)
+        public static string MakeRequest(string jsonRequest, ICoinService coinService)
         {
             return MakeRequest(jsonRequest, coinService.Parameters.SelectedDaemonUrl, coinService.Parameters.RpcUsername, coinService.Parameters.RpcPassword);
         }

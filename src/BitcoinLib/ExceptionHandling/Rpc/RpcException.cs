@@ -12,11 +12,11 @@ namespace BitcoinLib.ExceptionHandling.Rpc
         {
         }
 
-        public RpcException(String customMessage) : base(customMessage)
+        public RpcException(string customMessage) : base(customMessage)
         {
         }
 
-        public RpcException(String customMessage, Exception exception) : base(customMessage, exception)
+        public RpcException(string customMessage, Exception exception) : base(customMessage, exception)
         {
         }
     }

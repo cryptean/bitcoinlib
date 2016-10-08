@@ -7,9 +7,9 @@ namespace BitcoinLib.ExtensionMethods
 {
     public static class DecimalExtensionMethods
     {
-        public static UInt16 GetNumberOfDecimalPlaces(this Decimal number)
+        public static ushort GetNumberOfDecimalPlaces(this decimal number)
         {
-            return BitConverter.GetBytes(Decimal.GetBits(number)[3])[2];
+            return BitConverter.GetBytes(decimal.GetBits(number)[3])[2];
         }
     }
 }

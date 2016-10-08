@@ -12,11 +12,11 @@ namespace BitcoinLib.ExceptionHandling.Rpc
         {
         }
 
-        public RpcResponseDeserializationException(String customMessage) : base(customMessage)
+        public RpcResponseDeserializationException(string customMessage) : base(customMessage)
         {
         }
 
-        public RpcResponseDeserializationException(String customMessage, Exception exception) : base(customMessage, exception)
+        public RpcResponseDeserializationException(string customMessage, Exception exception) : base(customMessage, exception)
         {
         }
     }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 George Kimionis
 // Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
 
-using System;
 using System.Collections.Generic;
 
 namespace BitcoinLib.Responses
@@ -10,22 +9,22 @@ namespace BitcoinLib.Responses
     {
         public GetBlockResponse()
         {
-            Tx = new List<String>();
+            Tx = new List<string>();
         }
 
-        public List<String> Tx { get; set; }
-        public String Hash { get; set; }
-        public Int32 Confirmations { get; set; }
-        public Int32 Size { get; set; }
-        public Int32 Height { get; set; }
-        public Int32 Version { get; set; }
-        public String MerkleRoot { get; set; }
-        public Double Difficulty { get; set; }
-        public String ChainWork { get; set; }
-        public String PreviousBlockHash { get; set; }
-        public String NextBlockHash { get; set; }
-        public String Bits { get; set; }
-        public Int32 Time { get; set; }
-        public String Nonce { get; set; }
+        public List<string> Tx { get; set; }
+        public string Hash { get; set; }
+        public int Confirmations { get; set; }
+        public int Size { get; set; }
+        public int Height { get; set; }
+        public int Version { get; set; }
+        public string MerkleRoot { get; set; }
+        public double Difficulty { get; set; }
+        public string ChainWork { get; set; }
+        public string PreviousBlockHash { get; set; }
+        public string NextBlockHash { get; set; }
+        public string Bits { get; set; }
+        public int Time { get; set; }
+        public string Nonce { get; set; }
     }
 }
