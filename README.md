@@ -26,6 +26,21 @@ Features
 - [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
 - Fully configurable.
 
+Donations
+---------
+
+This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it up by donating at: [15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA](bitcoin:15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA?label=BitcoinLib)
+
+Support
+-------
+
+Please use GitHub's `Issues` to report any issues. For Premium Support and other inquiries please contact: [hello@cryptean.com](mailto:hello@cryptean.com).
+
+License
+-------
+
+See [LICENSE](LICENSE).
+
 
 Instructions for Bitcoin
 ------------------------
@@ -36,13 +51,7 @@ Instructions for Bitcoin
 	- server=1
 	- txindex=1
 
-- Call `bitcoind -reindex -txindex -debug=net -printtoconsole` and wait until it's finished re-indexing (it might take a while). Append `-testnet` if you want to run it for Testnet. You need to do this just once.
-
-- Shut down bitcoind and run it again with these arguments: `bitcoind -daemon -debug=net -printtoconsole`. Append `-testnet` if you want to run it for Testnet. Wait until it is fully synchronized. 
-
-- Edit the `app.config` file in the Console test client to best fit your needs. Make sure you also update the `bitcoin.conf` when you alter the `Bitcoin_RpcUsername` and `Bitcoin_RpcPassword` parameters.
-
-- You're good to go.
+- Edit the `app.config` file in the Console test client to best fit your needs. Make sure you also update the `bitcoin.conf` file when you alter the `Bitcoin_RpcUsername` and `Bitcoin_RpcPassword` parameters.
 
 
 Instructions for Litecoin and other Bitcoin clones
@@ -90,20 +99,3 @@ Sample configuration:
 		</appSettings>
 	</configuration>
 
-
-License
--------
-
-BitcoinLib is released under the terms of the GPLv3 license. See [LICENSE](LICENSE) for more information or see http://opensource.org/licenses/GPL-3.0.
-
-
-Donations
----------
-
-This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it up by donating at: [15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA](bitcoin:15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA?label=BitcoinLib)
-
-
-Support
--------
-
-Please use GitHub's `Issues` to report any issues. For Premium Support and other inquiries please contact: [hello@cryptean.com](mailto:hello@cryptean.com).

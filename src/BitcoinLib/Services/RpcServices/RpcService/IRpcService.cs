@@ -42,7 +42,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         #region Generating
 
         //  generate numblocks
-        string GetGenerate();
+        bool GetGenerate();
         string SetGenerate(bool generate, short generatingProcessorsLimit);
 
         #endregion
@@ -59,7 +59,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 
         #region Network
 
-        string AddNode(string node, NodeAction action);
+        void AddNode(string node, NodeAction action);
         //  clearbanned
         //  disconnectnode
         GetAddedNodeInfoResponse GetAddedNodeInfo(string dns, string node = null);
@@ -93,7 +93,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         //  estimatesmartfee
         //  estimatesmartpriority
         ValidateAddressResponse ValidateAddress(string bitcoinAddress);
-        string VerifyMessage(string bitcoinAddress, string signature, string message);
+        bool VerifyMessage(string bitcoinAddress, string signature, string message);
 
         #endregion
 
@@ -101,7 +101,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 
         //  abandontransaction
         string AddMultiSigAddress(int nRquired, List<string> publicKeys, string account = null);
-        string BackupWallet(string destination);
+        void BackupWallet(string destination);
         string DumpPrivKey(string bitcoinAddress);
         void DumpWallet(string filename);
         string GetAccount(string bitcoinAddress);
@@ -110,8 +110,8 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         decimal GetBalance(string account = null, int minConf = 1, bool? includeWatchonly = null);
         string GetNewAddress(string account = "");
         string GetRawChangeAddress();
-        string GetReceivedByAccount(string account, int minConf = 1);
-        string GetReceivedByAddress(string bitcoinAddress, int minConf = 1);
+        decimal GetReceivedByAccount(string account, int minConf = 1);
+        decimal GetReceivedByAddress(string bitcoinAddress, int minConf = 1);
         GetTransactionResponse GetTransaction(string txId, bool? includeWatchonly = null);
         decimal GetUnconfirmedBalance();
         GetWalletInfoResponse GetWalletInfo();
