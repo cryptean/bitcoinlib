@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2014 George Kimionis
-// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+﻿// Copyright (c) 2014 - 2016 George Kimionis
+// See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
 using System.Collections.Generic;
@@ -58,12 +58,18 @@ namespace BitcoinLib.Services
 
             for (short i = 0; i < numberOfInputs; i++)
             {
-                rawTransactionRequest.AddInput(new CreateRawTransactionInput {TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture), Vout = i});
+                rawTransactionRequest.AddInput(new CreateRawTransactionInput
+                {
+                    TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture), Vout = i
+                });
             }
 
             for (short i = 0; i < numberOfOutputs; i++)
             {
-                rawTransactionRequest.AddOutput(new CreateRawTransactionOutput {Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture), Amount = i + 1});
+                rawTransactionRequest.AddOutput(new CreateRawTransactionOutput
+                {
+                    Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture), Amount = i + 1
+                });
             }
 
             return GetTransactionFee(rawTransactionRequest, false, true);
@@ -107,7 +113,7 @@ namespace BitcoinLib.Services
             }
 
             decimal transactionSizeInBytes = GetTransactionSizeInBytes(transaction);
-            var transactionFee = ((transactionSizeInBytes/Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes%Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1))*Parameters.FeePerThousandBytesInCoins;
+            var transactionFee = ((transactionSizeInBytes / Parameters.FreeTransactionMaximumSizeInBytes) + (transactionSizeInBytes % Parameters.FreeTransactionMaximumSizeInBytes == 0 ? 0 : 1)) * Parameters.FeePerThousandBytesInCoins;
 
             if (transactionFee.GetNumberOfDecimalPlaces() > Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces())
             {
@@ -139,8 +145,8 @@ namespace BitcoinLib.Services
             }
 
             var unspentInputs = (this as ICoinService).ListUnspent(0).ToList();
-            var sumOfInputsValueInBaseUnitsMultipliedByTheirAge = transaction.Inputs.Select(input => unspentInputs.First(x => x.TxId == input.TxId)).Select(unspentResponse => (unspentResponse.Amount*Parameters.OneCoinInBaseUnits)*unspentResponse.Confirmations).Sum();
-            return sumOfInputsValueInBaseUnitsMultipliedByTheirAge/GetTransactionSizeInBytes(transaction);
+            var sumOfInputsValueInBaseUnitsMultipliedByTheirAge = transaction.Inputs.Select(input => unspentInputs.First(x => x.TxId == input.TxId)).Select(unspentResponse => (unspentResponse.Amount * Parameters.OneCoinInBaseUnits) * unspentResponse.Confirmations).Sum();
+            return sumOfInputsValueInBaseUnitsMultipliedByTheirAge / GetTransactionSizeInBytes(transaction);
         }
 
         public decimal GetTransactionPriority(IList<ListUnspentResponse> transactionInputs, int numberOfOutputs)
@@ -150,7 +156,7 @@ namespace BitcoinLib.Services
                 return 0;
             }
 
-            return transactionInputs.Sum(input => input.Amount*Parameters.OneCoinInBaseUnits*input.Confirmations)/GetTransactionSizeInBytes(transactionInputs.Count, numberOfOutputs);
+            return transactionInputs.Sum(input => input.Amount * Parameters.OneCoinInBaseUnits * input.Confirmations) / GetTransactionSizeInBytes(transactionInputs.Count, numberOfOutputs);
         }
 
         //  Note: Be careful when using GetTransactionSenderAddress() as it just gives you an address owned by someone who previously controlled the transaction's outputs
@@ -174,8 +180,8 @@ namespace BitcoinLib.Services
 
         public int GetTransactionSizeInBytes(int numberOfInputs, int numberOfOutputs)
         {
-            return numberOfInputs*Parameters.TransactionSizeBytesContributedByEachInput
-                   + numberOfOutputs*Parameters.TransactionSizeBytesContributedByEachOutput
+            return numberOfInputs * Parameters.TransactionSizeBytesContributedByEachInput
+                   + numberOfOutputs * Parameters.TransactionSizeBytesContributedByEachOutput
                    + Parameters.TransactionSizeFixedExtraSizeInBytes
                    + numberOfInputs;
         }

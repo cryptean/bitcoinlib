@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2015 George Kimionis & Shaun Barratt
-// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+﻿// Copyright (c) 2014 - 2016 George Kimionis
+// See the accompanying file LICENSE for the Software License Aggrement
 
 using BitcoinLib.CoinParameters.Dogecoin;
 using BitcoinLib.Services.Coins.Base;

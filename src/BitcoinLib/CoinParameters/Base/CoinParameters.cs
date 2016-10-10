@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2015 George Kimionis
-// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+﻿// Copyright (c) 2014 - 2016 George Kimionis
+// See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
 using System.Configuration;
@@ -55,7 +55,7 @@ namespace BitcoinLib.Services
 
                 if (IgnoreConfigFiles && (string.IsNullOrWhiteSpace(DaemonUrl) || string.IsNullOrWhiteSpace(RpcUsername) || string.IsNullOrWhiteSpace(RpcPassword)))
                 {
-                    throw new Exception(string.Format("One or more required parameters, as defined in {0}, were not found in the configuration file!", GetType().Name));
+                    throw new Exception($"One or more required parameters, as defined in {GetType().Name}, were not found in the configuration file!");
                 }
 
                 if (IgnoreConfigFiles && Debugger.IsAttached && string.IsNullOrWhiteSpace(WalletPassword))
@@ -102,9 +102,9 @@ namespace BitcoinLib.Services
                     CoinsPerBaseUnit = 0.00000001M;
                 }
 
-                    #endregion
+                #endregion
 
-                    #region Litecoin
+                #region Litecoin
 
                 else if (coinService is LitecoinService)
                 {
@@ -142,9 +142,9 @@ namespace BitcoinLib.Services
                     CoinsPerBaseUnit = 0.00000001M;
                 }
 
-                    #endregion
+                #endregion
 
-                    #region Dogecoin
+                #region Dogecoin
 
                 else if (coinService is DogecoinService)
                 {
@@ -178,9 +178,9 @@ namespace BitcoinLib.Services
                     CoinsPerBaseUnit = 0.00000001M;
                 }
 
-                    #endregion
+                #endregion
 
-                    #region Sarcoin
+                #region Sarcoin
 
                 else if (coinService is SarcoinService)
                 {
@@ -217,9 +217,9 @@ namespace BitcoinLib.Services
                     CoinsPerBaseUnit = 0.00000001M;
                 }
 
-                    #endregion
+                #endregion
 
-                    #region Agnostic coin (cryptocoin)
+                #region Agnostic coin (cryptocoin)
 
                 else if (coinService is CryptocoinService)
                 {
@@ -230,9 +230,9 @@ namespace BitcoinLib.Services
                     //  Note: The rest of the parameters will have to be defined at run-time
                 }
 
-                    #endregion
+                #endregion
 
-                    #region Uknown coin exception
+                #region Uknown coin exception
 
                 else
                 {
@@ -252,7 +252,7 @@ namespace BitcoinLib.Services
                     || string.IsNullOrWhiteSpace(RpcUsername)
                     || string.IsNullOrWhiteSpace(RpcPassword))
                 {
-                    throw new Exception(string.Format("One or more required parameters, as defined in {0}, were not found in the configuration file!", GetType().Name));
+                    throw new Exception($"One or more required parameters, as defined in {GetType().Name}, were not found in the configuration file!");
                 }
 
                 #endregion
@@ -270,7 +270,7 @@ namespace BitcoinLib.Services
             public string DaemonUrl { private get; set; }
             public string DaemonUrlTestnet { private get; set; }
             public double EstimatedBlockGenerationTimeInMinutes { get; set; }
-            public int ExpectedNumberOfBlocksGeneratedPerDay => (int) EstimatedBlockGenerationTimeInMinutes*GlobalConstants.MinutesInADay;
+            public int ExpectedNumberOfBlocksGeneratedPerDay => (int) EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
             public decimal FeePerThousandBytesInCoins { get; set; }
             public short FreeTransactionMaximumSizeInBytes { get; set; }
             public decimal FreeTransactionMinimumOutputAmountInCoins { get; set; }

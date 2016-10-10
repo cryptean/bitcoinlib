@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2014 George Kimionis
-// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+﻿// Copyright (c) 2014 - 2016 George Kimionis
+// See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
 using System.Collections.Generic;
@@ -356,7 +356,10 @@ namespace BitcoinLib.Services
         {
             if (verbose == 0)
             {
-                return new GetRawTransactionResponse {Hex = _rpcConnector.MakeRequest<string>(RpcMethods.getrawtransaction, txId, verbose)};
+                return new GetRawTransactionResponse
+                {
+                    Hex = _rpcConnector.MakeRequest<string>(RpcMethods.getrawtransaction, txId, verbose)
+                };
             }
 
             if (verbose == 1)
@@ -518,7 +521,10 @@ namespace BitcoinLib.Services
 
             foreach (var listUnspentResponse in listUnspentResponses)
             {
-                transactions.Add(new {txid = listUnspentResponse.TxId, listUnspentResponse.Vout});
+                transactions.Add(new
+                {
+                    txid = listUnspentResponse.TxId, listUnspentResponse.Vout
+                });
             }
 
             return _rpcConnector.MakeRequest<bool>(RpcMethods.lockunspent, unlock, transactions.ToArray());

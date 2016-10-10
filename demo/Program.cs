@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2014 George Kimionis
-// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+﻿// Copyright (c) 2014 - 2016 George Kimionis
+// See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,6 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Timers;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.Responses;
@@ -18,7 +17,7 @@ namespace ConsoleClient
 {
     internal sealed class Program
     {
-        private static readonly ICoinService CoinService = new BitcoinService(useTestnet:true);
+        private static readonly ICoinService CoinService = new BitcoinService(useTestnet: true);
 
         private static void Main()
         {

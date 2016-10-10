@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2014 George Kimionis
-// Distributed under the GPLv3 software license, see the accompanying file LICENSE or http://opensource.org/licenses/GPL-3.0
+﻿// Copyright (c) 2014 - 2016 George Kimionis
+// See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
 using System.IO;
@@ -33,7 +33,7 @@ namespace BitcoinLib.RPC.Connector
             webRequest.ContentType = "application/json-rpc";
             webRequest.Method = "POST";
             webRequest.Proxy = null;
-            webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds*GlobalConstants.MillisecondsInASecond;
+            webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds * GlobalConstants.MillisecondsInASecond;
             var byteArray = jsonRpcRequest.GetBytes();
             webRequest.ContentLength = jsonRpcRequest.GetBytes().Length;
 
