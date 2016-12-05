@@ -1,0 +1,5 @@
+﻿{
+  "AppSettings": {
+    "RpcRequestTimeoutInSeconds": 10
+  }
+}

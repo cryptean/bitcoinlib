@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.RpcExtenderService;
 using BitcoinLib.ExtensionMethods;
@@ -18,11 +19,11 @@ namespace BitcoinLib.Services
     public partial class CoinService
     {
         //  Note: This will return funky results if the address in question along with its private key have been used to create a multisig address with unspent funds
-        public decimal GetAddressBalance(string inWalletAddress, int minConf, bool validateAddressBeforeProcessing)
+        public async Task<decimal> GetAddressBalance(string inWalletAddress, int minConf, bool validateAddressBeforeProcessing)
         {
             if (validateAddressBeforeProcessing)
             {
-                var validateAddressResponse = ValidateAddress(inWalletAddress);
+                var validateAddressResponse = await ValidateAddress(inWalletAddress);
 
                 if (!validateAddressResponse.IsValid)
                 {
@@ -35,7 +36,7 @@ namespace BitcoinLib.Services
                 }
             }
 
-            var listUnspentResponses = ListUnspent(minConf, 9999999, new List<string>
+            var listUnspentResponses = await ListUnspent(minConf, 9999999, new List<string>
             {
                 inWalletAddress
             });
@@ -43,16 +44,16 @@ namespace BitcoinLib.Services
             return listUnspentResponses.Any() ? listUnspentResponses.Sum(x => x.Amount) : 0;
         }
 
-        public string GetImmutableTxId(string txId, bool getSha256Hash)
+        public async Task<string> GetImmutableTxId(string txId, bool getSha256Hash)
         {
-            var response = GetRawTransaction(txId, 1);
+            var response = await GetRawTransaction(txId, 1);
             var text = response.Vin.First().TxId + "|" + response.Vin.First().Vout + "|" + response.Vout.First().Value;
             return getSha256Hash ? Hashing.GetSha256(text) : text;
         }
 
         //  Get a rough estimate on fees for non-free txs, depending on the total number of tx inputs and outputs
         [Obsolete("Please don't use this method to calculate tx fees, its purpose is to provide a rough estimate only")]
-        public decimal GetMinimumNonZeroTransactionFeeEstimate(short numberOfInputs = 1, short numberOfOutputs = 1)
+        public async Task<decimal> GetMinimumNonZeroTransactionFeeEstimate(short numberOfInputs = 1, short numberOfOutputs = 1)
         {
             var rawTransactionRequest = new CreateRawTransactionRequest(new List<CreateRawTransactionInput>(numberOfInputs), new Dictionary<string, decimal>(numberOfOutputs));
 
@@ -60,7 +61,8 @@ namespace BitcoinLib.Services
             {
                 rawTransactionRequest.AddInput(new CreateRawTransactionInput
                 {
-                    TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture), Vout = i
+                    TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture),
+                    Vout = i
                 });
             }
 
@@ -68,46 +70,47 @@ namespace BitcoinLib.Services
             {
                 rawTransactionRequest.AddOutput(new CreateRawTransactionOutput
                 {
-                    Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture), Amount = i + 1
+                    Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture),
+                    Amount = i + 1
                 });
             }
 
-            return GetTransactionFee(rawTransactionRequest, false, true);
+            return await GetTransactionFee(rawTransactionRequest, false, true);
         }
 
-        public Dictionary<string, string> GetMyPublicAndPrivateKeyPairs()
+        public async Task<Dictionary<string, string>> GetMyPublicAndPrivateKeyPairs()
         {
             const short secondsToUnlockTheWallet = 30;
             var keyPairs = new Dictionary<string, string>();
-            WalletPassphrase(Parameters.WalletPassword, secondsToUnlockTheWallet);
-            var myAddresses = (this as ICoinService).ListReceivedByAddress(0, true);
+            await WalletPassphrase(Parameters.WalletPassword, secondsToUnlockTheWallet);
+            var myAddresses = await (this as ICoinService).ListReceivedByAddress(0, true);
 
             foreach (var listReceivedByAddressResponse in myAddresses)
             {
-                var validateAddressResponse = ValidateAddress(listReceivedByAddressResponse.Address);
+                var validateAddressResponse = await ValidateAddress(listReceivedByAddressResponse.Address);
 
                 if (validateAddressResponse.IsMine && validateAddressResponse.IsValid && !validateAddressResponse.IsScript)
                 {
-                    var privateKey = DumpPrivKey(listReceivedByAddressResponse.Address);
+                    var privateKey = await DumpPrivKey(listReceivedByAddressResponse.Address);
                     keyPairs.Add(validateAddressResponse.PubKey, privateKey);
                 }
             }
 
-            WalletLock();
+            await WalletLock();
             return keyPairs;
         }
 
         //  Note: As RPC's gettransaction works only for in-wallet transactions this had to be extended so it will work for every single transaction.
-        public DecodeRawTransactionResponse GetPublicTransaction(string txId)
+        public async Task<DecodeRawTransactionResponse> GetPublicTransaction(string txId)
         {
-            var rawTransaction = GetRawTransaction(txId, 0).Hex;
-            return DecodeRawTransaction(rawTransaction);
+            var rawTransaction = (await GetRawTransaction(txId, 0)).Hex;
+            return await DecodeRawTransaction(rawTransaction);
         }
 
         [Obsolete("Please use EstimateFee() instead. You can however keep on using this method until the network fully adjusts to the new rules on fee calculation")]
-        public decimal GetTransactionFee(CreateRawTransactionRequest transaction, bool checkIfTransactionQualifiesForFreeRelay, bool enforceMinimumTransactionFeePolicy)
+        public async Task<decimal> GetTransactionFee(CreateRawTransactionRequest transaction, bool checkIfTransactionQualifiesForFreeRelay, bool enforceMinimumTransactionFeePolicy)
         {
-            if (checkIfTransactionQualifiesForFreeRelay && IsTransactionFree(transaction))
+            if (checkIfTransactionQualifiesForFreeRelay && await IsTransactionFree(transaction))
             {
                 return 0;
             }
@@ -117,7 +120,7 @@ namespace BitcoinLib.Services
 
             if (transactionFee.GetNumberOfDecimalPlaces() > Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces())
             {
-                transactionFee = decimal.Round(transactionFee, Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces(), MidpointRounding.AwayFromZero);
+                transactionFee = Math.Round(transactionFee, Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces(), MidpointRounding.AwayFromZero);
             }
 
             if (enforceMinimumTransactionFeePolicy && Parameters.MinimumTransactionFeeInCoins != 0 && transactionFee < Parameters.MinimumTransactionFeeInCoins)
@@ -128,23 +131,27 @@ namespace BitcoinLib.Services
             return transactionFee;
         }
 
-        public GetRawTransactionResponse GetRawTxFromImmutableTxId(string rigidTxId, int listTransactionsCount, int listTransactionsFrom, bool getRawTransactionVersbose, bool rigidTxIdIsSha256)
+        public async Task<GetRawTransactionResponse> GetRawTxFromImmutableTxId(string rigidTxId, int listTransactionsCount = int.MaxValue, int listTransactionsFrom = 0, bool getRawTransactionVersbose = true, bool rigidTxIdIsSha256 = false)
         {
-            var allTransactions = (this as ICoinService).ListTransactions("*", listTransactionsCount, listTransactionsFrom);
+            var allTransactions = await (this as ICoinService).ListTransactions("*", listTransactionsCount, listTransactionsFrom);
 
-            return (from listTransactionsResponse in allTransactions
-                where rigidTxId == GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
-                select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
+            foreach (var listTransactionsResponse in allTransactions)
+            {
+                if (rigidTxId == await GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256))
+                    return await GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)
+                ;
+            }
+            return null;
         }
 
-        public decimal GetTransactionPriority(CreateRawTransactionRequest transaction)
+        public async Task<decimal> GetTransactionPriority(CreateRawTransactionRequest transaction)
         {
             if (transaction.Inputs.Count == 0)
             {
                 return 0;
             }
 
-            var unspentInputs = (this as ICoinService).ListUnspent(0).ToList();
+            var unspentInputs = (await (this as ICoinService).ListUnspent(0)).ToList();
             var sumOfInputsValueInBaseUnitsMultipliedByTheirAge = transaction.Inputs.Select(input => unspentInputs.First(x => x.TxId == input.TxId)).Select(unspentResponse => (unspentResponse.Amount * Parameters.OneCoinInBaseUnits) * unspentResponse.Confirmations).Sum();
             return sumOfInputsValueInBaseUnitsMultipliedByTheirAge / GetTransactionSizeInBytes(transaction);
         }
@@ -162,13 +169,13 @@ namespace BitcoinLib.Services
         //  Note: Be careful when using GetTransactionSenderAddress() as it just gives you an address owned by someone who previously controlled the transaction's outputs
         //  which might not actually be the sender (e.g. for e-wallets) and who may not intend to receive anything there in the first place. 
         [Obsolete("Please don't use this method in production enviroment, it's for testing purposes only")]
-        public string GetTransactionSenderAddress(string txId)
+        public async Task<string> GetTransactionSenderAddress(string txId)
         {
-            var rawTransaction = GetRawTransaction(txId, 0).Hex;
-            var decodedRawTransaction = DecodeRawTransaction(rawTransaction);
+            var rawTransaction = (await GetRawTransaction(txId, 0)).Hex;
+            var decodedRawTransaction = await DecodeRawTransaction(rawTransaction);
             var transactionInputs = decodedRawTransaction.Vin;
-            var rawTransactionHex = GetRawTransaction(transactionInputs[0].TxId, 0).Hex;
-            var inputDecodedRawTransaction = DecodeRawTransaction(rawTransactionHex);
+            var rawTransactionHex = (await GetRawTransaction(transactionInputs[0].TxId, 0)).Hex;
+            var inputDecodedRawTransaction = await DecodeRawTransaction(rawTransactionHex);
             var vouts = inputDecodedRawTransaction.Vout;
             return vouts[0].ScriptPubKey.Addresses[0];
         }
@@ -186,17 +193,17 @@ namespace BitcoinLib.Services
                    + numberOfInputs;
         }
 
-        public bool IsInWalletTransaction(string txId)
+        public async Task<bool> IsInWalletTransaction(string txId)
         {
             //  Note: This might not be efficient if iterated, consider caching ListTransactions' results.
-            return (this as ICoinService).ListTransactions(null, int.MaxValue).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
+            return (await (this as ICoinService).ListTransactions(null, int.MaxValue)).Any(listTransactionsResponse => listTransactionsResponse.TxId == txId);
         }
 
-        public bool IsTransactionFree(CreateRawTransactionRequest transaction)
+        public async Task<bool> IsTransactionFree(CreateRawTransactionRequest transaction)
         {
             return transaction.Outputs.Any(x => x.Value < Parameters.FreeTransactionMinimumOutputAmountInCoins)
                    && GetTransactionSizeInBytes(transaction) < Parameters.FreeTransactionMaximumSizeInBytes
-                   && GetTransactionPriority(transaction) > Parameters.FreeTransactionMinimumPriority;
+                   && (await GetTransactionPriority(transaction)) > Parameters.FreeTransactionMinimumPriority;
         }
 
         public bool IsTransactionFree(IList<ListUnspentResponse> transactionInputs, int numberOfOutputs, decimal minimumAmountAmongOutputs)
@@ -206,9 +213,9 @@ namespace BitcoinLib.Services
                    && GetTransactionPriority(transactionInputs, numberOfOutputs) > Parameters.FreeTransactionMinimumPriority;
         }
 
-        public bool IsWalletEncrypted()
+        public async Task<bool> IsWalletEncrypted()
         {
-            return !Help(RpcMethods.walletlock.ToString()).Contains("unknown command");
+            return !(await Help(RpcMethods.walletlock.ToString())).Contains("unknown command");
         }
     }
 }

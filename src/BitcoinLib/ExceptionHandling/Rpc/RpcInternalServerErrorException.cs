@@ -22,17 +22,6 @@ namespace BitcoinLib.ExceptionHandling.Rpc
         {
         }
 
-        public RpcErrorCode? RpcErrorCode { get; set; }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            info.AddValue("RpcErrorCode", RpcErrorCode, typeof(RpcErrorCode));
-            base.GetObjectData(info, context);
-        }
+        public RpcErrorCode? RpcErrorCode { get; set; } 
     }
 }

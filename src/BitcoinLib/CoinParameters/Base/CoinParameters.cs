@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
-
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
@@ -11,6 +9,7 @@ using BitcoinLib.Services.Coins.Cryptocoin;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
 using BitcoinLib.Services.Coins.Sarcoin;
+using Microsoft.Extensions.Configuration;
 
 namespace BitcoinLib.Services
 {
@@ -29,6 +28,8 @@ namespace BitcoinLib.Services
                 string walletPassword,
                 short rpcRequestTimeoutInSeconds)
             {
+                var appSettings = new ConfigurationBuilder().AddJsonFile("config.json").Build().GetSection("AppSettings");
+
                 if (!string.IsNullOrWhiteSpace(daemonUrl))
                 {
                     DaemonUrl = daemonUrl;
@@ -47,7 +48,7 @@ namespace BitcoinLib.Services
                 {
                     short rpcRequestTimeoutTryParse = 0;
 
-                    if (short.TryParse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"), out rpcRequestTimeoutTryParse))
+                    if (short.TryParse(appSettings.GetSection("RpcRequestTimeoutInSeconds").Value, out rpcRequestTimeoutTryParse))
                     {
                         RpcRequestTimeoutInSeconds = rpcRequestTimeoutTryParse;
                     }
@@ -71,11 +72,11 @@ namespace BitcoinLib.Services
                 {
                     if (!IgnoreConfigFiles)
                     {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Bitcoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Bitcoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Bitcoin_WalletPassword");
+                        DaemonUrl = appSettings.GetSection("Bitcoin_DaemonUrl").Value;
+                        DaemonUrlTestnet = appSettings.GetSection("Bitcoin_DaemonUrl_Testnet").Value;
+                        RpcUsername = appSettings.GetSection("Bitcoin_RpcUsername").Value;
+                        RpcPassword = appSettings.GetSection("Bitcoin_RpcPassword").Value;
+                        WalletPassword = appSettings.GetSection("Bitcoin_WalletPassword").Value;
                     }
 
                     CoinShortName = "BTC";
@@ -110,11 +111,11 @@ namespace BitcoinLib.Services
                 {
                     if (!IgnoreConfigFiles)
                     {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Litecoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Litecoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Litecoin_WalletPassword");
+                        DaemonUrl = appSettings.GetSection("Litecoin_DaemonUrl").Value;
+                        DaemonUrlTestnet = appSettings.GetSection("Litecoin_DaemonUrl_Testnet").Value;
+                        RpcUsername = appSettings.GetSection("Litecoin_RpcUsername").Value;
+                        RpcPassword = appSettings.GetSection("Litecoin_RpcPassword").Value;
+                        WalletPassword = appSettings.GetSection("Litecoin_WalletPassword").Value;
                     }
 
                     CoinShortName = "LTC";
@@ -150,11 +151,11 @@ namespace BitcoinLib.Services
                 {
                     if (!IgnoreConfigFiles)
                     {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Dogecoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Dogecoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Dogecoin_WalletPassword");
+                        DaemonUrl = appSettings.GetSection("Dogecoin_DaemonUrl").Value;
+                        DaemonUrlTestnet = appSettings.GetSection("Dogecoin_DaemonUrl_Testnet").Value;
+                        RpcUsername = appSettings.GetSection("Dogecoin_RpcUsername").Value;
+                        RpcPassword = appSettings.GetSection("Dogecoin_RpcPassword").Value;
+                        WalletPassword = appSettings.GetSection("Dogecoin_WalletPassword").Value;
                     }
 
                     CoinShortName = "Doge";
@@ -186,11 +187,11 @@ namespace BitcoinLib.Services
                 {
                     if (!IgnoreConfigFiles)
                     {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Sarcoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Sarcoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Sarcoin_WalletPassword");
+                        DaemonUrl = appSettings.GetSection("Sarcoin_DaemonUrl").Value;
+                        DaemonUrlTestnet = appSettings.GetSection("Sarcoin_DaemonUrl_Testnet").Value;
+                        RpcUsername = appSettings.GetSection("Sarcoin_RpcUsername").Value;
+                        RpcPassword = appSettings.GetSection("Sarcoin_RpcPassword").Value;
+                        WalletPassword = appSettings.GetSection("Sarcoin_WalletPassword").Value;
                     }
 
                     CoinShortName = "SAR";
@@ -270,7 +271,7 @@ namespace BitcoinLib.Services
             public string DaemonUrl { private get; set; }
             public string DaemonUrlTestnet { private get; set; }
             public double EstimatedBlockGenerationTimeInMinutes { get; set; }
-            public int ExpectedNumberOfBlocksGeneratedPerDay => (int) EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
+            public int ExpectedNumberOfBlocksGeneratedPerDay => (int)EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
             public decimal FeePerThousandBytesInCoins { get; set; }
             public short FreeTransactionMaximumSizeInBytes { get; set; }
             public decimal FreeTransactionMinimumOutputAmountInCoins { get; set; }

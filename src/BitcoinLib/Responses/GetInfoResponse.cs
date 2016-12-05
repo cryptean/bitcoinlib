@@ -15,6 +15,7 @@ namespace BitcoinLib.Responses
         public double TimeOffset { get; set; }
         public double Connections { get; set; }
         public string Proxy { get; set; }
+        [JsonIgnore]
         public double Difficulty { get; set; }
         public bool Testnet { get; set; }
         public double KeyPoolEldest { get; set; }
