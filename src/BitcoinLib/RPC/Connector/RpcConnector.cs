@@ -2,12 +2,12 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.RPC.RequestResponse;
@@ -33,7 +33,7 @@ namespace BitcoinLib.RPC.Connector
             if (!_init)
             {
                 var @params = _coinService.Parameters;
-                InitHttpClient(@params.SelectedDaemonUrl, @params.RpcUsername, @params.RpcPassword);
+                InitHttpClient(@params.RpcUsername, @params.RpcPassword);
                 _init = true;
             }
 
@@ -41,10 +41,11 @@ namespace BitcoinLib.RPC.Connector
             var byteContent = new ByteArrayContent(jsonRpcRequest.GetBytes());
             byteContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json-rpc");
             byteContent.Headers.ContentLength = jsonRpcRequest.GetBytes().Length;
-
+            var cancelTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(_coinService.Parameters.RpcRequestTimeoutInSeconds));
+            HttpResponseMessage res;
             try
             {
-                var res = await _httpClient.PostAsync(_coinService.Parameters.SelectedDaemonUrl, byteContent);
+                res = await _httpClient.PostAsync(_coinService.Parameters.SelectedDaemonUrl, byteContent, cancelTokenSource.Token);
 
                 if (res.StatusCode == HttpStatusCode.OK)
                 {
@@ -62,8 +63,6 @@ namespace BitcoinLib.RPC.Connector
                             {
                                 var json = await res.Content.ReadAsStringAsync();
 
-                                if (json == "The operation has timed out")
-                                    throw new RpcRequestTimeoutException(json);
                                 try
                                 {
                                     var jsonRpcResponseObject =
@@ -89,15 +88,19 @@ namespace BitcoinLib.RPC.Connector
                     }
                 //throw new RpcException("Unable to connect to the server", protocolViolationException);
             }
+
             catch (Exception exception)
             {
-                var queryParameters = jsonRpcRequest.Parameters.Cast<string>().Aggregate(string.Empty, (current, parameter) => current + (parameter + " "));
+                if (cancelTokenSource.IsCancellationRequested)
+                    throw new RpcRequestTimeoutException("The operation has timed out");
+
+                var queryParameters = jsonRpcRequest.Parameters.Aggregate(string.Empty, (current, p) => current + p.ToString() + " ");
                 throw new Exception($"A problem was encountered while calling MakeRpcRequest() for: {jsonRpcRequest.Method} with parameters: {queryParameters}. \nException: {exception.Message}");
             }
 
         }
 
-        private void InitHttpClient(string daemonUrl, string rpcUser, string rpcPassword)
+        private void InitHttpClient(string rpcUser, string rpcPassword)
         {
             _httpClient = new HttpClient();
             var authBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(rpcUser + ":" + rpcPassword));

@@ -1,11 +1,6 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
 
-using System;
-using System.IO;
-using System.Net;
-using System.Text;
-using BitcoinLib.Services.Coins.Base;
 
 namespace BitcoinLib.RPC.Connector
 {

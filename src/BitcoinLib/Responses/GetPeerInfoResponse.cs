@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
 
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace BitcoinLib.Responses
@@ -30,7 +29,7 @@ namespace BitcoinLib.Responses
         [JsonProperty("synced_blocks")]
         public int SyncedBlocks { get; set; }
 
-        public IList<int> InFlight { get; set; }
+        public int[] InFlight { get; set; }
         public bool WhiteListed { get; set; }
     }
 }

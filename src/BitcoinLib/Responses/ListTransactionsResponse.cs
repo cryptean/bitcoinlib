@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
 
-using System.Collections.Generic;
 
 namespace BitcoinLib.Responses
 {
@@ -18,7 +17,7 @@ namespace BitcoinLib.Responses
         public double BlockIndex { get; set; }
         public double BlockTime { get; set; }
         public string TxId { get; set; }
-        public List<string> WalletConflicts { get; set; }
+        public string[] WalletConflicts { get; set; }
         public double Time { get; set; }
         public double TimeReceived { get; set; }
         public string Comment { get; set; }

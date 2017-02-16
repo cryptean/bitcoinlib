@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
 
-using System.Collections.Generic;
 using BitcoinLib.Responses.Bridges;
 
 namespace BitcoinLib.Responses
@@ -15,11 +14,11 @@ namespace BitcoinLib.Responses
         public int BlockIndex { get; set; }
         public int BlockTime { get; set; }
         public int Confirmations { get; set; }
-        public List<GetTransactionResponseDetails> Details { get; set; }
+        public GetTransactionResponseDetails[] Details { get; set; }
         public string Hex { get; set; }
         public int Time { get; set; }
         public int TimeReceived { get; set; }
-        public List<string> WalletConflicts { get; set; }
+        public string[] WalletConflicts { get; set; }
         public string TxId { get; set; }
     }
 

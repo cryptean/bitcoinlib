@@ -2,7 +2,6 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
-using System.Runtime.Serialization;
 using BitcoinLib.RPC.Specifications;
 
 namespace BitcoinLib.ExceptionHandling.Rpc

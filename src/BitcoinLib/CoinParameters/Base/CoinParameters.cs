@@ -2,6 +2,7 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 using System;
 using System.Diagnostics;
+using System.IO;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
@@ -28,7 +29,10 @@ namespace BitcoinLib.Services
                 string walletPassword,
                 short rpcRequestTimeoutInSeconds)
             {
-                var appSettings = new ConfigurationBuilder().AddJsonFile("config.json").Build().GetSection("AppSettings");
+
+                IConfigurationSection appSettings = default(IConfigurationSection);
+                if (File.Exists("config.json"))
+                    appSettings = new ConfigurationBuilder().AddJsonFile("config.json").Build().GetSection("AppSettings");
 
                 if (!string.IsNullOrWhiteSpace(daemonUrl))
                 {
@@ -48,7 +52,7 @@ namespace BitcoinLib.Services
                 {
                     short rpcRequestTimeoutTryParse = 0;
 
-                    if (short.TryParse(appSettings.GetSection("RpcRequestTimeoutInSeconds").Value, out rpcRequestTimeoutTryParse))
+                    if (short.TryParse(appSettings?.GetSection("RpcRequestTimeoutInSeconds")?.Value, out rpcRequestTimeoutTryParse))
                     {
                         RpcRequestTimeoutInSeconds = rpcRequestTimeoutTryParse;
                     }
@@ -70,7 +74,7 @@ namespace BitcoinLib.Services
 
                 if (coinService is BitcoinService)
                 {
-                    if (!IgnoreConfigFiles)
+                    if (!IgnoreConfigFiles && appSettings != null)
                     {
                         DaemonUrl = appSettings.GetSection("Bitcoin_DaemonUrl").Value;
                         DaemonUrlTestnet = appSettings.GetSection("Bitcoin_DaemonUrl_Testnet").Value;
@@ -109,7 +113,7 @@ namespace BitcoinLib.Services
 
                 else if (coinService is LitecoinService)
                 {
-                    if (!IgnoreConfigFiles)
+                    if (!IgnoreConfigFiles && appSettings != null)
                     {
                         DaemonUrl = appSettings.GetSection("Litecoin_DaemonUrl").Value;
                         DaemonUrlTestnet = appSettings.GetSection("Litecoin_DaemonUrl_Testnet").Value;
@@ -149,7 +153,7 @@ namespace BitcoinLib.Services
 
                 else if (coinService is DogecoinService)
                 {
-                    if (!IgnoreConfigFiles)
+                    if (!IgnoreConfigFiles && appSettings != null)
                     {
                         DaemonUrl = appSettings.GetSection("Dogecoin_DaemonUrl").Value;
                         DaemonUrlTestnet = appSettings.GetSection("Dogecoin_DaemonUrl_Testnet").Value;
@@ -185,7 +189,7 @@ namespace BitcoinLib.Services
 
                 else if (coinService is SarcoinService)
                 {
-                    if (!IgnoreConfigFiles)
+                    if (!IgnoreConfigFiles && appSettings != null)
                     {
                         DaemonUrl = appSettings.GetSection("Sarcoin_DaemonUrl").Value;
                         DaemonUrlTestnet = appSettings.GetSection("Sarcoin_DaemonUrl_Testnet").Value;

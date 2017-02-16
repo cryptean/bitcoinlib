@@ -275,11 +275,16 @@ namespace BitcoinLib.Services
                             break;
 
                         case "depends":
+                            getRawMemPoolVerboseResponse.Depends=new string[property.Value.Count()];
 
-                            foreach (var jToken in property.Value)
+                            for (int j = 0; j < property.Value.Count(); j++)
                             {
-                                getRawMemPoolVerboseResponse.Depends.Add(jToken.Value<string>());
+                                getRawMemPoolVerboseResponse.Depends[j] = property.Value[j].Value<string>();
                             }
+                            //foreach (var jToken in property.Value)
+                            //{
+                            //    getRawMemPoolVerboseResponse.Depends.Add(jToken.Value<string>());
+                            //}
 
                             break;
 

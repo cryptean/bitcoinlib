@@ -4,7 +4,7 @@
 namespace BitcoinLib.Responses
 {
     public class ListUnspentResponse
-    {
+    { 
         public string TxId { get; set; }
         public int Vout { get; set; }
         public string Address { get; set; }
