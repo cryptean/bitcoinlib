@@ -11,6 +11,6 @@ namespace BitcoinLib.Responses
         public int TxOuts { get; set; }
         public int BytesSerialized { get; set; }
         public string HashSerialized { get; set; }
-        public double TotalAmount { get; set; }
+        public long TotalAmount { get; set; }
     }
 }

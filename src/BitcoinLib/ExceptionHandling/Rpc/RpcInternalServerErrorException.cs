@@ -2,7 +2,6 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
-using System.Runtime.Serialization;
 using BitcoinLib.RPC.Specifications;
 
 namespace BitcoinLib.ExceptionHandling.Rpc
@@ -22,17 +21,6 @@ namespace BitcoinLib.ExceptionHandling.Rpc
         {
         }
 
-        public RpcErrorCode? RpcErrorCode { get; set; }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            info.AddValue("RpcErrorCode", RpcErrorCode, typeof(RpcErrorCode));
-            base.GetObjectData(info, context);
-        }
+        public RpcErrorCode? RpcErrorCode { get; set; } 
     }
 }

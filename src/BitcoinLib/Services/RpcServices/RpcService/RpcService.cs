@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Requests.SignRawTransaction;
@@ -44,199 +45,199 @@ namespace BitcoinLib.Services
             Parameters = new CoinParameters(this, daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds);
         }
 
-        public string AddMultiSigAddress(int nRquired, List<string> publicKeys, string account)
+        public Task<string> AddMultiSigAddress(int nRquired, List<string> publicKeys, string account)
         {
             return account != null
-                ? _rpcConnector.MakeRequest<string>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account)
-                : _rpcConnector.MakeRequest<string>(RpcMethods.addmultisigaddress, nRquired, publicKeys);
+                ? _rpcConnector.MakeRequestAsync<string>(RpcMethods.addmultisigaddress, nRquired, publicKeys, account)
+                : _rpcConnector.MakeRequestAsync<string>(RpcMethods.addmultisigaddress, nRquired, publicKeys);
         }
 
-        public void AddNode(string node, NodeAction action)
+        public Task AddNode(string node, NodeAction action)
         {
-            _rpcConnector.MakeRequest<string>(RpcMethods.addnode, node, action.ToString());
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.addnode, node, action.ToString());
         }
 
-        public void BackupWallet(string destination)
+        public Task BackupWallet(string destination)
         {
-            _rpcConnector.MakeRequest<string>(RpcMethods.backupwallet, destination);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.backupwallet, destination);
         }
 
-        public CreateMultiSigResponse CreateMultiSig(int nRquired, List<string> publicKeys)
+        public Task<CreateMultiSigResponse> CreateMultiSig(int nRquired, List<string> publicKeys)
         {
-            return _rpcConnector.MakeRequest<CreateMultiSigResponse>(RpcMethods.createmultisig, nRquired, publicKeys);
+            return _rpcConnector.MakeRequestAsync<CreateMultiSigResponse>(RpcMethods.createmultisig, nRquired, publicKeys);
         }
 
-        public string CreateRawTransaction(CreateRawTransactionRequest rawTransaction)
+        public Task<string> CreateRawTransaction(CreateRawTransactionRequest rawTransaction)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.createrawtransaction, rawTransaction.Inputs, rawTransaction.Outputs);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.createrawtransaction, rawTransaction.Inputs, rawTransaction.Outputs);
         }
 
-        public DecodeRawTransactionResponse DecodeRawTransaction(string rawTransactionHexString)
+        public Task<DecodeRawTransactionResponse> DecodeRawTransaction(string rawTransactionHexString)
         {
-            return _rpcConnector.MakeRequest<DecodeRawTransactionResponse>(RpcMethods.decoderawtransaction, rawTransactionHexString);
+            return _rpcConnector.MakeRequestAsync<DecodeRawTransactionResponse>(RpcMethods.decoderawtransaction, rawTransactionHexString);
         }
 
-        public DecodeScriptResponse DecodeScript(string hexString)
+        public Task<DecodeScriptResponse> DecodeScript(string hexString)
         {
-            return _rpcConnector.MakeRequest<DecodeScriptResponse>(RpcMethods.decodescript, hexString);
+            return _rpcConnector.MakeRequestAsync<DecodeScriptResponse>(RpcMethods.decodescript, hexString);
         }
 
-        public string DumpPrivKey(string bitcoinAddress)
+        public Task<string> DumpPrivKey(string bitcoinAddress)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.dumpprivkey, bitcoinAddress);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.dumpprivkey, bitcoinAddress);
         }
 
-        public void DumpWallet(string filename)
+        public Task DumpWallet(string filename)
         {
-            _rpcConnector.MakeRequest<string>(RpcMethods.dumpwallet, filename);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.dumpwallet, filename);
         }
 
-        public decimal EstimateFee(ushort nBlocks)
+        public Task<decimal> EstimateFee(ushort nBlocks)
         {
-            return _rpcConnector.MakeRequest<decimal>(RpcMethods.estimatefee, nBlocks);
+            return _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.estimatefee, nBlocks);
         }
 
-        public decimal EstimatePriority(ushort nBlocks)
+        public Task<decimal> EstimatePriority(ushort nBlocks)
         {
-            return _rpcConnector.MakeRequest<decimal>(RpcMethods.estimatepriority, nBlocks);
+            return _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.estimatepriority, nBlocks);
         }
 
-        public string GetAccount(string bitcoinAddress)
+        public Task<string> GetAccount(string bitcoinAddress)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.getaccount, bitcoinAddress);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.getaccount, bitcoinAddress);
         }
 
-        public string GetAccountAddress(string account)
+        public Task<string> GetAccountAddress(string account)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.getaccountaddress, account);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.getaccountaddress, account);
         }
 
-        public GetAddedNodeInfoResponse GetAddedNodeInfo(string dns, string node)
+        public Task<GetAddedNodeInfoResponse> GetAddedNodeInfo(string dns, string node)
         {
             return string.IsNullOrWhiteSpace(node)
-                ? _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns)
-                : _rpcConnector.MakeRequest<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns, node);
+                ? _rpcConnector.MakeRequestAsync<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns)
+                : _rpcConnector.MakeRequestAsync<GetAddedNodeInfoResponse>(RpcMethods.getaddednodeinfo, dns, node);
         }
 
-        public List<string> GetAddressesByAccount(string account)
+        public Task<List<string>> GetAddressesByAccount(string account)
         {
-            return _rpcConnector.MakeRequest<List<string>>(RpcMethods.getaddressesbyaccount, account);
+            return _rpcConnector.MakeRequestAsync<List<string>>(RpcMethods.getaddressesbyaccount, account);
         }
 
-        public decimal GetBalance(string account, int minConf, bool? includeWatchonly)
+        public Task<decimal> GetBalance(string account, int minConf, bool? includeWatchonly)
         {
             return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<decimal>(RpcMethods.getbalance, (string.IsNullOrWhiteSpace(account) ? "*" : account), minConf)
-                : _rpcConnector.MakeRequest<decimal>(RpcMethods.getbalance, (string.IsNullOrWhiteSpace(account) ? "*" : account), minConf, includeWatchonly);
+                ? _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.getbalance, (string.IsNullOrWhiteSpace(account) ? "*" : account), minConf)
+                : _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.getbalance, (string.IsNullOrWhiteSpace(account) ? "*" : account), minConf, includeWatchonly);
         }
 
-        public string GetBestBlockHash()
+        public Task<string> GetBestBlockHash()
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.getbestblockhash);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.getbestblockhash);
         }
 
-        public GetBlockResponse GetBlock(string hash, bool verbose)
+        public Task<GetBlockResponse> GetBlock(string hash, bool verbose)
         {
-            return _rpcConnector.MakeRequest<GetBlockResponse>(RpcMethods.getblock, hash, verbose);
+            return _rpcConnector.MakeRequestAsync<GetBlockResponse>(RpcMethods.getblock, hash, verbose);
         }
 
-        public GetBlockchainInfoResponse GetBlockchainInfo()
+        public Task<GetBlockchainInfoResponse> GetBlockchainInfo()
         {
-            return _rpcConnector.MakeRequest<GetBlockchainInfoResponse>(RpcMethods.getblockchaininfo);
+            return _rpcConnector.MakeRequestAsync<GetBlockchainInfoResponse>(RpcMethods.getblockchaininfo);
         }
 
-        public uint GetBlockCount()
+        public Task<uint> GetBlockCount()
         {
-            return _rpcConnector.MakeRequest<uint>(RpcMethods.getblockcount);
+            return _rpcConnector.MakeRequestAsync<uint>(RpcMethods.getblockcount);
         }
 
-        public string GetBlockHash(long index)
+        public Task<string> GetBlockHash(long index)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.getblockhash, index);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.getblockhash, index);
         }
 
-        public GetBlockTemplateResponse GetBlockTemplate(params object[] parameters)
+        public Task<GetBlockTemplateResponse> GetBlockTemplate(params object[] parameters)
         {
             return parameters == null
-                ? _rpcConnector.MakeRequest<GetBlockTemplateResponse>(RpcMethods.getblocktemplate)
-                : _rpcConnector.MakeRequest<GetBlockTemplateResponse>(RpcMethods.getblocktemplate, parameters);
+                ? _rpcConnector.MakeRequestAsync<GetBlockTemplateResponse>(RpcMethods.getblocktemplate)
+                : _rpcConnector.MakeRequestAsync<GetBlockTemplateResponse>(RpcMethods.getblocktemplate, parameters);
         }
 
-        public List<GetChainTipsResponse> GetChainTips()
+        public Task<List<GetChainTipsResponse>> GetChainTips()
         {
-            return _rpcConnector.MakeRequest<List<GetChainTipsResponse>>(RpcMethods.getchaintips);
+            return _rpcConnector.MakeRequestAsync<List<GetChainTipsResponse>>(RpcMethods.getchaintips);
         }
 
-        public int GetConnectionCount()
+        public Task<int> GetConnectionCount()
         {
-            return _rpcConnector.MakeRequest<int>(RpcMethods.getconnectioncount);
+            return _rpcConnector.MakeRequestAsync<int>(RpcMethods.getconnectioncount);
         }
 
-        public double GetDifficulty()
+        public Task<double> GetDifficulty()
         {
-            return _rpcConnector.MakeRequest<double>(RpcMethods.getdifficulty);
+            return _rpcConnector.MakeRequestAsync<double>(RpcMethods.getdifficulty);
         }
 
-        public bool GetGenerate()
+        public Task<bool> GetGenerate()
         {
-            return _rpcConnector.MakeRequest<bool>(RpcMethods.getgenerate);
+            return _rpcConnector.MakeRequestAsync<bool>(RpcMethods.getgenerate);
         }
 
         [Obsolete("Please use calls: GetWalletInfo(), GetBlockchainInfo() and GetNetworkInfo() instead")]
-        public GetInfoResponse GetInfo()
+        public Task<GetInfoResponse> GetInfo()
         {
-            return _rpcConnector.MakeRequest<GetInfoResponse>(RpcMethods.getinfo);
+            return _rpcConnector.MakeRequestAsync<GetInfoResponse>(RpcMethods.getinfo);
         }
 
-        public GetMemPoolInfoResponse GetMemPoolInfo()
+        public Task<GetMemPoolInfoResponse> GetMemPoolInfo()
         {
-            return _rpcConnector.MakeRequest<GetMemPoolInfoResponse>(RpcMethods.getmempoolinfo);
+            return _rpcConnector.MakeRequestAsync<GetMemPoolInfoResponse>(RpcMethods.getmempoolinfo);
         }
 
-        public GetMiningInfoResponse GetMiningInfo()
+        public Task<GetMiningInfoResponse> GetMiningInfo()
         {
-            return _rpcConnector.MakeRequest<GetMiningInfoResponse>(RpcMethods.getmininginfo);
+            return _rpcConnector.MakeRequestAsync<GetMiningInfoResponse>(RpcMethods.getmininginfo);
         }
 
-        public GetNetTotalsResponse GetNetTotals()
+        public Task<GetNetTotalsResponse> GetNetTotals()
         {
-            return _rpcConnector.MakeRequest<GetNetTotalsResponse>(RpcMethods.getnettotals);
+            return _rpcConnector.MakeRequestAsync<GetNetTotalsResponse>(RpcMethods.getnettotals);
         }
 
-        public ulong GetNetworkHashPs(uint blocks, long height)
+        public Task<ulong> GetNetworkHashPs(uint blocks, long height)
         {
-            return _rpcConnector.MakeRequest<ulong>(RpcMethods.getnetworkhashps);
+            return _rpcConnector.MakeRequestAsync<ulong>(RpcMethods.getnetworkhashps);
         }
 
-        public GetNetworkInfoResponse GetNetworkInfo()
+        public Task<GetNetworkInfoResponse> GetNetworkInfo()
         {
-            return _rpcConnector.MakeRequest<GetNetworkInfoResponse>(RpcMethods.getnetworkinfo);
+            return _rpcConnector.MakeRequestAsync<GetNetworkInfoResponse>(RpcMethods.getnetworkinfo);
         }
 
-        public string GetNewAddress(string account)
+        public Task<string> GetNewAddress(string account)
         {
             return string.IsNullOrWhiteSpace(account)
-                ? _rpcConnector.MakeRequest<string>(RpcMethods.getnewaddress)
-                : _rpcConnector.MakeRequest<string>(RpcMethods.getnewaddress, account);
+                ? _rpcConnector.MakeRequestAsync<string>(RpcMethods.getnewaddress)
+                : _rpcConnector.MakeRequestAsync<string>(RpcMethods.getnewaddress, account);
         }
 
-        public List<GetPeerInfoResponse> GetPeerInfo()
+        public Task<List<GetPeerInfoResponse>> GetPeerInfo()
         {
-            return _rpcConnector.MakeRequest<List<GetPeerInfoResponse>>(RpcMethods.getpeerinfo);
+            return _rpcConnector.MakeRequestAsync<List<GetPeerInfoResponse>>(RpcMethods.getpeerinfo);
         }
 
-        public GetRawMemPoolResponse GetRawMemPool(bool verbose)
+        public async Task<GetRawMemPoolResponse> GetRawMemPool(bool verbose)
         {
             var getRawMemPoolResponse = new GetRawMemPoolResponse
             {
                 IsVerbose = verbose
             };
 
-            var rpcResponse = _rpcConnector.MakeRequest<object>(RpcMethods.getrawmempool, verbose);
+            var rpcResponse = await _rpcConnector.MakeRequestAsync<object>(RpcMethods.getrawmempool, verbose);
 
             if (!verbose)
             {
-                var rpcResponseAsArray = (JArray) rpcResponse;
+                var rpcResponseAsArray = (JArray)rpcResponse;
 
                 foreach (string txId in rpcResponseAsArray)
                 {
@@ -246,7 +247,7 @@ namespace BitcoinLib.Services
                 return getRawMemPoolResponse;
             }
 
-            IList<KeyValuePair<string, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<string, JToken>>(((JObject) (rpcResponse)))).ToList();
+            IList<KeyValuePair<string, JToken>> rpcResponseAsKvp = (new List<KeyValuePair<string, JToken>>(((JObject)(rpcResponse)))).ToList();
             IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
 
             for (var i = 0; i < children.Count(); i++)
@@ -274,11 +275,16 @@ namespace BitcoinLib.Services
                             break;
 
                         case "depends":
+                            getRawMemPoolVerboseResponse.Depends=new string[property.Value.Count()];
 
-                            foreach (var jToken in property.Value)
+                            for (int j = 0; j < property.Value.Count(); j++)
                             {
-                                getRawMemPoolVerboseResponse.Depends.Add(jToken.Value<string>());
+                                getRawMemPoolVerboseResponse.Depends[j] = property.Value[j].Value<string>();
                             }
+                            //foreach (var jToken in property.Value)
+                            //{
+                            //    getRawMemPoolVerboseResponse.Depends.Add(jToken.Value<string>());
+                            //}
 
                             break;
 
@@ -347,103 +353,103 @@ namespace BitcoinLib.Services
             return getRawMemPoolResponse;
         }
 
-        public string GetRawChangeAddress()
+        public Task<string> GetRawChangeAddress()
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.getrawchangeaddress);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.getrawchangeaddress);
         }
 
-        public GetRawTransactionResponse GetRawTransaction(string txId, int verbose)
+        public async Task<GetRawTransactionResponse> GetRawTransaction(string txId, int verbose)
         {
             if (verbose == 0)
             {
                 return new GetRawTransactionResponse
                 {
-                    Hex = _rpcConnector.MakeRequest<string>(RpcMethods.getrawtransaction, txId, verbose)
+                    Hex = await _rpcConnector.MakeRequestAsync<string>(RpcMethods.getrawtransaction, txId, verbose)
                 };
             }
 
             if (verbose == 1)
             {
-                return _rpcConnector.MakeRequest<GetRawTransactionResponse>(RpcMethods.getrawtransaction, txId, verbose);
+                return await _rpcConnector.MakeRequestAsync<GetRawTransactionResponse>(RpcMethods.getrawtransaction, txId, verbose);
             }
 
             throw new Exception("Invalid verbose value: " + verbose + " in GetRawTransaction()!");
         }
 
-        public decimal GetReceivedByAccount(string account, int minConf)
+        public Task<decimal> GetReceivedByAccount(string account, int minConf)
         {
-            return _rpcConnector.MakeRequest<decimal>(RpcMethods.getreceivedbyaccount, account, minConf);
+            return _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.getreceivedbyaccount, account, minConf);
         }
 
-        public decimal GetReceivedByAddress(string bitcoinAddress, int minConf)
+        public Task<decimal> GetReceivedByAddress(string bitcoinAddress, int minConf)
         {
-            return _rpcConnector.MakeRequest<decimal>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
+            return _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
         }
 
-        public GetTransactionResponse GetTransaction(string txId, bool? includeWatchonly)
+        public Task<GetTransactionResponse> GetTransaction(string txId, bool? includeWatchonly)
         {
             return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId)
-                : _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettransaction, txId, includeWatchonly);
+                ? _rpcConnector.MakeRequestAsync<GetTransactionResponse>(RpcMethods.gettransaction, txId)
+                : _rpcConnector.MakeRequestAsync<GetTransactionResponse>(RpcMethods.gettransaction, txId, includeWatchonly);
         }
 
-        public GetTransactionResponse GetTxOut(string txId, int n, bool includeMemPool)
+        public Task<GetTransactionResponse> GetTxOut(string txId, int n, bool includeMemPool)
         {
-            return _rpcConnector.MakeRequest<GetTransactionResponse>(RpcMethods.gettxout, txId, n, includeMemPool);
+            return _rpcConnector.MakeRequestAsync<GetTransactionResponse>(RpcMethods.gettxout, txId, n, includeMemPool);
         }
 
-        public GetTxOutSetInfoResponse GetTxOutSetInfo()
+        public Task<GetTxOutSetInfoResponse> GetTxOutSetInfo()
         {
-            return _rpcConnector.MakeRequest<GetTxOutSetInfoResponse>(RpcMethods.gettxoutsetinfo);
+            return _rpcConnector.MakeRequestAsync<GetTxOutSetInfoResponse>(RpcMethods.gettxoutsetinfo);
         }
 
-        public decimal GetUnconfirmedBalance()
+        public Task<decimal> GetUnconfirmedBalance()
         {
-            return _rpcConnector.MakeRequest<decimal>(RpcMethods.getunconfirmedbalance);
+            return _rpcConnector.MakeRequestAsync<decimal>(RpcMethods.getunconfirmedbalance);
         }
 
-        public GetWalletInfoResponse GetWalletInfo()
+        public Task<GetWalletInfoResponse> GetWalletInfo()
         {
-            return _rpcConnector.MakeRequest<GetWalletInfoResponse>(RpcMethods.getwalletinfo);
+            return _rpcConnector.MakeRequestAsync<GetWalletInfoResponse>(RpcMethods.getwalletinfo);
         }
 
-        public string Help(string command)
+        public Task<string> Help(string command)
         {
             return string.IsNullOrWhiteSpace(command)
-                ? _rpcConnector.MakeRequest<string>(RpcMethods.help)
-                : _rpcConnector.MakeRequest<string>(RpcMethods.help, command);
+                ? _rpcConnector.MakeRequestAsync<string>(RpcMethods.help)
+                : _rpcConnector.MakeRequestAsync<string>(RpcMethods.help, command);
         }
 
-        public void ImportAddress(string address, string label, bool rescan)
+        public Task ImportAddress(string address, string label, bool rescan)
         {
-            _rpcConnector.MakeRequest<string>(RpcMethods.importaddress, address, label, rescan);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.importaddress, address, label, rescan);
         }
 
-        public string ImportPrivKey(string privateKey, string label, bool rescan)
+        public Task<string> ImportPrivKey(string privateKey, string label, bool rescan)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.importprivkey, privateKey, label, rescan);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.importprivkey, privateKey, label, rescan);
         }
 
-        public void ImportWallet(string filename)
+        public Task ImportWallet(string filename)
         {
-            _rpcConnector.MakeRequest<string>(RpcMethods.importwallet, filename);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.importwallet, filename);
         }
 
-        public string KeyPoolRefill(uint newSize)
+        public Task<string> KeyPoolRefill(uint newSize)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.keypoolrefill, newSize);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.keypoolrefill, newSize);
         }
 
-        public Dictionary<string, decimal> ListAccounts(int minConf, bool? includeWatchonly)
+        public Task<Dictionary<string, decimal>> ListAccounts(int minConf, bool? includeWatchonly)
         {
             return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<Dictionary<string, decimal>>(RpcMethods.listaccounts, minConf)
-                : _rpcConnector.MakeRequest<Dictionary<string, decimal>>(RpcMethods.listaccounts, minConf, includeWatchonly);
+                ? _rpcConnector.MakeRequestAsync<Dictionary<string, decimal>>(RpcMethods.listaccounts, minConf)
+                : _rpcConnector.MakeRequestAsync<Dictionary<string, decimal>>(RpcMethods.listaccounts, minConf, includeWatchonly);
         }
 
-        public List<List<ListAddressGroupingsResponse>> ListAddressGroupings()
+        public async Task<List<List<ListAddressGroupingsResponse>>> ListAddressGroupings()
         {
-            var unstructuredResponse = _rpcConnector.MakeRequest<List<List<List<object>>>>(RpcMethods.listaddressgroupings);
+            var unstructuredResponse = await _rpcConnector.MakeRequestAsync<List<List<List<object>>>>(RpcMethods.listaddressgroupings);
             var structuredResponse = new List<List<ListAddressGroupingsResponse>>(unstructuredResponse.Count);
 
             for (var i = 0; i < unstructuredResponse.Count; i++)
@@ -477,45 +483,45 @@ namespace BitcoinLib.Services
             return structuredResponse;
         }
 
-        public string ListLockUnspent()
+        public Task<string> ListLockUnspent()
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.listlockunspent);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.listlockunspent);
         }
 
-        public List<ListReceivedByAccountResponse> ListReceivedByAccount(int minConf, bool includeEmpty, bool? includeWatchonly)
-        {
-            return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty)
-                : _rpcConnector.MakeRequest<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty, includeWatchonly);
-        }
-
-        public List<ListReceivedByAddressResponse> ListReceivedByAddress(int minConf, bool includeEmpty, bool? includeWatchonly)
+        public Task<List<ListReceivedByAccountResponse>> ListReceivedByAccount(int minConf, bool includeEmpty, bool? includeWatchonly)
         {
             return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty)
-                : _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty, includeWatchonly);
+                ? _rpcConnector.MakeRequestAsync<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty)
+                : _rpcConnector.MakeRequestAsync<List<ListReceivedByAccountResponse>>(RpcMethods.listreceivedbyaccount, minConf, includeEmpty, includeWatchonly);
         }
 
-        public ListSinceBlockResponse ListSinceBlock(string blockHash, int targetConfirmations, bool? includeWatchonly)
+        public Task<List<ListReceivedByAddressResponse>> ListReceivedByAddress(int minConf, bool includeEmpty, bool? includeWatchonly)
         {
             return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, (string.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations)
-                : _rpcConnector.MakeRequest<ListSinceBlockResponse>(RpcMethods.listsinceblock, (string.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations, includeWatchonly);
+                ? _rpcConnector.MakeRequestAsync<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty)
+                : _rpcConnector.MakeRequestAsync<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty, includeWatchonly);
         }
 
-        public List<ListTransactionsResponse> ListTransactions(string account, int count, int from, bool? includeWatchonly)
+        public Task<ListSinceBlockResponse> ListSinceBlock(string blockHash, int targetConfirmations, bool? includeWatchonly)
         {
             return includeWatchonly == null
-                ? _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (string.IsNullOrWhiteSpace(account) ? "*" : account), count, from)
-                : _rpcConnector.MakeRequest<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (string.IsNullOrWhiteSpace(account) ? "*" : account), count, from, includeWatchonly);
+                ? _rpcConnector.MakeRequestAsync<ListSinceBlockResponse>(RpcMethods.listsinceblock, (string.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations)
+                : _rpcConnector.MakeRequestAsync<ListSinceBlockResponse>(RpcMethods.listsinceblock, (string.IsNullOrWhiteSpace(blockHash) ? "*" : blockHash), targetConfirmations, includeWatchonly);
         }
 
-        public List<ListUnspentResponse> ListUnspent(int minConf, int maxConf, List<string> addresses)
+        public Task<List<ListTransactionsResponse>> ListTransactions(string account, int count, int from, bool? includeWatchonly)
         {
-            return _rpcConnector.MakeRequest<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addresses ?? new List<string>()));
+            return includeWatchonly == null
+                ? _rpcConnector.MakeRequestAsync<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (string.IsNullOrWhiteSpace(account) ? "*" : account), count, from)
+                : _rpcConnector.MakeRequestAsync<List<ListTransactionsResponse>>(RpcMethods.listtransactions, (string.IsNullOrWhiteSpace(account) ? "*" : account), count, from, includeWatchonly);
         }
 
-        public bool LockUnspent(bool unlock, IList<ListUnspentResponse> listUnspentResponses)
+        public Task<List<ListUnspentResponse>> ListUnspent(int minConf, int maxConf, List<string> addresses)
+        {
+            return _rpcConnector.MakeRequestAsync<List<ListUnspentResponse>>(RpcMethods.listunspent, minConf, maxConf, (addresses ?? new List<string>()));
+        }
+
+        public Task<bool> LockUnspent(bool unlock, IList<ListUnspentResponse> listUnspentResponses)
         {
             IList<object> transactions = new List<object>();
 
@@ -523,71 +529,72 @@ namespace BitcoinLib.Services
             {
                 transactions.Add(new
                 {
-                    txid = listUnspentResponse.TxId, listUnspentResponse.Vout
+                    txid = listUnspentResponse.TxId,
+                    listUnspentResponse.Vout
                 });
             }
 
-            return _rpcConnector.MakeRequest<bool>(RpcMethods.lockunspent, unlock, transactions.ToArray());
+            return _rpcConnector.MakeRequestAsync<bool>(RpcMethods.lockunspent, unlock, transactions.ToArray());
         }
 
-        public bool Move(string fromAccount, string toAccount, decimal amount, int minConf, string comment)
+        public Task<bool> Move(string fromAccount, string toAccount, decimal amount, int minConf, string comment)
         {
-            return _rpcConnector.MakeRequest<bool>(RpcMethods.move, fromAccount, toAccount, amount, minConf, comment);
+            return _rpcConnector.MakeRequestAsync<bool>(RpcMethods.move, fromAccount, toAccount, amount, minConf, comment);
         }
 
-        public void Ping()
+        public Task Ping()
         {
-            _rpcConnector.MakeRequest<string>(RpcMethods.ping);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.ping);
         }
 
-        public bool PrioritiseTransaction(string txId, decimal priorityDelta, decimal feeDelta)
+        public Task<bool> PrioritiseTransaction(string txId, decimal priorityDelta, decimal feeDelta)
         {
-            return _rpcConnector.MakeRequest<bool>(RpcMethods.prioritisetransaction, txId, priorityDelta, feeDelta);
+            return _rpcConnector.MakeRequestAsync<bool>(RpcMethods.prioritisetransaction, txId, priorityDelta, feeDelta);
         }
 
-        public string SendFrom(string fromAccount, string toBitcoinAddress, decimal amount, int minConf, string comment, string commentTo)
+        public Task<string> SendFrom(string fromAccount, string toBitcoinAddress, decimal amount, int minConf, string comment, string commentTo)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.sendfrom, fromAccount, toBitcoinAddress, amount, minConf, comment, commentTo);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.sendfrom, fromAccount, toBitcoinAddress, amount, minConf, comment, commentTo);
         }
 
-        public string SendMany(string fromAccount, Dictionary<string, decimal> toBitcoinAddress, int minConf, string comment)
+        public Task<string> SendMany(string fromAccount, Dictionary<string, decimal> toBitcoinAddress, int minConf, string comment)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.sendmany, fromAccount, toBitcoinAddress, minConf, comment);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.sendmany, fromAccount, toBitcoinAddress, minConf, comment);
         }
 
-        public string SendRawTransaction(string rawTransactionHexString, bool? allowHighFees)
+        public Task<string> SendRawTransaction(string rawTransactionHexString, bool? allowHighFees)
         {
             return allowHighFees == null
-                ? _rpcConnector.MakeRequest<string>(RpcMethods.sendrawtransaction, rawTransactionHexString)
-                : _rpcConnector.MakeRequest<string>(RpcMethods.sendrawtransaction, rawTransactionHexString, allowHighFees);
+                ? _rpcConnector.MakeRequestAsync<string>(RpcMethods.sendrawtransaction, rawTransactionHexString)
+                : _rpcConnector.MakeRequestAsync<string>(RpcMethods.sendrawtransaction, rawTransactionHexString, allowHighFees);
         }
 
-        public string SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo)
+        public Task<string> SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.sendtoaddress, bitcoinAddress, amount, comment, commentTo);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.sendtoaddress, bitcoinAddress, amount, comment, commentTo);
         }
 
-        public string SetAccount(string bitcoinAddress, string account)
+        public Task<string> SetAccount(string bitcoinAddress, string account)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.setaccount, bitcoinAddress, account);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.setaccount, bitcoinAddress, account);
         }
 
-        public string SetGenerate(bool generate, short generatingProcessorsLimit)
+        public Task<string> SetGenerate(bool generate, short generatingProcessorsLimit)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.setgenerate, generate, generatingProcessorsLimit);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.setgenerate, generate, generatingProcessorsLimit);
         }
 
-        public string SetTxFee(decimal amount)
+        public Task<string> SetTxFee(decimal amount)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.settxfee, amount);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.settxfee, amount);
         }
 
-        public string SignMessage(string bitcoinAddress, string message)
+        public Task<string> SignMessage(string bitcoinAddress, string message)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.signmessage, bitcoinAddress, message);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.signmessage, bitcoinAddress, message);
         }
 
-        public SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest request)
+        public Task<SignRawTransactionResponse> SignRawTransaction(SignRawTransactionRequest request)
         {
             #region default values
 
@@ -608,49 +615,49 @@ namespace BitcoinLib.Services
 
             #endregion
 
-            return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, request.RawTransactionHex, request.Inputs, request.PrivateKeys, request.SigHashType);
+            return _rpcConnector.MakeRequestAsync<SignRawTransactionResponse>(RpcMethods.signrawtransaction, request.RawTransactionHex, request.Inputs, request.PrivateKeys, request.SigHashType);
         }
 
-        public string Stop()
+        public Task<string> Stop()
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.stop);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.stop);
         }
 
-        public string SubmitBlock(string hexData, params object[] parameters)
+        public Task<string> SubmitBlock(string hexData, params object[] parameters)
         {
             return parameters == null
-                ? _rpcConnector.MakeRequest<string>(RpcMethods.submitblock, hexData)
-                : _rpcConnector.MakeRequest<string>(RpcMethods.submitblock, hexData, parameters);
+                ? _rpcConnector.MakeRequestAsync<string>(RpcMethods.submitblock, hexData)
+                : _rpcConnector.MakeRequestAsync<string>(RpcMethods.submitblock, hexData, parameters);
         }
 
-        public ValidateAddressResponse ValidateAddress(string bitcoinAddress)
+        public Task<ValidateAddressResponse> ValidateAddress(string bitcoinAddress)
         {
-            return _rpcConnector.MakeRequest<ValidateAddressResponse>(RpcMethods.validateaddress, bitcoinAddress);
+            return _rpcConnector.MakeRequestAsync<ValidateAddressResponse>(RpcMethods.validateaddress, bitcoinAddress);
         }
 
-        public bool VerifyChain(ushort checkLevel, uint numBlocks)
+        public Task<bool> VerifyChain(ushort checkLevel, uint numBlocks)
         {
-            return _rpcConnector.MakeRequest<bool>(RpcMethods.verifychain, checkLevel, numBlocks);
+            return _rpcConnector.MakeRequestAsync<bool>(RpcMethods.verifychain, checkLevel, numBlocks);
         }
 
-        public bool VerifyMessage(string bitcoinAddress, string signature, string message)
+        public Task<bool> VerifyMessage(string bitcoinAddress, string signature, string message)
         {
-            return _rpcConnector.MakeRequest<bool>(RpcMethods.verifymessage, bitcoinAddress, signature, message);
+            return _rpcConnector.MakeRequestAsync<bool>(RpcMethods.verifymessage, bitcoinAddress, signature, message);
         }
 
-        public string WalletLock()
+        public Task<string> WalletLock()
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.walletlock);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.walletlock);
         }
 
-        public string WalletPassphrase(string passphrase, int timeoutInSeconds)
+        public Task<string> WalletPassphrase(string passphrase, int timeoutInSeconds)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.walletpassphrase, passphrase, timeoutInSeconds);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.walletpassphrase, passphrase, timeoutInSeconds);
         }
 
-        public string WalletPassphraseChange(string oldPassphrase, string newPassphrase)
+        public Task<string> WalletPassphraseChange(string oldPassphrase, string newPassphrase)
         {
-            return _rpcConnector.MakeRequest<string>(RpcMethods.walletpassphrasechange, oldPassphrase, newPassphrase);
+            return _rpcConnector.MakeRequestAsync<string>(RpcMethods.walletpassphrasechange, oldPassphrase, newPassphrase);
         }
 
         public override string ToString()

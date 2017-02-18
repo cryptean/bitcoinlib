@@ -22,7 +22,7 @@ namespace BitcoinLib.Responses
     {
         public GetRawMemPoolVerboseResponse()
         {
-            Depends = new List<string>();
+            Depends = new List<string>().ToArray();
         }
 
         public string TxId { get; set; }
@@ -32,6 +32,6 @@ namespace BitcoinLib.Responses
         public int? Height { get; set; }
         public double? StartingPriority { get; set; }
         public double? CurrentPriority { get; set; }
-        public IList<string> Depends { get; set; }
+        public string[] Depends { get; set; }
     }
 }

@@ -1,44 +1,42 @@
-﻿// Copyright (c) 2014 - 2016 George Kimionis
-// See the accompanying file LICENSE for the Software License Aggrement
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.Responses;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
 
-namespace ConsoleClient
+namespace DemoClient
 {
-    internal sealed class Program
+    public class Program
     {
-        private static readonly ICoinService CoinService = new BitcoinService(useTestnet: true);
+        private static readonly ICoinService CoinService = new BitcoinService("http://localhost:8888", "test", "testpwd", "", 30);
 
-        private static void Main()
+        public static void Main(string[] args)
         {
             try
             {
                 Console.Write("\n\nConnecting to {0} {1}Net via RPC at {2}...", CoinService.Parameters.CoinLongName, (CoinService.Parameters.UseTestnet ? "Test" : "Main"), CoinService.Parameters.SelectedDaemonUrl);
 
                 //  Network difficulty
-                var networkDifficulty = CoinService.GetDifficulty();
+                var networkDifficulty = CoinService.GetDifficulty().Result;
                 Console.WriteLine("[OK]\n\n{0} Network Difficulty: {1}", CoinService.Parameters.CoinLongName, networkDifficulty.ToString("#,###", CultureInfo.InvariantCulture));
 
                 //  My balance
-                var myBalance = CoinService.GetBalance();
+                var myBalance = CoinService.GetBalance().Result;
                 Console.WriteLine("\nMy balance: {0} {1}", myBalance, CoinService.Parameters.CoinShortName);
 
                 //  Current block
                 Console.WriteLine("Current block: {0}",
-                    CoinService.GetBlockCount().ToString("#,#", CultureInfo.InvariantCulture));
+                     CoinService.GetBlockCount().Result.ToString("#,#", CultureInfo.InvariantCulture));
 
                 //  Wallet state
-                Console.WriteLine("Wallet state: {0}", CoinService.IsWalletEncrypted() ? "Encrypted" : "Unencrypted");
+                Console.WriteLine("Wallet state: {0}", CoinService.IsWalletEncrypted().Result ? "Encrypted" : "Unencrypted");
 
                 //  Keys and addresses
                 if (myBalance > 0)
@@ -46,7 +44,7 @@ namespace ConsoleClient
                     //  My non-empty addresses
                     Console.WriteLine("\n\nMy non-empty addresses:");
 
-                    var myNonEmptyAddresses = CoinService.ListReceivedByAddress();
+                    var myNonEmptyAddresses = CoinService.ListReceivedByAddress().Result;
 
                     foreach (var address in myNonEmptyAddresses)
                     {
@@ -58,28 +56,9 @@ namespace ConsoleClient
                         Console.WriteLine("--------------------------------------------------");
                     }
 
-                    //  My private keys
-                    if (bool.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0 && CoinService.IsWalletEncrypted())
-                    {
-                        const short secondsToUnlockTheWallet = 30;
-
-                        Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
-                        CoinService.WalletPassphrase(CoinService.Parameters.WalletPassword, secondsToUnlockTheWallet);
-                        Console.WriteLine("[OK]\n\nMy private keys for non-empty addresses:\n");
-
-                        foreach (var address in myNonEmptyAddresses)
-                        {
-                            Console.WriteLine("Private Key for address " + address.Address + ": " + CoinService.DumpPrivKey(address.Address));
-                        }
-
-                        Console.Write("\nLocking wallet...");
-                        CoinService.WalletLock();
-                        Console.WriteLine("[OK]");
-                    }
-
                     //  My transactions 
                     Console.WriteLine("\n\nMy transactions: ");
-                    var myTransactions = CoinService.ListTransactions(null, int.MaxValue, 0);
+                    var myTransactions = CoinService.ListTransactions(null, 10, 0).Result;
 
                     foreach (var transaction in myTransactions)
                     {
@@ -107,7 +86,7 @@ namespace ConsoleClient
                             Console.WriteLine("Other Account: " + transaction.OtherAccount);
                         }
 
-                        if (transaction.WalletConflicts.Any())
+                        if (transaction.WalletConflicts != null && transaction.WalletConflicts.Any())
                         {
                             Console.Write("Conflicted Transactions: ");
 
@@ -126,7 +105,7 @@ namespace ConsoleClient
                     Console.WriteLine("\n\nMy transactions' details:");
                     foreach (var transaction in myTransactions)
                     {
-                        var localWalletTransaction = CoinService.GetTransaction(transaction.TxId);
+                        var localWalletTransaction = CoinService.GetTransaction(transaction.TxId).Result;
                         IEnumerable<PropertyInfo> localWalletTrasactionProperties = localWalletTransaction.GetType().GetProperties();
                         IList<GetTransactionResponseDetails> localWalletTransactionDetailsList = localWalletTransaction.Details.ToList();
 
@@ -156,7 +135,7 @@ namespace ConsoleClient
 
                     //  Unspent transactions
                     Console.WriteLine("\nMy unspent transactions:");
-                    var unspentList = CoinService.ListUnspent();
+                    var unspentList = CoinService.ListUnspent().Result;
 
                     foreach (var unspentResponse in unspentList)
                     {
@@ -189,6 +168,7 @@ namespace ConsoleClient
             catch (Exception exception)
             {
                 Console.WriteLine("[Failed]\n\nPlease check your configuration and make sure that the daemon is up and running and that it is synchronized. \n\nException: " + exception);
+                Console.WriteLine();
             }
         }
     }
