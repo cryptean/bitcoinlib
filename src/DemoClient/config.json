@@ -1,0 +1,12 @@
+﻿{
+  "coinSettings": [
+    {
+      "name": "Btc",
+      "daemonUrl": "http://127.0.0.1:7562",
+      "rpcUser": "test",
+      "rpcPassword": "testpwd",
+      "walletPassword": "",
+      "rpcTimeoutSeconds": 30
+    }
+  ]
+}

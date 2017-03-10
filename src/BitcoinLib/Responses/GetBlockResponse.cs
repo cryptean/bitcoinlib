@@ -9,10 +9,10 @@ namespace BitcoinLib.Responses
     {
         public GetBlockResponse()
         {
-            Tx = new List<string>();
+            Tx = new List<string>().ToArray();
         }
 
-        public List<string> Tx { get; set; }
+        public string[] Tx { get; set; }
         public string Hash { get; set; }
         public int Confirmations { get; set; }
         public int Size { get; set; }

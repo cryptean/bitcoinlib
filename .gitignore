@@ -91,6 +91,7 @@ AppPackages/
 # Others
 [Bb]in
 [Oo]bj
+.vs
 sql
 TestResults
 [Tt]est[Rr]esult*

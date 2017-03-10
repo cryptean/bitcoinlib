@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
-
 using System;
-using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
@@ -11,6 +10,7 @@ using BitcoinLib.Services.Coins.Cryptocoin;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
 using BitcoinLib.Services.Coins.Sarcoin;
+using Microsoft.Extensions.Configuration;
 
 namespace BitcoinLib.Services
 {
@@ -27,13 +27,12 @@ namespace BitcoinLib.Services
                 string rpcUsername,
                 string rpcPassword,
                 string walletPassword,
-                short rpcRequestTimeoutInSeconds)
+                short rpcRequestTimeoutInSeconds = 10)
             {
                 if (!string.IsNullOrWhiteSpace(daemonUrl))
                 {
                     DaemonUrl = daemonUrl;
                     UseTestnet = false; //  this will force the CoinParameters.SelectedDaemonUrl dynamic property to automatically pick the daemonUrl defined above
-                    IgnoreConfigFiles = true;
                     RpcUsername = rpcUsername;
                     RpcPassword = rpcPassword;
                     WalletPassword = walletPassword;
@@ -43,22 +42,13 @@ namespace BitcoinLib.Services
                 {
                     RpcRequestTimeoutInSeconds = rpcRequestTimeoutInSeconds;
                 }
-                else
-                {
-                    short rpcRequestTimeoutTryParse = 0;
 
-                    if (short.TryParse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"), out rpcRequestTimeoutTryParse))
-                    {
-                        RpcRequestTimeoutInSeconds = rpcRequestTimeoutTryParse;
-                    }
-                }
-
-                if (IgnoreConfigFiles && (string.IsNullOrWhiteSpace(DaemonUrl) || string.IsNullOrWhiteSpace(RpcUsername) || string.IsNullOrWhiteSpace(RpcPassword)))
+                if ((string.IsNullOrWhiteSpace(DaemonUrl) || string.IsNullOrWhiteSpace(RpcUsername) || string.IsNullOrWhiteSpace(RpcPassword)))
                 {
                     throw new Exception($"One or more required parameters, as defined in {GetType().Name}, were not found in the configuration file!");
                 }
 
-                if (IgnoreConfigFiles && Debugger.IsAttached && string.IsNullOrWhiteSpace(WalletPassword))
+                if (Debugger.IsAttached && string.IsNullOrWhiteSpace(WalletPassword))
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("[WARNING] The wallet password is either null or empty");
@@ -69,15 +59,6 @@ namespace BitcoinLib.Services
 
                 if (coinService is BitcoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Bitcoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Bitcoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Bitcoin_WalletPassword");
-                    }
-
                     CoinShortName = "BTC";
                     CoinLongName = "Bitcoin";
                     IsoCurrencyCode = "XBT";
@@ -108,15 +89,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is LitecoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Litecoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Litecoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Litecoin_WalletPassword");
-                    }
-
                     CoinShortName = "LTC";
                     CoinLongName = "Litecoin";
                     IsoCurrencyCode = "XLT";
@@ -148,15 +120,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is DogecoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Dogecoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Dogecoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Dogecoin_WalletPassword");
-                    }
-
                     CoinShortName = "Doge";
                     CoinLongName = "Dogecoin";
                     IsoCurrencyCode = "XDG";
@@ -184,15 +147,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is SarcoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Sarcoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Sarcoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Sarcoin_WalletPassword");
-                    }
-
                     CoinShortName = "SAR";
                     CoinLongName = "Sarcoin";
                     IsoCurrencyCode = "SAR";
@@ -221,7 +175,7 @@ namespace BitcoinLib.Services
 
                 #region Agnostic coin (cryptocoin)
 
-                else if (coinService is CryptocoinService)
+                else  
                 {
                     CoinShortName = "XXX";
                     CoinLongName = "Generic Cryptocoin Template";
@@ -230,32 +184,7 @@ namespace BitcoinLib.Services
                     //  Note: The rest of the parameters will have to be defined at run-time
                 }
 
-                #endregion
-
-                #region Uknown coin exception
-
-                else
-                {
-                    throw new Exception("Unknown coin!");
-                }
-
-                #endregion
-
-                #region Invalid configuration / Missing parameters
-
-                if (RpcRequestTimeoutInSeconds <= 0)
-                {
-                    throw new Exception("RpcRequestTimeoutInSeconds must be greater than zero");
-                }
-
-                if (string.IsNullOrWhiteSpace(DaemonUrl)
-                    || string.IsNullOrWhiteSpace(RpcUsername)
-                    || string.IsNullOrWhiteSpace(RpcPassword))
-                {
-                    throw new Exception($"One or more required parameters, as defined in {GetType().Name}, were not found in the configuration file!");
-                }
-
-                #endregion
+                #endregion 
             }
 
             #endregion
@@ -270,12 +199,11 @@ namespace BitcoinLib.Services
             public string DaemonUrl { private get; set; }
             public string DaemonUrlTestnet { private get; set; }
             public double EstimatedBlockGenerationTimeInMinutes { get; set; }
-            public int ExpectedNumberOfBlocksGeneratedPerDay => (int) EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
+            public int ExpectedNumberOfBlocksGeneratedPerDay => (int)EstimatedBlockGenerationTimeInMinutes * GlobalConstants.MinutesInADay;
             public decimal FeePerThousandBytesInCoins { get; set; }
             public short FreeTransactionMaximumSizeInBytes { get; set; }
             public decimal FreeTransactionMinimumOutputAmountInCoins { get; set; }
             public int FreeTransactionMinimumPriority { get; set; }
-            public bool IgnoreConfigFiles { get; }
             public string IsoCurrencyCode { get; set; }
             public decimal MinimumNonDustTransactionAmountInCoins { get; set; }
             public decimal MinimumTransactionFeeInCoins { get; set; }

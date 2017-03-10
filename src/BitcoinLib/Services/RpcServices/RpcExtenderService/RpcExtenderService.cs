@@ -60,7 +60,8 @@ namespace BitcoinLib.Services
             {
                 rawTransactionRequest.AddInput(new CreateRawTransactionInput
                 {
-                    TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture), Vout = i
+                    TxId = "dummyTxId" + i.ToString(CultureInfo.InvariantCulture),
+                    Vout = i
                 });
             }
 
@@ -68,7 +69,8 @@ namespace BitcoinLib.Services
             {
                 rawTransactionRequest.AddOutput(new CreateRawTransactionOutput
                 {
-                    Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture), Amount = i + 1
+                    Address = "dummyAddress" + i.ToString(CultureInfo.InvariantCulture),
+                    Amount = i + 1
                 });
             }
 
@@ -117,7 +119,7 @@ namespace BitcoinLib.Services
 
             if (transactionFee.GetNumberOfDecimalPlaces() > Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces())
             {
-                transactionFee = decimal.Round(transactionFee, Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces(), MidpointRounding.AwayFromZero);
+                transactionFee = Math.Round(transactionFee, Parameters.CoinsPerBaseUnit.GetNumberOfDecimalPlaces(), MidpointRounding.AwayFromZero);
             }
 
             if (enforceMinimumTransactionFeePolicy && Parameters.MinimumTransactionFeeInCoins != 0 && transactionFee < Parameters.MinimumTransactionFeeInCoins)
@@ -133,8 +135,8 @@ namespace BitcoinLib.Services
             var allTransactions = (this as ICoinService).ListTransactions("*", listTransactionsCount, listTransactionsFrom);
 
             return (from listTransactionsResponse in allTransactions
-                where rigidTxId == GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
-                select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
+                    where rigidTxId == GetImmutableTxId(listTransactionsResponse.TxId, rigidTxIdIsSha256)
+                    select GetRawTransaction(listTransactionsResponse.TxId, getRawTransactionVersbose ? 1 : 0)).FirstOrDefault();
         }
 
         public decimal GetTransactionPriority(CreateRawTransactionRequest transaction)

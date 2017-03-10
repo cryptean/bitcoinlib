@@ -1,26 +1,38 @@
-﻿// Copyright (c) 2014 - 2016 George Kimionis
-// See the accompanying file LICENSE for the Software License Aggrement
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.Responses;
+using BitcoinLib.Services;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
+using BitCoinLib.CoinParameters;
 
-namespace ConsoleClient
+namespace DemoClient
 {
-    internal sealed class Program
+    public class Program
     {
-        private static readonly ICoinService CoinService = new BitcoinService(useTestnet: true);
+        private static ICoinService CoinService;//= new BitcoinService("http://localhost:8888", "test", "testpwd", "", 30);
 
         private static void Main()
         {
+            CoinConfiguration.LoadConfigFile("config.json");
+
+            if (CoinConfiguration.CoinSettings.Any())
+            {
+                CoinService = new CoinService(CoinConfiguration.CoinSettings.First());
+            }
+            else
+            {
+                Console.Write("no valid coin config");
+                return;
+            }
+
             try
             {
                 Console.Write("\n\nConnecting to {0} {1}Net via RPC at {2}...", CoinService.Parameters.CoinLongName, (CoinService.Parameters.UseTestnet ? "Test" : "Main"), CoinService.Parameters.SelectedDaemonUrl);
@@ -58,24 +70,24 @@ namespace ConsoleClient
                         Console.WriteLine("--------------------------------------------------");
                     }
 
-                    //  My private keys
-                    if (bool.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0 && CoinService.IsWalletEncrypted())
-                    {
-                        const short secondsToUnlockTheWallet = 30;
+                    ////  My private keys
+                    //if (bool.Parse(ConfigurationManager.AppSettings["ExtractMyPrivateKeys"]) && myNonEmptyAddresses.Count > 0 && CoinService.IsWalletEncrypted())
+                    //{
+                    //    const short secondsToUnlockTheWallet = 30;
 
-                        Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
-                        CoinService.WalletPassphrase(CoinService.Parameters.WalletPassword, secondsToUnlockTheWallet);
-                        Console.WriteLine("[OK]\n\nMy private keys for non-empty addresses:\n");
+                    //    Console.Write("\nWill now unlock the wallet for " + secondsToUnlockTheWallet + ((secondsToUnlockTheWallet > 1) ? " seconds" : " second") + "...");
+                    //    CoinService.WalletPassphrase(CoinService.Parameters.WalletPassword, secondsToUnlockTheWallet);
+                    //    Console.WriteLine("[OK]\n\nMy private keys for non-empty addresses:\n");
 
-                        foreach (var address in myNonEmptyAddresses)
-                        {
-                            Console.WriteLine("Private Key for address " + address.Address + ": " + CoinService.DumpPrivKey(address.Address));
-                        }
+                    //    foreach (var address in myNonEmptyAddresses)
+                    //    {
+                    //        Console.WriteLine("Private Key for address " + address.Address + ": " + CoinService.DumpPrivKey(address.Address));
+                    //    }
 
-                        Console.Write("\nLocking wallet...");
-                        CoinService.WalletLock();
-                        Console.WriteLine("[OK]");
-                    }
+                    //    Console.Write("\nLocking wallet...");
+                    //    CoinService.WalletLock();
+                    //    Console.WriteLine("[OK]");
+                    //}
 
                     //  My transactions 
                     Console.WriteLine("\n\nMy transactions: ");
