@@ -11,8 +11,8 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>2.0.1.7</AssemblyVersion>
-    <FileVersion>2.0.1.7</FileVersion>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
     <Version>1.4.0.0</Version>
     <Description>.Net Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones Library &amp; RPC Wrapper in C#</Description>
   </PropertyGroup>
