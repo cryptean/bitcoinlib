@@ -6,7 +6,6 @@ using BitcoinLib.RPC.Specifications;
 
 namespace BitcoinLib.ExceptionHandling.Rpc
 {
-    [Serializable]
     public class RpcInternalServerErrorException : Exception
     {
         public RpcInternalServerErrorException()

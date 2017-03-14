@@ -2,15 +2,12 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 using System;
 using System.Diagnostics;
-using System.IO;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
-using BitcoinLib.Services.Coins.Cryptocoin;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
 using BitcoinLib.Services.Coins.Sarcoin;
-using Microsoft.Extensions.Configuration;
 
 namespace BitcoinLib.Services
 {

@@ -5,7 +5,6 @@ using System;
 
 namespace BitcoinLib.ExceptionHandling.RpcExtenderService
 {
-    [Serializable]
     public class GetAddressBalanceException : Exception
     {
         public GetAddressBalanceException()
