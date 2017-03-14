@@ -4,8 +4,7 @@
 using System;
 
 namespace BitcoinLib.ExceptionHandling.RawTransactions
-{
-    [Serializable]
+{ 
     public class RawTransactionExcessiveFeeException : Exception
     {
         public RawTransactionExcessiveFeeException() : base("Fee in raw transaction is greater than specified amount.")

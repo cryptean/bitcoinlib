@@ -5,7 +5,6 @@ using System;
 
 namespace BitcoinLib.ExceptionHandling.RawTransactions
 {
-    [Serializable]
     public class RawTransactionInvalidAmountException : Exception
     {
         public RawTransactionInvalidAmountException() : base("Raw Transaction amount is invalid.")

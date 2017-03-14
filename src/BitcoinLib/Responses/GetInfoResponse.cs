@@ -11,17 +11,22 @@ namespace BitcoinLib.Responses
         public string ProtocolVersion { get; set; }
         public string WalletVersion { get; set; }
         public decimal Balance { get; set; }
-        public double Blocks { get; set; }
-        public double TimeOffset { get; set; }
-        public double Connections { get; set; }
+        public long Blocks { get; set; }
+        public long TimeOffset { get; set; }
+        public int Connections { get; set; }
         public string Proxy { get; set; }
+        [JsonIgnore]
         public double Difficulty { get; set; }
         public bool Testnet { get; set; }
-        public double KeyPoolEldest { get; set; }
-        public double KeyPoolSize { get; set; }
+        public long KeyPoolEldest { get; set; }
+        public long KeyPoolSize { get; set; }
 
         [JsonProperty("unlocked_until")]
-        public ulong UnlockedUntil { get; set; }
+        public long UnlockedUntil { get; set; }
+
+        [JsonIgnore]
+        [JsonProperty("moneysupply")]
+        public decimal MoneySupply { get; set; }
 
         public decimal PayTxFee { get; set; }
         public decimal RelayTxFee { get; set; }

@@ -11,6 +11,7 @@ using BitcoinLib.Responses;
 using BitcoinLib.RPC.Connector;
 using BitcoinLib.RPC.Specifications;
 using BitcoinLib.Services.Coins.Base;
+using BitCoinLib.CoinParameters;
 using Newtonsoft.Json.Linq;
 
 namespace BitcoinLib.Services
@@ -29,6 +30,12 @@ namespace BitcoinLib.Services
         public CoinService(bool useTestnet) : this()
         {
             Parameters.UseTestnet = useTestnet;
+        }
+
+        public CoinService(CoinSetting setting)
+        {
+            _rpcConnector = new RpcConnector(this);
+            Parameters = new CoinParameters(this, setting.DaemonUrl, setting.RpcUser, setting.RpcPassword, setting.WalletPassword, setting.RpcTimeoutSeconds);
         }
 
         public CoinService(string daemonUrl, string rpcUsername, string rpcPassword, string walletPassword)
@@ -236,7 +243,7 @@ namespace BitcoinLib.Services
 
             if (!verbose)
             {
-                var rpcResponseAsArray = (JArray) rpcResponse;
+                var rpcResponseAsArray = (JArray)rpcResponse;
 
                 foreach (string txId in rpcResponseAsArray)
                 {
@@ -246,7 +253,7 @@ namespace BitcoinLib.Services
                 return getRawMemPoolResponse;
             }
 
-            IList<KeyValuePair<string, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<string, JToken>>(((JObject) (rpcResponse)))).ToList();
+            IList<KeyValuePair<string, JToken>> rpcResponseAsKvp = (new List<KeyValuePair<string, JToken>>(((JObject)(rpcResponse)))).ToList();
             IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
 
             for (var i = 0; i < children.Count(); i++)
@@ -523,7 +530,8 @@ namespace BitcoinLib.Services
             {
                 transactions.Add(new
                 {
-                    txid = listUnspentResponse.TxId, listUnspentResponse.Vout
+                    txid = listUnspentResponse.TxId,
+                    listUnspentResponse.Vout
                 });
             }
 

@@ -5,7 +5,6 @@ using System;
 
 namespace BitcoinLib.ExceptionHandling.Rpc
 {
-    [Serializable]
     public class RpcResponseDeserializationException : Exception
     {
         public RpcResponseDeserializationException()

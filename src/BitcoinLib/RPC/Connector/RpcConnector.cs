@@ -2,11 +2,13 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
-using BitcoinLib.Auxiliary;
+using System.Threading;
+using System.Threading.Tasks;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.RPC.RequestResponse;
 using BitcoinLib.RPC.Specifications;
@@ -18,6 +20,8 @@ namespace BitcoinLib.RPC.Connector
     public sealed class RpcConnector : IRpcConnector
     {
         private readonly ICoinService _coinService;
+        private HttpClient _httpClient;
+        private bool _init = false;
 
         public RpcConnector(ICoinService coinService)
         {
@@ -26,131 +30,88 @@ namespace BitcoinLib.RPC.Connector
 
         public T MakeRequest<T>(RpcMethods rpcMethod, params object[] parameters)
         {
+            return MakeRequestAsync<T>(rpcMethod, parameters).Result;
+        }
+
+        public async Task<T> MakeRequestAsync<T>(RpcMethods rpcMethod, params object[] parameters)
+        {
+            if (!_init)
+            {
+                var @params = _coinService.Parameters;
+                InitHttpClient(@params.RpcUsername, @params.RpcPassword);
+                _init = true;
+            }
+
             var jsonRpcRequest = new JsonRpcRequest(1, rpcMethod.ToString(), parameters);
-            var webRequest = (HttpWebRequest) WebRequest.Create(_coinService.Parameters.SelectedDaemonUrl);
-            SetBasicAuthHeader(webRequest, _coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
-            webRequest.Credentials = new NetworkCredential(_coinService.Parameters.RpcUsername, _coinService.Parameters.RpcPassword);
-            webRequest.ContentType = "application/json-rpc";
-            webRequest.Method = "POST";
-            webRequest.Proxy = null;
-            webRequest.Timeout = _coinService.Parameters.RpcRequestTimeoutInSeconds * GlobalConstants.MillisecondsInASecond;
-            var byteArray = jsonRpcRequest.GetBytes();
-            webRequest.ContentLength = jsonRpcRequest.GetBytes().Length;
-
+            var byteContent = new ByteArrayContent(jsonRpcRequest.GetBytes());
+            byteContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json-rpc");
+            byteContent.Headers.ContentLength = jsonRpcRequest.GetBytes().Length;
+            var cancelTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(_coinService.Parameters.RpcRequestTimeoutInSeconds));
+            HttpResponseMessage res;
             try
             {
-                using (var dataStream = webRequest.GetRequestStream())
+                res = await _httpClient.PostAsync(_coinService.Parameters.SelectedDaemonUrl, byteContent, cancelTokenSource.Token);
+
+                if (res.StatusCode == HttpStatusCode.OK)
                 {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    dataStream.Dispose();
+                    var json = await res.Content.ReadAsStringAsync();
+                    var rpcResponse = JsonConvert.DeserializeObject<JsonRpcResponse<T>>(json);
+                    return rpcResponse.Result;
                 }
-            }
-            catch (Exception exception)
-            {
-                throw new RpcException("There was a problem sending the request to the wallet", exception);
-            }
-
-            try
-            {
-                string json;
-
-                using (var webResponse = webRequest.GetResponse())
-                {
-                    using (var stream = webResponse.GetResponseStream())
-                    {
-                        using (var reader = new StreamReader(stream))
-                        {
-                            var result = reader.ReadToEnd();
-                            reader.Dispose();
-                            json = result;
-                        }
-                    }
-                }
-
-                var rpcResponse = JsonConvert.DeserializeObject<JsonRpcResponse<T>>(json);
-                return rpcResponse.Result;
-            }
-            catch (WebException webException)
-            {
-                #region RPC Internal Server Error (with an Error Code)
-
-                var webResponse = webException.Response as HttpWebResponse;
-
-                if (webResponse != null)
-                {
-                    switch (webResponse.StatusCode)
+                else
+                    switch (res.StatusCode)
                     {
                         case HttpStatusCode.InternalServerError:
-                        {
-                            using (var stream = webResponse.GetResponseStream())
+                            var stream = await res.Content.ReadAsStreamAsync();
+
+                            if (stream != null)
                             {
-                                if (stream == null)
+                                var json = await res.Content.ReadAsStringAsync();
+
+                                try
                                 {
-                                    throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
-                                }
+                                    var jsonRpcResponseObject =
+                                        JsonConvert.DeserializeObject<JsonRpcResponse<object>>(json);
 
-                                using (var reader = new StreamReader(stream))
-                                {
-                                    var result = reader.ReadToEnd();
-                                    reader.Dispose();
-
-                                    try
-                                    {
-                                        var jsonRpcResponseObject = JsonConvert.DeserializeObject<JsonRpcResponse<object>>(result);
-
-                                        var internalServerErrorException = new RpcInternalServerErrorException(jsonRpcResponseObject.Error.Message, webException)
+                                    var internalServerErrorException =
+                                        new RpcInternalServerErrorException(jsonRpcResponseObject.Error.Message)
                                         {
                                             RpcErrorCode = jsonRpcResponseObject.Error.Code
                                         };
 
-                                        throw internalServerErrorException;
-                                    }
-                                    catch (JsonException)
-                                    {
-                                        throw new RpcException(result, webException);
-                                    }
+                                    throw internalServerErrorException;
+                                }
+                                catch (JsonException)
+                                {
+                                    throw new RpcException(json);
                                 }
                             }
-                        }
-
+                            else goto default;
                         default:
-                            throw new RpcException("The RPC request was either not understood by the server or there was a problem executing the request", webException);
+                            throw new RpcException(
+                                "The RPC request was either not understood by the server or there was a problem executing the request");
                     }
-                }
-
-                #endregion
-
-                #region RPC Time-Out
-
-                if (webException.Message == "The operation has timed out")
-                {
-                    throw new RpcRequestTimeoutException(webException.Message);
-                }
-
-                #endregion
-
-                throw new RpcException("An unknown web exception occured while trying to read the JSON response", webException);
+                //throw new RpcException("Unable to connect to the server", protocolViolationException);
             }
-            catch (JsonException jsonException)
-            {
-                throw new RpcResponseDeserializationException("There was a problem deserializing the response from the wallet", jsonException);
-            }
-            catch (ProtocolViolationException protocolViolationException)
-            {
-                throw new RpcException("Unable to connect to the server", protocolViolationException);
-            }
+
             catch (Exception exception)
             {
-                var queryParameters = jsonRpcRequest.Parameters.Cast<string>().Aggregate(string.Empty, (current, parameter) => current + (parameter + " "));
+                if (cancelTokenSource.IsCancellationRequested)
+                    throw new RpcRequestTimeoutException("The operation has timed out");
+
+                var queryParameters = jsonRpcRequest.Parameters.Aggregate(string.Empty, (current, p) => current + p.ToString() + " ");
                 throw new Exception($"A problem was encountered while calling MakeRpcRequest() for: {jsonRpcRequest.Method} with parameters: {queryParameters}. \nException: {exception.Message}");
             }
+
         }
 
-        private static void SetBasicAuthHeader(WebRequest webRequest, string username, string password)
+        private void InitHttpClient(string rpcUser, string rpcPassword)
         {
-            var authInfo = username + ":" + password;
-            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-            webRequest.Headers["Authorization"] = "Basic " + authInfo;
+            _httpClient = new HttpClient();
+            var authBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(rpcUser + ":" + rpcPassword));
+            var auth = new AuthenticationHeaderValue("Basic", authBase64);
+            _httpClient.DefaultRequestHeaders.Authorization = auth;
+            _httpClient.Timeout = TimeSpan.FromSeconds(_coinService.Parameters.RpcRequestTimeoutInSeconds);
         }
     }
 }
