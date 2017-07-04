@@ -43,6 +43,8 @@
     <Compile Include="Auxiliary\Encoders\HexEncoder.cs" />
     <Compile Include="Auxiliary\GlobalConstants.cs" />
     <Compile Include="Auxiliary\Hashing.cs" />
+    <Compile Include="CoinParameters\Dash\DashConstants.cs" />
+    <Compile Include="CoinParameters\Dash\IDashConstants.cs" />
     <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
     <Compile Include="CoinParameters\Dogecoin\IDogecoinConstants.cs" />
     <Compile Include="ExceptionHandling\RawTransactions\RawTransactionExcessiveFeeException.cs" />
@@ -118,6 +120,8 @@
     </Compile>
     <Compile Include="Services\Coins\Cryptocoin\CryptocoinService.cs" />
     <Compile Include="Services\Coins\Cryptocoin\ICryptocoinService.cs" />
+    <Compile Include="Services\Coins\Dash\DashService.cs" />
+    <Compile Include="Services\Coins\Dash\IDashService.cs" />
     <Compile Include="Services\Coins\Dogecoin\DogecoinService.cs" />
     <Compile Include="Services\Coins\Dogecoin\IDogecoinService.cs" />
     <Compile Include="Services\Coins\Litecoin\ILitecoinService.cs" />

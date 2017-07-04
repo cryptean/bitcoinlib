@@ -8,6 +8,7 @@ using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
 using BitcoinLib.Services.Coins.Cryptocoin;
+using BitcoinLib.Services.Coins.Dash;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
 using BitcoinLib.Services.Coins.Sarcoin;
@@ -213,6 +214,45 @@ namespace BitcoinLib.Services
                     BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
 
                     BaseUnitName = "Satoshi";
+                    BaseUnitsPerCoin = 100000000;
+                    CoinsPerBaseUnit = 0.00000001M;
+                }
+
+                #endregion
+
+                #region Dash
+
+                else if (coinService is DashService)
+                {
+                    if (!IgnoreConfigFiles)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Dash_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dash_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Dash_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Dash_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Dash_WalletPassword");
+                    }
+
+                    CoinShortName = "DASH";
+                    CoinLongName = "Dash";
+                    IsoCurrencyCode = "DASH";
+
+                    TransactionSizeBytesContributedByEachInput = 148;
+                    TransactionSizeBytesContributedByEachOutput = 34;
+                    TransactionSizeFixedExtraSizeInBytes = 10;
+
+                    FreeTransactionMaximumSizeInBytes = 1000;
+                    FreeTransactionMinimumOutputAmountInCoins = 0.0001M;
+                    FreeTransactionMinimumPriority = 57600000;
+                    FeePerThousandBytesInCoins = 0.0001M;
+                    MinimumTransactionFeeInCoins = 0.001M;
+                    MinimumNonDustTransactionAmountInCoins = 0.0000543M;
+
+                    TotalCoinSupplyInCoins = 18900000;
+                    EstimatedBlockGenerationTimeInMinutes = 2.7;
+                    BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
+
+                    BaseUnitName = "Duff";
                     BaseUnitsPerCoin = 100000000;
                     CoinsPerBaseUnit = 0.00000001M;
                 }
