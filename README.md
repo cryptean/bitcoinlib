@@ -16,7 +16,7 @@ Features
 - Custom RPC exceptions.
 - Supports all Bitcoin clones.
 - Can operate on unlimited daemons with a single library reference.
-- [Bitcoin](http://en.wikipedia.org/wiki/Bitcoin), [Litecoin](http://en.wikipedia.org/wiki/Litecoin), [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin) and [Sarcoin](https://github.com/sarcoin/SARCoin) integrations included.
+- [Bitcoin](http://en.wikipedia.org/wiki/Bitcoin), [Litecoin](http://en.wikipedia.org/wiki/Litecoin), [Dogecoin](http://en.wikipedia.org/wiki/Dogecoin) and Dash integrations included.
 - Each coin instance can be fully parametrized at run-time and implement its own constants.
 - Demo client included.
 - Disconnected raw RPC connector included for quick'n'dirty debugging.
