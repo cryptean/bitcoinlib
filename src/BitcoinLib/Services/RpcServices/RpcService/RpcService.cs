@@ -18,7 +18,7 @@ namespace BitcoinLib.Services
     //   Implementation of API calls list, as found at: https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_Calls_list (note: this list is often out-of-date so call "help" in your bitcoin-cli to get the latest signatures)
     public partial class CoinService : ICoinService
     {
-        private readonly IRpcConnector _rpcConnector;
+        protected readonly IRpcConnector _rpcConnector;
 
         public CoinService()
         {
