@@ -59,8 +59,13 @@ _ReSharper*
 *.ncrunch*
 .*crunch*.local.xml
 
+# Paket - dependency management for .NET and Mono projects
+.paket/paket.bootstrapper.run
+paket-files
+
 # NuGet Packages Directory
 NuGetPackages
+packages
 
 # Installshield output folder 
 [Ee]xpress

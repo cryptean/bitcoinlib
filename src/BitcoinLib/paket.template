@@ -1,0 +1,18 @@
+type
+    project
+id
+    BitcoinLib
+description
+    The most complete, up-to-date, battle-tested Library and RPC Wrapper for Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones in C#.
+authors
+    George Kimionis
+copyright
+    Copyright 2017
+licenseurl
+    https://github.com/GeorgeKimionis/BitcoinLib/blob/master/LICENSE
+projecturl
+    https://github.com/GeorgeKimionis/BitcoinLib
+iconUrl
+    https://raw.githubusercontent.com/GeorgeKimionis/BitcoinLib/master/nuget/NuGetSpecs/BitcoinLib.jpg
+tags
+    c#, dotnet, bitcoin
