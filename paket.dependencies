@@ -1,0 +1,4 @@
+source https://api.nuget.org/v3/index.json
+
+nuget NuGet.CommandLine
+nuget Newtonsoft.Json 6.0.3 restriction: >= net45

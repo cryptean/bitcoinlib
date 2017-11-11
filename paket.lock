@@ -1,0 +1,4 @@
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    Newtonsoft.Json (6.0.3) - restriction: >= net45
+    NuGet.CommandLine (4.3)
