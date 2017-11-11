@@ -1,4 +1,5 @@
 NUGET
   remote: https://api.nuget.org/v3/index.json
+    FAKE (4.63.2)
     Newtonsoft.Json (6.0.3) - restriction: >= net45
     NuGet.CommandLine (4.3)
