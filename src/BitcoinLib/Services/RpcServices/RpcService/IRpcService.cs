@@ -101,6 +101,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 
         //  abandontransaction
         string AddMultiSigAddress(int nRquired, List<string> publicKeys, string account = null);
+        string AddWitnessAddress(string address);
         void BackupWallet(string destination);
         string DumpPrivKey(string bitcoinAddress);
         void DumpWallet(string filename);

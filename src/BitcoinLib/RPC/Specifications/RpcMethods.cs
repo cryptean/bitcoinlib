@@ -75,6 +75,7 @@ namespace BitcoinLib.RPC.Specifications
         //== Wallet ==
         abandontransaction,
         addmultisigaddress,
+        addwitnessaddress,
         backupwallet,
         dumpprivkey,
         dumpwallet,
