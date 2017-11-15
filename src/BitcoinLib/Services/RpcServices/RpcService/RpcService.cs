@@ -56,6 +56,11 @@ namespace BitcoinLib.Services
             _rpcConnector.MakeRequest<string>(RpcMethods.addnode, node, action.ToString());
         }
 
+        public string AddWitnessAddress(string address)
+        {
+            return _rpcConnector.MakeRequest<string>(RpcMethods.addwitnessaddress, address);
+        }
+
         public void BackupWallet(string destination)
         {
             _rpcConnector.MakeRequest<string>(RpcMethods.backupwallet, destination);
