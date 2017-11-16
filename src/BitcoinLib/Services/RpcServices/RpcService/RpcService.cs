@@ -567,7 +567,7 @@ namespace BitcoinLib.Services
                 : _rpcConnector.MakeRequest<string>(RpcMethods.sendrawtransaction, rawTransactionHexString, allowHighFees);
         }
 
-        public string SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo)
+        public string SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo, bool subtractFeeFromAmount)
         {
             return _rpcConnector.MakeRequest<string>(RpcMethods.sendtoaddress, bitcoinAddress, amount, comment, commentTo);
         }
