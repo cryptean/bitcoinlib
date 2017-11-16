@@ -1,14 +1,12 @@
 ﻿BitcoinLib [![Build Status](https://travis-ci.org/GeorgeKimionis/BitcoinLib.svg?branch=master)](https://travis-ci.org/GeorgeKimionis/BitcoinLib)
 ==========
 
-**.Net Bitcoin & Altcoins Library & RPC Wrapper in C#**
+**.NET Bitcoin & Altcoins library**
 
 Features
 --------
 
 - Fully compatible and up-to-date with [Bitcoin Core 0.11.2](https://bitcoin.org/en/download) RPC API.
-- Available on [NuGet](https://www.nuget.org/packages/BitcoinLib/).
-- Design-by-contract, service-oriented architecture.
 - Strongly-typed structures for complex RPC requests and responses.
 - Implicit JSON casting for all RPC messages.
 - Extended methods for every-day scenarios where the built-in methods fall short.
@@ -40,6 +38,18 @@ License
 -------
 
 See [LICENSE](LICENSE).
+
+NuGet packages
+-------
+
+BitcoinLib is available on NuGet:
+
+* [BitcoinLib](https://www.nuget.org/packages/BitcoinLib/)
+
+Versioning
+-------
+
+From version 1.4.0, BitcoinLib follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
 
 
 Instructions for Bitcoin
