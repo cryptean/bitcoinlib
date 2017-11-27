@@ -7,12 +7,12 @@ namespace BitcoinLib.Requests.SignRawTransaction
 {
     public class SignRawTransactionRequest
     {
-        public SignRawTransactionRequest(string rawTransactionHex)
+        public SignRawTransactionRequest(string rawTransactionHex, string sigHashType = "ALL")
         {
             RawTransactionHex = rawTransactionHex;
             Inputs = new List<SignRawTransactionInput>();
             PrivateKeys = new List<string>();
-            SigHashType = SignRawTransaction.SigHashType.All;
+            SigHashType = sigHashType;
         }
 
         public string RawTransactionHex { get; set; }
