@@ -1,20 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/BitcoinLib/Properties/AssemblyInfo.cs">
-    <Files>
-      <File FileName="src/BitcoinLib/Services/RpcServices/RpcService/RpcService.cs" Line="25" Column="45" />
-      <File FileName="src/BitcoinLib/Properties/AssemblyInfo.cs" Line="19" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="BitcoinLib" expanded="True">
             <Node name="BitcoinLib" expanded="True">
-              <Node name="Properties" expanded="True">
-                <Node name="AssemblyInfo.cs" selected="True" />
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
               </Node>
+              <Node name="Properties" expanded="True" />
               <Node name="Services" expanded="True">
                 <Node name="RpcServices" expanded="True">
-                  <Node name="RpcService" expanded="True" />
+                  <Node name="RpcService" expanded="True">
+                    <Node name="RpcService.cs" selected="True" />
+                  </Node>
                 </Node>
               </Node>
             </Node>
