@@ -101,6 +101,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 
         //  abandontransaction
         string AddMultiSigAddress(int nRquired, List<string> publicKeys, string account = null);
+        string AddWitnessAddress(string address);
         void BackupWallet(string destination);
         string DumpPrivKey(string bitcoinAddress);
         void DumpWallet(string filename);
@@ -132,7 +133,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         bool Move(string fromAccount, string toAccount, decimal amount, int minConf = 1, string comment = "");
         string SendFrom(string fromAccount, string toBitcoinAddress, decimal amount, int minConf = 1, string comment = null, string commentTo = null);
         string SendMany(string fromAccount, Dictionary<string, decimal> toBitcoinAddress, int minConf = 1, string comment = null);
-        string SendToAddress(string bitcoinAddress, decimal amount, string comment = null, string commentTo = null);
+        string SendToAddress(string bitcoinAddress, decimal amount, string comment = null, string commentTo = null, bool subtractFeeFromAmount = false);
         string SetAccount(string bitcoinAddress, string account);
         string SetTxFee(decimal amount);
         string SignMessage(string bitcoinAddress, string message);

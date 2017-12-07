@@ -56,6 +56,11 @@ namespace BitcoinLib.Services
             _rpcConnector.MakeRequest<string>(RpcMethods.addnode, node, action.ToString());
         }
 
+        public string AddWitnessAddress(string address)
+        {
+            return _rpcConnector.MakeRequest<string>(RpcMethods.addwitnessaddress, address);
+        }
+
         public void BackupWallet(string destination)
         {
             _rpcConnector.MakeRequest<string>(RpcMethods.backupwallet, destination);
@@ -562,7 +567,7 @@ namespace BitcoinLib.Services
                 : _rpcConnector.MakeRequest<string>(RpcMethods.sendrawtransaction, rawTransactionHexString, allowHighFees);
         }
 
-        public string SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo)
+        public string SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo, bool subtractFeeFromAmount)
         {
             return _rpcConnector.MakeRequest<string>(RpcMethods.sendtoaddress, bitcoinAddress, amount, comment, commentTo);
         }
