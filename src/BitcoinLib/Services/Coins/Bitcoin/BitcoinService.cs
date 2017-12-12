@@ -12,7 +12,7 @@ namespace BitcoinLib.Services.Coins.Bitcoin
         }
 
         public BitcoinService(string daemonUrl, string rpcUsername, string rpcPassword, string walletPassword)
-            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword)
+            : base(daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds: 30)
         {
         }
 

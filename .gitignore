@@ -63,6 +63,9 @@ _ReSharper*
 .paket/paket.bootstrapper.run
 paket-files
 
+# FAKE - F# Make
+.fake/
+
 # NuGet Packages Directory
 NuGetPackages
 packages
@@ -111,3 +114,5 @@ Generated_Code #added for RIA/Silverlight projects
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
+/src/.vs/**/*
+/src/packages/**/*

@@ -40,19 +40,7 @@ namespace BitcoinLib.Services
                     WalletPassword = walletPassword;
                 }
 
-                if (rpcRequestTimeoutInSeconds > 0)
-                {
-                    RpcRequestTimeoutInSeconds = rpcRequestTimeoutInSeconds;
-                }
-                else
-                {
-                    short rpcRequestTimeoutTryParse = 0;
-
-                    if (short.TryParse(ConfigurationManager.AppSettings.Get("RpcRequestTimeoutInSeconds"), out rpcRequestTimeoutTryParse))
-                    {
-                        RpcRequestTimeoutInSeconds = rpcRequestTimeoutTryParse;
-                    }
-                }
+                RpcRequestTimeoutInSeconds = rpcRequestTimeoutInSeconds;
 
                 if (IgnoreConfigFiles && (string.IsNullOrWhiteSpace(DaemonUrl) || string.IsNullOrWhiteSpace(RpcUsername) || string.IsNullOrWhiteSpace(RpcPassword)))
                 {
@@ -70,15 +58,6 @@ namespace BitcoinLib.Services
 
                 if (coinService is BitcoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Bitcoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Bitcoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Bitcoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Bitcoin_WalletPassword");
-                    }
-
                     CoinShortName = "BTC";
                     CoinLongName = "Bitcoin";
                     IsoCurrencyCode = "XBT";
@@ -109,15 +88,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is LitecoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Litecoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Litecoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Litecoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Litecoin_WalletPassword");
-                    }
-
                     CoinShortName = "LTC";
                     CoinLongName = "Litecoin";
                     IsoCurrencyCode = "XLT";
@@ -149,15 +119,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is DogecoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dogecoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Dogecoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Dogecoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Dogecoin_WalletPassword");
-                    }
-
                     CoinShortName = "Doge";
                     CoinLongName = "Dogecoin";
                     IsoCurrencyCode = "XDG";
@@ -185,15 +146,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is SarcoinService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Sarcoin_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Sarcoin_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Sarcoin_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Sarcoin_WalletPassword");
-                    }
-
                     CoinShortName = "SAR";
                     CoinLongName = "Sarcoin";
                     IsoCurrencyCode = "SAR";
@@ -224,15 +176,6 @@ namespace BitcoinLib.Services
 
                 else if (coinService is DashService)
                 {
-                    if (!IgnoreConfigFiles)
-                    {
-                        DaemonUrl = ConfigurationManager.AppSettings.Get("Dash_DaemonUrl");
-                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dash_DaemonUrl_Testnet");
-                        RpcUsername = ConfigurationManager.AppSettings.Get("Dash_RpcUsername");
-                        RpcPassword = ConfigurationManager.AppSettings.Get("Dash_RpcPassword");
-                        WalletPassword = ConfigurationManager.AppSettings.Get("Dash_WalletPassword");
-                    }
-
                     CoinShortName = "DASH";
                     CoinLongName = "Dash";
                     IsoCurrencyCode = "DASH";

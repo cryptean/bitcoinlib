@@ -34,7 +34,7 @@ namespace BitcoinLib.Services
         public CoinService(string daemonUrl, string rpcUsername, string rpcPassword, string walletPassword)
         {
             _rpcConnector = new RpcConnector(this);
-            Parameters = new CoinParameters(this, daemonUrl, rpcUsername, rpcPassword, walletPassword, 0);
+            Parameters = new CoinParameters(this, daemonUrl, rpcUsername, rpcPassword, walletPassword, rpcRequestTimeoutInSeconds: 0);
         }
 
         //  this provides support for cases where *.config files are not an option
