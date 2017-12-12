@@ -63,6 +63,9 @@ _ReSharper*
 .paket/paket.bootstrapper.run
 paket-files
 
+# FAKE - F# Make
+.fake/
+
 # NuGet Packages Directory
 NuGetPackages
 packages
