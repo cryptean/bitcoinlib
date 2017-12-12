@@ -1,11 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netstandard20;net461</TargetFrameworks>
+    <Title>BitcoinLib</Title>
+    <Description>.NET Bitcoin &amp; Altcoins library</Description>
+    <Copyright>George Kimionis 2014 - 2017</Copyright>
+    <Version>1.4.2.0</Version>
+    <FileVersion>1.4.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
