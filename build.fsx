@@ -12,11 +12,7 @@ Target "Build" <| fun _ ->
     |> MSBuildRelease "" "Rebuild"
     |> ignore
 
-Target "NuGet" (fun _ ->
-    Paket.Pack (fun p -> { p with OutputPath = ".nuget" }))
-
 "Restore"
 ==> "Build"
-==> "NuGet"
 
 RunTargetOrDefault "Build"
