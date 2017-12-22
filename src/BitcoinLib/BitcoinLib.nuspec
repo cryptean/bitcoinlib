@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>BitcoinLib</id>
+    <version>1.6.0.0</version>
+    <title>BitcoinLib</title>
+    <authors>George Kimionis</authors>
+    <licenseUrl>https://github.com/GeorgeKimionis/BitcoinLib/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/GeorgeKimionis/BitcoinLib</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/GeorgeKimionis/BitcoinLib/master/nuget/NuGetSpecs/BitcoinLib.jpg</iconUrl>
+    <description>The most complete, up-to-date, battle-tested Library and RPC Wrapper for Bitcoin, Litecoin, Dogecoin and Bitcoin-Clones in C#.</description>
+    <copyright>Copyright 2017</copyright>
+    <tags>c# dotnet bitcoin</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Configuration.ConfigurationManager" version="4.4.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Configuration.ConfigurationManager" version="4.4.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
