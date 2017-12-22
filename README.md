@@ -1,4 +1,4 @@
-﻿BitcoinLib [![Build Status](https://travis-ci.org/GeorgeKimionis/BitcoinLib.svg?branch=master)](https://travis-ci.org/GeorgeKimionis/BitcoinLib)
+﻿BitcoinLib
 ==========
 
 **.NET Bitcoin & Altcoins library**

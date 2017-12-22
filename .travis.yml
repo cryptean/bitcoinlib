@@ -1,5 +1,0 @@
-language: csharp
-dist: trusty
-dotnet: 2.0.0
-solution: src/BitcoinLib.sln
-
