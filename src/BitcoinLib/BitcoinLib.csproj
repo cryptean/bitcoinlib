@@ -40,6 +40,8 @@
     <Compile Include="Auxiliary\Encoders\HexEncoder.cs" />
     <Compile Include="Auxiliary\GlobalConstants.cs" />
     <Compile Include="Auxiliary\Hashing.cs" />
+    <Compile Include="CoinParameters\Smartcash\SmartcashConstants.cs" />
+    <Compile Include="CoinParameters\Smartcash\ISmartcashConstants.cs" />
     <Compile Include="CoinParameters\Dash\DashConstants.cs" />
     <Compile Include="CoinParameters\Dash\IDashConstants.cs" />
     <Compile Include="CoinParameters\Dogecoin\DogecoinConstants.cs" />
