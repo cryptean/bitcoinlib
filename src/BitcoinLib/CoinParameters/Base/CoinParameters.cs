@@ -12,6 +12,7 @@ using BitcoinLib.Services.Coins.Dash;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
 using BitcoinLib.Services.Coins.Sarcoin;
+using BitcoinLib.Services.Coins.Smartcash;
 
 namespace BitcoinLib.Services
 {

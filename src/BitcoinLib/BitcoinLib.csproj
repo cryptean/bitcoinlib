@@ -123,6 +123,8 @@
     <Compile Include="Services\Coins\Dash\IDashService.cs" />
     <Compile Include="Services\Coins\Dogecoin\DogecoinService.cs" />
     <Compile Include="Services\Coins\Dogecoin\IDogecoinService.cs" />
+    <Compile Include="Services\Coins\Smartcash\ISmartcashService.cs" />
+    <Compile Include="Services\Coins\Smartcash\SmartcashService.cs" />
     <Compile Include="Services\Coins\Litecoin\ILitecoinService.cs" />
     <Compile Include="Services\Coins\Litecoin\LitecoinService.cs" />
     <Compile Include="Services\Coins\Sarcoin\SarcoinService.cs" />
