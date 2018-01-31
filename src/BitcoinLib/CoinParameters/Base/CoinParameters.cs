@@ -260,6 +260,45 @@ namespace BitcoinLib.Services
 
                 #endregion
 
+                #region Smartcash
+
+                else if (coinService is SmartcashService)
+                {
+                    if (!IgnoreConfigFiles)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Smartcash_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Smartcash_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Smartcash_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Smartcash_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Smartcash_WalletPassword");
+                    }
+
+                    CoinShortName = "SMART";
+                    CoinLongName = "Smartcash";
+                    IsoCurrencyCode = "SMART";
+
+                    TransactionSizeBytesContributedByEachInput = 148;
+                    TransactionSizeBytesContributedByEachOutput = 34;
+                    TransactionSizeFixedExtraSizeInBytes = 10;
+
+                    FreeTransactionMaximumSizeInBytes = 0; // free txs are not supported
+                    FreeTransactionMinimumOutputAmountInCoins = 0;
+                    FreeTransactionMinimumPriority = 0;
+                    FeePerThousandBytesInCoins = 0.0001M;
+                    MinimumTransactionFeeInCoins = 0.001M;
+                    MinimumNonDustTransactionAmountInCoins = 0.00001M;
+
+                    TotalCoinSupplyInCoins = 5000000000;
+                    EstimatedBlockGenerationTimeInMinutes = 0.916667;
+                    BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
+
+                    BaseUnitName = "Smartoshi";
+                    BaseUnitsPerCoin = 100000000;
+                    CoinsPerBaseUnit = 0.00000001M;
+                }
+
+                #endregion
+
                 #region Agnostic coin (cryptocoin)
 
                 else if (coinService is CryptocoinService)
