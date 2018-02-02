@@ -23,7 +23,7 @@ Features
 Support
 -------
 
-Please use GitHub's `Issues` to report any issues. For Premium Support and other inquiries please contact: [rc125@protonmail.com](mailto:rc125@protonmail.com).
+Please use GitHub's `Issues` to report any issues.
 
 Instructions
 ------------
