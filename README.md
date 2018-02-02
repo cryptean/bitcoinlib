@@ -17,24 +17,13 @@ Features
 - Handles and relays RPC internal server errors along with their error code.
 - Can work without a `.config` file.
 - Fully compatible with [Mono](http://www.mono-project.com/).
-- [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
+(https://bitcoin.org/en/developer-examples#regtest-mode) ready.
 - Fully configurable.
 
 Support
 -------
 
 Please use GitHub's `Issues` to report any issues. For Premium Support and other inquiries please contact: [rc125@protonmail.com](mailto:rc125@protonmail.com).
-
-License
--------
-
-See [LICENSE](LICENSE).
-
-Versioning
--------
-
-SmartcashLib follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
-
 
 Instructions
 ------------
@@ -45,12 +34,12 @@ Instructions
 	- server=1
 	- txindex=1
 
-- Edit the `app.config` file in the Console test client to best fit your needs. Make sure you also update the `smartcash.conf` file when you alter the `Smartcash_RpcUsername` and `Smartcash_RpcPassword` parameters.
+- Go to yout project and edit the `app.config`.
 
 Configuration
 -------------
 
-Sample configuration:
+Sample configuration in `app.config`:
 
 	﻿<?xml version="1.0" encoding="utf-8"?>
 	<configuration>
@@ -64,10 +53,9 @@ Sample configuration:
 
 				<!-- Smartcash settings start -->
 				<add key="Smartcash_DaemonUrl" value="http://localhost:8332" />
-				<add key="Smartcash_DaemonUrl_Testnet" value="http://localhost:18332" />
 				<add key="Smartcash_WalletPassword" value="MyWalletPassword" />
-				<add key="Bitcoin_RpcUsername" value="MyRpcUsername" />
-				<add key="Bitcoin_RpcPassword" value="MyRpcPassword" />
+				<add key="Smartcash_RpcUsername" value="MyRpcUsername" />
+				<add key="Smartcash_RpcPassword" value="MyRpcPassword" />
 				<!-- Smartcash settings end -->
 
 			<!-- Smartcash settings end -->
@@ -75,3 +63,7 @@ Sample configuration:
 		</appSettings>
 	</configuration>
 
+License
+-------
+
+See [LICENSE](LICENSE).
