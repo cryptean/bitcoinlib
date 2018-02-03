@@ -463,7 +463,10 @@ namespace BitcoinLib.Services
                         };
 
                         decimal balance;
-                        decimal.TryParse(unstructuredResponse[i][j][1].ToString(), out balance);
+                        if (decimal.TryParse(unstructuredResponse[i][j][1].ToString(), out balance))
+                        {
+                            response.Balance = balance;
+                        }
 
                         if (unstructuredResponse[i][j].Count > 2)
                         {
