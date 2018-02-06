@@ -312,19 +312,6 @@ namespace BitcoinLib.Services
 
                 #endregion
 
-                #region Agnostic coin (cryptocoin)
-
-                else if (coinService is CryptocoinService)
-                {
-                    CoinShortName = "XXX";
-                    CoinLongName = "Generic Cryptocoin Template";
-                    IsoCurrencyCode = "XXX";
-
-                    //  Note: The rest of the parameters will have to be defined at run-time
-                }
-
-                #endregion
-
                 #region Uknown coin exception
 
                 else
