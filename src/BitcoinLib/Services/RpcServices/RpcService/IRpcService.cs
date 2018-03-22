@@ -89,6 +89,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 
         CreateMultiSigResponse CreateMultiSig(int nRquired, List<string> publicKeys);
         decimal EstimateFee(ushort nBlocks);
+        EstimateSmartFeeResponse EstimateSmartFee(ushort nBlocks);
         decimal EstimatePriority(ushort nBlocks);
         //  estimatesmartfee
         //  estimatesmartpriority
