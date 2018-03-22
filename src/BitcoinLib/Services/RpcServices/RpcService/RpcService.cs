@@ -101,6 +101,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<decimal>(RpcMethods.estimatefee, nBlocks);
         }
 
+        public EstimateSmartFeeResponse EstimateSmartFee(ushort nBlocks)
+        {
+            return _rpcConnector.MakeRequest<EstimateSmartFeeResponse>(RpcMethods.estimatesmartfee, nBlocks);
+        }
+
         public decimal EstimatePriority(ushort nBlocks)
         {
             return _rpcConnector.MakeRequest<decimal>(RpcMethods.estimatepriority, nBlocks);
