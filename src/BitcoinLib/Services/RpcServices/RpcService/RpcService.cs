@@ -536,7 +536,7 @@ namespace BitcoinLib.Services
             {
                 transactions.Add(new
                 {
-                    txid = listUnspentResponse.TxId, listUnspentResponse.Vout
+                    txid = listUnspentResponse.TxId, vout = listUnspentResponse.Vout
                 });
             }
 
