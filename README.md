@@ -32,7 +32,7 @@ This library took a significant amount of time and effort to build and requires 
 Support
 -------
 
-Please use GitHub's `Issues` to report any issues. For Premium Support and other inquiries please contact: [hello@cryptean.com](mailto:hello@cryptean.com).
+Premium Support is available by our team of experts for $350/h (min 1 hour) at: [hello@cryptean.com](mailto:hello@cryptean.com).
 
 License
 -------
