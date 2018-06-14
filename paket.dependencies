@@ -1,0 +1,5 @@
+source https://api.nuget.org/v3/index.json
+nuget FAKE
+nuget NuGet.CommandLine
+nuget System.Configuration.ConfigurationManager
+nuget Newtonsoft.Json
