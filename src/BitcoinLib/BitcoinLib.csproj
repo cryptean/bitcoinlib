@@ -5,8 +5,12 @@
     <Title>BitcoinLib</Title>
     <Description>.NET Bitcoin &amp; Altcoins library</Description>
     <Copyright>George Kimionis 2014 - 2017</Copyright>
-    <Version>1.7.1.0</Version>
+    <Version>1.7.1.1</Version>
     <FileVersion>1.7.1.0</FileVersion>
+    <Authors>BitcoinLib + Michael Allar</Authors>
+    <PackageReleaseNotes>1.7.1.1 - Added Dallar Integration</PackageReleaseNotes>
+    <PackageTags>bitcoin, dallar</PackageTags>
+    <PackageId>BitcoinLib_Dallar</PackageId>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

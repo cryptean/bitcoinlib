@@ -2,6 +2,10 @@
 
 **.NET Bitcoin & Altcoins library**
 
+## Dallar Tutorial
+
+Simple quick Dallar tutorial is [available on YouTube](https://youtu.be/e-Xh7sFRwh0).
+
 ## Features
 
 - Fully compatible and up-to-date with [Bitcoin Core 0.11.2](https://bitcoin.org/en/download) RPC API.
@@ -39,6 +43,11 @@ See [LICENSE](LICENSE).
 BitcoinLib is available on NuGet:
 
 * [BitcoinLib](https://www.nuget.org/packages/BitcoinLib/)
+* [BitcoinLib_Dallar](https://www.nuget.org/packages/BitcoinLib_Dallar/
+
+```
+Install-Package BitcoinLib_Dallar
+```
 
 ## Versioning
 
