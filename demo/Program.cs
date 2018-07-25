@@ -107,7 +107,7 @@ namespace ConsoleClient
                             Console.WriteLine("Other Account: " + transaction.OtherAccount);
                         }
 
-                        if (transaction.WalletConflicts.Any())
+                        if (transaction.WalletConflicts != null && transaction.WalletConflicts.Any())
                         {
                             Console.Write("Conflicted Transactions: ");
 
