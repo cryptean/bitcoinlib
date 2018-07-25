@@ -11,13 +11,13 @@ using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.Responses;
 using BitcoinLib.Services.Coins.Base;
-using BitcoinLib.Services.Coins.Bitcoin;
+using BitcoinLib.Services.Coins.Dallar;
 
 namespace ConsoleClient
 {
     internal sealed class Program
     {
-        private static readonly ICoinService CoinService = new BitcoinService(useTestnet: true);
+        private static readonly ICoinService CoinService = new DallarService();
 
         private static void Main()
         {
