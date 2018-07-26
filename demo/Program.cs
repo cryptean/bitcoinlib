@@ -11,13 +11,13 @@ using BitcoinLib.Auxiliary;
 using BitcoinLib.ExceptionHandling.Rpc;
 using BitcoinLib.Responses;
 using BitcoinLib.Services.Coins.Base;
-using BitcoinLib.Services.Coins.Bitcoin;
+using BitcoinLib.Services.Coins.Dallar;
 
 namespace ConsoleClient
 {
     internal sealed class Program
     {
-        private static readonly ICoinService CoinService = new BitcoinService(useTestnet: true);
+        private static readonly ICoinService CoinService = new DallarService();
 
         private static void Main()
         {
@@ -107,7 +107,7 @@ namespace ConsoleClient
                             Console.WriteLine("Other Account: " + transaction.OtherAccount);
                         }
 
-                        if (transaction.WalletConflicts.Any())
+                        if (transaction.WalletConflicts != null && transaction.WalletConflicts.Any())
                         {
                             Console.Write("Conflicted Transactions: ");
 
@@ -126,6 +126,12 @@ namespace ConsoleClient
                     Console.WriteLine("\n\nMy transactions' details:");
                     foreach (var transaction in myTransactions)
                     {
+                        // Move transactions don't have a txId, which this logic fails for
+                        if (transaction.Category == "move")
+                        {
+                            continue;
+                        }
+                        
                         var localWalletTransaction = CoinService.GetTransaction(transaction.TxId);
                         IEnumerable<PropertyInfo> localWalletTrasactionProperties = localWalletTransaction.GetType().GetProperties();
                         IList<GetTransactionResponseDetails> localWalletTransactionDetailsList = localWalletTransaction.Details.ToList();
