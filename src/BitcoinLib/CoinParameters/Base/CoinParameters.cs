@@ -8,6 +8,7 @@ using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
 using BitcoinLib.Services.Coins.Cryptocoin;
+using BitcoinLib.Services.Coins.Dallar;
 using BitcoinLib.Services.Coins.Dash;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
@@ -293,6 +294,46 @@ namespace BitcoinLib.Services
                     BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
 
                     BaseUnitName = "Smartoshi";
+                    BaseUnitsPerCoin = 100000000;
+                    CoinsPerBaseUnit = 0.00000001M;
+                }
+
+                #endregion
+
+                #region Dallar
+
+                else if (coinService is DallarService)
+                {
+                    if (!IgnoreConfigFiles)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Dallar_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Dallar_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Dallar_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Dallar_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Dallar_WalletPassword");
+                    }
+
+                    CoinShortName = "DAL";
+                    CoinLongName = "Dallar";
+                    IsoCurrencyCode = "DAL";
+
+                    TransactionSizeBytesContributedByEachInput = 148;
+                    TransactionSizeBytesContributedByEachOutput = 34;
+                    TransactionSizeFixedExtraSizeInBytes = 10;
+
+                    FreeTransactionMaximumSizeInBytes = 1000;
+                    FreeTransactionMinimumOutputAmountInCoins = 0.001M;
+                    FreeTransactionMinimumPriority = 230400000;
+                    FeePerThousandBytesInCoins = 0.001M;
+                    MinimumTransactionFeeInCoins = 0.0001M;
+                    MinimumNonDustTransactionAmountInCoins = 0.001M;
+
+                    TotalCoinSupplyInCoins = 80000000;
+                    EstimatedBlockGenerationTimeInMinutes = 1.0;
+                    BlocksHighestPriorityTransactionsReservedSizeInBytes = 16000;
+                    BlockMaximumSizeInBytes = 750000;
+
+                    BaseUnitName = "Allar";
                     BaseUnitsPerCoin = 100000000;
                     CoinsPerBaseUnit = 0.00000001M;
                 }

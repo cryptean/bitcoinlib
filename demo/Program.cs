@@ -107,7 +107,7 @@ namespace ConsoleClient
                             Console.WriteLine("Other Account: " + transaction.OtherAccount);
                         }
 
-                        if (transaction.WalletConflicts.Any())
+                        if (transaction.WalletConflicts != null && transaction.WalletConflicts.Any())
                         {
                             Console.Write("Conflicted Transactions: ");
 
@@ -126,6 +126,12 @@ namespace ConsoleClient
                     Console.WriteLine("\n\nMy transactions' details:");
                     foreach (var transaction in myTransactions)
                     {
+                        // Move transactions don't have a txId, which this logic fails for
+                        if (transaction.Category == "move")
+                        {
+                            continue;
+                        }
+                        
                         var localWalletTransaction = CoinService.GetTransaction(transaction.TxId);
                         IEnumerable<PropertyInfo> localWalletTrasactionProperties = localWalletTransaction.GetType().GetProperties();
                         IList<GetTransactionResponseDetails> localWalletTransactionDetailsList = localWalletTransaction.Details.ToList();
