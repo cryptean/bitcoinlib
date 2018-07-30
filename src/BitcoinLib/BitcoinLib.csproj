@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard20;net461</TargetFrameworks>
     <Title>BitcoinLib</Title>
-    <Description>.NET Bitcoin &amp; Altcoins library</Description>
-    <Copyright>George Kimionis 2014 - 2017</Copyright>
-    <Version>1.7.1.0</Version>
-    <FileVersion>1.7.1.0</FileVersion>
+    <Description>The most complete, up-to-date, battle-tested library and RPC wrapper for Bitcoin, Litecoin, Dogecoin and other Bitcoin clones in .NET.</Description>
+    <Copyright>© George Kimionis 2018</Copyright>
+    <Version>1.8.0.0</Version>
+    <FileVersion>1.8.0.0</FileVersion>
+    <Authors>George Kimionis</Authors>
+    <PackageLicenseUrl>https://github.com/GeorgeKimionis/BitcoinLib/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/GeorgeKimionis/BitcoinLib</PackageProjectUrl>
+    <PackageTags>c#;dotnet;bitcoin</PackageTags>
   </PropertyGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
