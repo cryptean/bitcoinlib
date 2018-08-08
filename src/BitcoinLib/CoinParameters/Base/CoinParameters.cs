@@ -12,6 +12,7 @@ using BitcoinLib.Services.Coins.Dallar;
 using BitcoinLib.Services.Coins.Dash;
 using BitcoinLib.Services.Coins.Dogecoin;
 using BitcoinLib.Services.Coins.Litecoin;
+using BitcoinLib.Services.Coins.Mogwaicoin;
 using BitcoinLib.Services.Coins.Sarcoin;
 using BitcoinLib.Services.Coins.Smartcash;
 
@@ -259,6 +260,38 @@ namespace BitcoinLib.Services
                     CoinsPerBaseUnit = 0.00000001M;
                 }
 
+                #endregion
+
+                #region Mogwai
+                else if (coinService is MogwaicoinService)
+                {
+                    if (!IgnoreConfigFiles)
+                    {
+                        DaemonUrl = ConfigurationManager.AppSettings.Get("Mogwaicoin_DaemonUrl");
+                        DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Mogwaicoin_DaemonUrl_Testnet");
+                        RpcUsername = ConfigurationManager.AppSettings.Get("Mogwaicoin_RpcUsername");
+                        RpcPassword = ConfigurationManager.AppSettings.Get("Mogwaicoin_RpcPassword");
+                        WalletPassword = ConfigurationManager.AppSettings.Get("Mogwaicoin_WalletPassword");
+                    }
+                    CoinShortName = "Mogwaicoin";
+                    CoinLongName = "Mogwaicoin";
+                    IsoCurrencyCode = "MOG";
+                    TransactionSizeBytesContributedByEachInput = 148;
+                    TransactionSizeBytesContributedByEachOutput = 34;
+                    TransactionSizeFixedExtraSizeInBytes = 10;
+                    FreeTransactionMaximumSizeInBytes = 1000;
+                    FreeTransactionMinimumOutputAmountInCoins = 0.0001M;
+                    FreeTransactionMinimumPriority = 57600000;
+                    FeePerThousandBytesInCoins = 0.0001M;
+                    MinimumTransactionFeeInCoins = 0.001M;
+                    MinimumNonDustTransactionAmountInCoins = 0.0000543M;
+                    TotalCoinSupplyInCoins = 50000000;
+                    EstimatedBlockGenerationTimeInMinutes = 2.0;
+                    BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
+                    BaseUnitName = "Puff";
+                    BaseUnitsPerCoin = 100000000;
+                    CoinsPerBaseUnit = 0.00000001M;
+                }
                 #endregion
 
                 #region Smartcash
