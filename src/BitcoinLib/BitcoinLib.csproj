@@ -5,8 +5,8 @@
     <Title>BitcoinLib</Title>
     <Description>The most complete, up-to-date, battle-tested library and RPC wrapper for Bitcoin, Litecoin, Dogecoin and other Bitcoin clones in .NET.</Description>
     <Copyright>© George Kimionis 2018</Copyright>
-    <Version>1.8.0.0</Version>
-    <FileVersion>1.8.0.0</FileVersion>
+    <Version>1.9.0.0</Version>
+    <FileVersion>1.9.0.0</FileVersion>
     <Authors>George Kimionis</Authors>
     <PackageLicenseUrl>https://github.com/GeorgeKimionis/BitcoinLib/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/GeorgeKimionis/BitcoinLib</PackageProjectUrl>
