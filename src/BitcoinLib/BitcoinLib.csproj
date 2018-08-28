@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard20;net461</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Title>BitcoinLib</Title>
     <Description>The most complete, up-to-date, battle-tested library and RPC wrapper for Bitcoin, Litecoin, Dogecoin and other Bitcoin clones in .NET.</Description>
     <Copyright>© George Kimionis 2018</Copyright>
@@ -12,5 +12,8 @@
     <PackageProjectUrl>https://github.com/GeorgeKimionis/BitcoinLib</PackageProjectUrl>
     <PackageTags>c#;dotnet;bitcoin</PackageTags>
   </PropertyGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
 </Project>

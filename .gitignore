@@ -59,18 +59,11 @@ _ReSharper*
 *.ncrunch*
 .*crunch*.local.xml
 
-# Paket - dependency management for .NET and Mono projects
-.paket/paket.bootstrapper.run
-paket-files
-
-# FAKE - F# Make
-.fake/
-
 # NuGet Packages Directory
 NuGetPackages
 packages
 
-# Installshield output folder 
+# Installshield output folder
 [Ee]xpress
 
 # DocProject is a documentation generator add-in

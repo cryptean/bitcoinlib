@@ -49,12 +49,6 @@ From version 1.4.0, BitcoinLib follows [Semantic Versioning 2.0.0](http://semver
 To build BitcoinLib from source, you will need either the
 [.NET Core SDK or Visual Studio](https://www.microsoft.com/net/download/).
 
-### Linux-specific
-
-If you are using Linux you will also need Mono installed
-(in order to run Paket). The full install sequence (for Ubuntu)
-will be something like [this](https://github.com/hedgehogqa/fsharp-hedgehog/pull/153#issuecomment-364325504).
-
 ### Building & running tests
 
 With Visual Studio you can build BitcoinLib and run the tests
@@ -64,9 +58,6 @@ tool you can execute:
 ```sh
 dotnet build src/BitcoinLib.sln
 ```
-
-The first time you run it, this will use Paket to restore all
-the packages, and then build the code.
 
 ## Instructions for Bitcoin
 
