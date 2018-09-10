@@ -9,7 +9,6 @@ namespace BitcoinLib.Services.Coins.Dallar
 {
     public interface IDallarService : ICoinService, IDallarConstants
     {
-        GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex);
         decimal GetEstimateFeeForSendToAddress(string Address, decimal Amount);
     }
 }

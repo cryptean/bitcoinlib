@@ -26,11 +26,6 @@ namespace BitcoinLib.Services.Coins.Dallar
 
         public DallarConstants.Constants Constants => DallarConstants.Constants.Instance;
 
-        public GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex)
-        {
-            return _rpcConnector.MakeRequest<GetFundRawTransactionResponse>(RpcMethods.fundrawtransaction, rawTransactionHex);
-        }
-
         public decimal GetEstimateFeeForSendToAddress(string Address, decimal Amount)
         {
             var txRequest = new CreateRawTransactionRequest();
