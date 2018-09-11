@@ -624,6 +624,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, request.RawTransactionHex, request.Inputs, request.PrivateKeys, request.SigHashType);
         }
 
+        public GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex)
+        {
+            return _rpcConnector.MakeRequest<GetFundRawTransactionResponse>(RpcMethods.fundrawtransaction, rawTransactionHex);
+        }
+
         public string Stop()
         {
             return _rpcConnector.MakeRequest<string>(RpcMethods.stop);

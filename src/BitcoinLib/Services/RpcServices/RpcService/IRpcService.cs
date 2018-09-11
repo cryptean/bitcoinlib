@@ -82,6 +82,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         GetRawTransactionResponse GetRawTransaction(string txId, int verbose = 0);
         string SendRawTransaction(string rawTransactionHexString, bool? allowHighFees = false);
         SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest signRawTransactionRequest);
+        GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex);
 
         #endregion
 
