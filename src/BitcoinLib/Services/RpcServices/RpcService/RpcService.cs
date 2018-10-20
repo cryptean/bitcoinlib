@@ -133,6 +133,16 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<List<string>>(RpcMethods.getaddressesbyaccount, account);
         }
 
+        public Dictionary<string, GetAddressesByLabelResponse> GetAddressesByLabel(string label)
+        {
+            return _rpcConnector.MakeRequest<Dictionary<string, GetAddressesByLabelResponse>>(RpcMethods.getaddressesbylabel, label);
+        }
+
+        public GetAddressInfoResponse GetAddressInfo(string bitcoinAddress)
+        {
+            return _rpcConnector.MakeRequest<GetAddressInfoResponse>(RpcMethods.getaddressinfo, bitcoinAddress);
+        }
+
         public decimal GetBalance(string account, int minConf, bool? includeWatchonly)
         {
             return includeWatchonly == null
@@ -390,6 +400,11 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<decimal>(RpcMethods.getreceivedbyaddress, bitcoinAddress, minConf);
         }
 
+        public decimal GetReceivedByLabel(string bitcoinAddress, int minConf)
+        {
+            return _rpcConnector.MakeRequest<decimal>(RpcMethods.getreceivedbylabel, bitcoinAddress, minConf);
+        }
+
         public GetTransactionResponse GetTransaction(string txId, bool? includeWatchonly)
         {
             return includeWatchonly == null
@@ -490,6 +505,11 @@ namespace BitcoinLib.Services
             return structuredResponse;
         }
 
+        public List<string> ListLabels()
+        {
+            return _rpcConnector.MakeRequest<List<string>>(RpcMethods.listlabels);
+        }
+
         public string ListLockUnspent()
         {
             return _rpcConnector.MakeRequest<string>(RpcMethods.listlockunspent);
@@ -507,6 +527,11 @@ namespace BitcoinLib.Services
             return includeWatchonly == null
                 ? _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty)
                 : _rpcConnector.MakeRequest<List<ListReceivedByAddressResponse>>(RpcMethods.listreceivedbyaddress, minConf, includeEmpty, includeWatchonly);
+        }
+
+        public List<ListReceivedByLabelResponse> ListReceivedByLabel(int minConf, bool includeEmpty, bool? includeWatchonly)
+        {
+            return _rpcConnector.MakeRequest<List<ListReceivedByLabelResponse>>(RpcMethods.listreceivedbylabel, minConf, includeEmpty, includeWatchonly);
         }
 
         public ListSinceBlockResponse ListSinceBlock(string blockHash, int targetConfirmations, bool? includeWatchonly)
@@ -583,6 +608,11 @@ namespace BitcoinLib.Services
         public string SetAccount(string bitcoinAddress, string account)
         {
             return _rpcConnector.MakeRequest<string>(RpcMethods.setaccount, bitcoinAddress, account);
+        }
+
+        public string SetLabel(string bitcoinAddress, string label)
+        {
+            return _rpcConnector.MakeRequest<string>(RpcMethods.setlabel, bitcoinAddress, label);
         }
 
         public string SetGenerate(bool generate, short generatingProcessorsLimit)

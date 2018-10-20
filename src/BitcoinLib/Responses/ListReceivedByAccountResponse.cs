@@ -8,5 +8,6 @@ namespace BitcoinLib.Responses
         public string Account { get; set; }
         public double Amount { get; set; }
         public int Confirmations { get; set; }
+        public string Label { get; set; }
     }
 }

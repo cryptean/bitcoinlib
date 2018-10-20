@@ -110,11 +110,14 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         string GetAccount(string bitcoinAddress);
         string GetAccountAddress(string account);
         List<string> GetAddressesByAccount(string account);
+        Dictionary<string, GetAddressesByLabelResponse> GetAddressesByLabel(string label);
+        GetAddressInfoResponse GetAddressInfo(string bitcoinAddress);
         decimal GetBalance(string account = null, int minConf = 1, bool? includeWatchonly = null);
         string GetNewAddress(string account = "");
         string GetRawChangeAddress();
         decimal GetReceivedByAccount(string account, int minConf = 1);
         decimal GetReceivedByAddress(string bitcoinAddress, int minConf = 1);
+        decimal GetReceivedByLabel(string account, int minConf = 1);
         GetTransactionResponse GetTransaction(string txId, bool? includeWatchonly = null);
         decimal GetUnconfirmedBalance();
         GetWalletInfoResponse GetWalletInfo();
@@ -125,9 +128,11 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         string KeyPoolRefill(uint newSize = 100);
         Dictionary<string, decimal> ListAccounts(int minConf = 1, bool? includeWatchonly = null);
         List<List<ListAddressGroupingsResponse>> ListAddressGroupings();
+        List<string> ListLabels();
         string ListLockUnspent();
         List<ListReceivedByAccountResponse> ListReceivedByAccount(int minConf = 1, bool includeEmpty = false, bool? includeWatchonly = null);
         List<ListReceivedByAddressResponse> ListReceivedByAddress(int minConf = 1, bool includeEmpty = false, bool? includeWatchonly = null);
+        List<ListReceivedByLabelResponse> ListReceivedByLabel(int minConf = 1, bool includeEmpty = false, bool? includeWatchonly = null);
         ListSinceBlockResponse ListSinceBlock(string blockHash = null, int targetConfirmations = 1, bool? includeWatchonly = null);
         List<ListTransactionsResponse> ListTransactions(string account = null, int count = 10, int from = 0, bool? includeWatchonly = null);
         List<ListUnspentResponse> ListUnspent(int minConf = 1, int maxConf = 9999999, List<string> addresses = null);
@@ -137,6 +142,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         string SendMany(string fromAccount, Dictionary<string, decimal> toBitcoinAddress, int minConf = 1, string comment = null);
         string SendToAddress(string bitcoinAddress, decimal amount, string comment = null, string commentTo = null, bool subtractFeeFromAmount = false);
         string SetAccount(string bitcoinAddress, string account);
+        string SetLabel(string bitcoinAddress, string label);
         string SetTxFee(decimal amount);
         string SignMessage(string bitcoinAddress, string message);
         string WalletLock();
