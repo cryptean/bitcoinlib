@@ -22,10 +22,6 @@
 - [Test Network (testnet)](https://bitcoin.org/en/developer-examples#testnet) and [Regression Test Mode (regtest)](https://bitcoin.org/en/developer-examples#regtest-mode) ready.
 - Fully configurable.
 
-## Donations
-
-This library took a significant amount of time and effort to build and requires continuous maintenance in order to keep up with changes introduced with every new Bitcoin-Core release. Keep it up by donating at: [15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA](bitcoin:15Nb3RhMd13zp5Pc7yngUon83nFtEZUyBA?label=BitcoinLib)
-
 ## Support
 
 Premium Support is available by our team of experts at: [hello@cryptean.com](mailto:hello@cryptean.com).
