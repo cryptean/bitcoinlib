@@ -103,3 +103,9 @@ Sample configuration:
   </appSettings>
 </configuration>
 ```
+
+## Bitcoin Core resources
+
+* [Bitcoin Core releases](https://bitcoincore.org/en/releases/)
+* [Bitcoin Core lifecycle schedule](https://bitcoincore.org/en/lifecycle/#schedule)
+* [Bitcoin Core RPC documentation](https://bitcoincore.org/en/doc/)
