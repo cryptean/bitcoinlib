@@ -61,6 +61,8 @@ namespace BitcoinLib.RPC.Specifications
         getrawtransaction,
         sendrawtransaction,
         signrawtransaction,
+        signrawtransactionwithkey,
+        signrawtransactionwithwallet,
         sighashtype,
 
         //== Util ==
