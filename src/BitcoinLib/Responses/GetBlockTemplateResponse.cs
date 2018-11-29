@@ -32,6 +32,7 @@ namespace BitcoinLib.Responses
     {
         public string Data { get; set; }
         public string Hash { get; set; }
+        public string TxId { get; set; }
         public List<string> Depends { get; set; }
         public int Fee { get; set; }
         public int Sigops { get; set; }
