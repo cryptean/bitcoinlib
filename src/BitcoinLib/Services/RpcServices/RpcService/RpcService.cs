@@ -654,6 +654,49 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<SignRawTransactionResponse>(RpcMethods.signrawtransaction, request.RawTransactionHex, request.Inputs, request.PrivateKeys, request.SigHashType);
         }
 
+        public SignRawTransactionWithKeyResponse SignRawTransactionWithKey(SignRawTransactionWithKeyRequest request)
+        {
+            #region default values
+
+            if (request.PrivateKeys.Count == 0)
+            {
+                request.PrivateKeys = null;
+            }
+
+            if (request.Inputs.Count == 0)
+            {
+                request.Inputs = null;
+            }
+
+            if (string.IsNullOrWhiteSpace(request.SigHashType))
+            {
+                request.SigHashType = SigHashType.All;
+            }
+
+            #endregion
+
+            return _rpcConnector.MakeRequest<SignRawTransactionWithKeyResponse>(RpcMethods.signrawtransactionwithkey, request.RawTransactionHex, request.PrivateKeys, request.Inputs, request.SigHashType);
+        }
+
+        public SignRawTransactionWithWalletResponse SignRawTransactionWithWallet(SignRawTransactionWithWalletRequest request)
+        {
+            #region default values
+
+            if (request.Inputs.Count == 0)
+            {
+                request.Inputs = null;
+            }
+
+            if (string.IsNullOrWhiteSpace(request.SigHashType))
+            {
+                request.SigHashType = SigHashType.All;
+            }
+
+            #endregion
+
+            return _rpcConnector.MakeRequest<SignRawTransactionWithWalletResponse>(RpcMethods.signrawtransactionwithwallet, request.RawTransactionHex, request.Inputs, request.SigHashType);
+        }
+
         public GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex)
         {
             return _rpcConnector.MakeRequest<GetFundRawTransactionResponse>(RpcMethods.fundrawtransaction, rawTransactionHex);
