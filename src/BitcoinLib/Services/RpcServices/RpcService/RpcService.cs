@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
@@ -75,6 +76,23 @@ namespace BitcoinLib.Services
         {
             return _rpcConnector.MakeRequest<string>(RpcMethods.createrawtransaction, rawTransaction.Inputs, rawTransaction.Outputs);
         }
+
+				/// <summary>
+				/// Lower level CreateRawTransaction RPC request to allow other kinds of output, e.g.
+				/// "data":"text" for OP_RETURN Null Data for chat on the blockchain. CreateRawTransaction(
+				/// CreateRawTransactionRequest) only allows for "receiver":amount outputs.
+				/// </summary>
+				public string CreateRawTransaction(IList<CreateRawTransactionInput> inputs,
+					string chatHex, string receiverAddress, decimal receiverAmount)
+				{
+					// Must be a dictionary to become an json object, an array will fail on the RPC side
+					var outputs = new Dictionary<string, string>
+					{
+						{ "data", chatHex },
+						{ receiverAddress, receiverAmount.ToString(NumberFormatInfo.InvariantInfo) }
+					};
+					return _rpcConnector.MakeRequest<string>(RpcMethods.createrawtransaction, inputs, outputs);
+				}
 
         public DecodeRawTransactionResponse DecodeRawTransaction(string rawTransactionHexString)
         {
