@@ -2,6 +2,7 @@
 // See the accompanying file LICENSE for the Software License Aggrement
 
 using BitcoinLib.CoinParameters.Bitcoin;
+using BitcoinLib.RPC.Specifications;
 
 namespace BitcoinLib.Services.Coins.Bitcoin
 {
@@ -22,5 +23,17 @@ namespace BitcoinLib.Services.Coins.Bitcoin
         }
 
         public BitcoinConstants.Constants Constants => BitcoinConstants.Constants.Instance;
+				
+				public string SendToAddress(string bitcoinAddress, decimal amount, string comment, string commentTo, bool subtractFeeFromAmount, bool allowReplaceByFee)
+				{
+					return _rpcConnector.MakeRequest<string>(RpcMethods.sendtoaddress, bitcoinAddress, amount, comment, commentTo, subtractFeeFromAmount, allowReplaceByFee);
+				}
+
+				public string GetNewAddress(string account = "", string addressType = "")
+				{
+					return string.IsNullOrWhiteSpace(account)
+						? _rpcConnector.MakeRequest<string>(RpcMethods.getnewaddress)
+						: _rpcConnector.MakeRequest<string>(RpcMethods.getnewaddress, account, addressType);
+				}
     }
 }
