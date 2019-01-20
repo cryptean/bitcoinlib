@@ -7,6 +7,8 @@ using System.Diagnostics;
 using BitcoinLib.Auxiliary;
 using BitcoinLib.Services.Coins.Base;
 using BitcoinLib.Services.Coins.Bitcoin;
+using BitcoinLib.Services.Coins.BitcoinCash;
+using BitcoinLib.Services.Coins.Colx;
 using BitcoinLib.Services.Coins.Cryptocoin;
 using BitcoinLib.Services.Coins.Dallar;
 using BitcoinLib.Services.Coins.Dash;
@@ -68,10 +70,47 @@ namespace BitcoinLib.Services
                     Console.WriteLine("[WARNING] The wallet password is either null or empty");
                     Console.ResetColor();
                 }
+								
+								#region BitcoinCash
+								if (coinService is BitcoinCashService)
+								{
+									if (!IgnoreConfigFiles)
+									{
+										DaemonUrl = ConfigurationManager.AppSettings.Get("BitcoinCash_DaemonUrl");
+										DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("BitcoinCash_DaemonUrl_Testnet");
+										RpcUsername = ConfigurationManager.AppSettings.Get("BitcoinCash_RpcUsername");
+										RpcPassword = ConfigurationManager.AppSettings.Get("BitcoinCash_RpcPassword");
+										WalletPassword = ConfigurationManager.AppSettings.Get("BitcoinCash_WalletPassword");
+									}
+					
+									CoinShortName = "BCH";
+									CoinLongName = "BitcoinCash";
+									IsoCurrencyCode = "BCH";
 
-                #region Bitcoin
+									TransactionSizeBytesContributedByEachInput = 148;
+									TransactionSizeBytesContributedByEachOutput = 34;
+									TransactionSizeFixedExtraSizeInBytes = 10;
 
-                if (coinService is BitcoinService)
+									FreeTransactionMaximumSizeInBytes = 1000;
+									FreeTransactionMinimumOutputAmountInCoins = 0.01M;
+									FreeTransactionMinimumPriority = 57600000;
+									FeePerThousandBytesInCoins = 0.0001M;
+									MinimumTransactionFeeInCoins = 0.0001M;
+									MinimumNonDustTransactionAmountInCoins = 0.0000543M;
+
+									TotalCoinSupplyInCoins = 21000000;
+									EstimatedBlockGenerationTimeInMinutes = 10;
+									BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
+
+									BaseUnitName = "Satoshi";
+									BaseUnitsPerCoin = 100000000;
+									CoinsPerBaseUnit = 0.00000001M;
+								}
+								#endregion
+
+								#region Bitcoin
+
+								else if (coinService is BitcoinService)
                 {
                     if (!IgnoreConfigFiles)
                     {
@@ -372,6 +411,44 @@ namespace BitcoinLib.Services
                 }
 
                 #endregion
+								
+								#region Colx
+
+								else if (coinService is ColxService)
+								{
+									if (!IgnoreConfigFiles)
+									{
+										DaemonUrl = ConfigurationManager.AppSettings.Get("Colx_DaemonUrl");
+										DaemonUrlTestnet = ConfigurationManager.AppSettings.Get("Colx_DaemonUrl_Testnet");
+										RpcUsername = ConfigurationManager.AppSettings.Get("Colx_RpcUsername");
+										RpcPassword = ConfigurationManager.AppSettings.Get("Colx_RpcPassword");
+										WalletPassword = ConfigurationManager.AppSettings.Get("Colx_WalletPassword");
+									}
+									CoinShortName = "COLX";
+									CoinLongName = "ColossusXT Coin";
+									IsoCurrencyCode = "COLX";
+
+									TransactionSizeBytesContributedByEachInput = 148;
+									TransactionSizeBytesContributedByEachOutput = 34;
+									TransactionSizeFixedExtraSizeInBytes = 10;
+
+									FreeTransactionMaximumSizeInBytes = 1000;
+									FreeTransactionMinimumOutputAmountInCoins = 0.0001M;
+									FreeTransactionMinimumPriority = 57600000;
+									FeePerThousandBytesInCoins = 0.0001M;
+									MinimumTransactionFeeInCoins = 0.001M;
+									MinimumNonDustTransactionAmountInCoins = 0.0000543M;
+
+									TotalCoinSupplyInCoins = 18900000;
+									EstimatedBlockGenerationTimeInMinutes = 2.7;
+									BlocksHighestPriorityTransactionsReservedSizeInBytes = 50000;
+
+									BaseUnitName = "ucolx";
+									BaseUnitsPerCoin = 100000000;
+									CoinsPerBaseUnit = 0.00000001M;
+								}
+
+								#endregion
 
                 #region Agnostic coin (cryptocoin)
 
