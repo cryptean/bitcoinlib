@@ -24,7 +24,7 @@
 
 ## Support
 
-Premium Support is available by our team of experts at: [hello@cryptean.com](mailto:hello@cryptean.com).
+Premium Support is available by our team of experts at: [support@cryptean.com](mailto:support@cryptean.com).
 
 ## License
 
