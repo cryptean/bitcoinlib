@@ -17,6 +17,7 @@ namespace BitcoinLib.Responses
         public int Confirmations { get; set; }
         public int Size { get; set; }
         public int Height { get; set; }
+        public int Weight { get; set; }
         public int Version { get; set; }
         public string MerkleRoot { get; set; }
         public double Difficulty { get; set; }
