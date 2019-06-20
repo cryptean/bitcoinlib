@@ -26,6 +26,7 @@ namespace BitcoinLib.Responses
         public string NextBlockHash { get; set; }
         public string Bits { get; set; }
         public int Time { get; set; }
+        public int MedianTime { get; set; }
         public string Nonce { get; set; }
     }
 }
