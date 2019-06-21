@@ -15,6 +15,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
 
         string GetBestBlockHash();
         GetBlockResponse GetBlock(string hash, bool verbose = true);
+        GetBlockResponseVerbose GetBlock(string hash, int verbosity);
         GetBlockchainInfoResponse GetBlockchainInfo();
         uint GetBlockCount();
         string GetBlockHash(long index);
