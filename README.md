@@ -52,7 +52,7 @@ from inside the IDE, otherwise with the `dotnet` command-line
 tool you can execute:
 
 ```sh
-dotnet build src/BitcoinLib.sln
+dotnet build
 ```
 
 ## Instructions for Bitcoin
