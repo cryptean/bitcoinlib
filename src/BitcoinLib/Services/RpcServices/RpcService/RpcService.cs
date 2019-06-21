@@ -178,6 +178,16 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<GetBlockResponse>(RpcMethods.getblock, hash, verbose);
         }
 
+        public GetBlockResponseVerbose GetBlock(string hash, int verbosity)
+        {
+            if (verbosity < 2)
+            {
+                throw new ArgumentException("This method is only available for verbosity levels above 1. Please use method where 2nd argument is a boolean instead.");
+            }
+
+            return _rpcConnector.MakeRequest<GetBlockResponseVerbose>(RpcMethods.getblock, hash, verbosity);
+        }
+
         public GetBlockchainInfoResponse GetBlockchainInfo()
         {
             return _rpcConnector.MakeRequest<GetBlockchainInfoResponse>(RpcMethods.getblockchaininfo);
