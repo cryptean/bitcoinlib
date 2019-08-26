@@ -29,6 +29,10 @@ namespace ConsoleClient
                 var networkDifficulty = CoinService.GetDifficulty();
                 Console.WriteLine("[OK]\n\n{0} Network Difficulty: {1}", CoinService.Parameters.CoinLongName, networkDifficulty.ToString("#,###", CultureInfo.InvariantCulture));
 
+                // Mining info
+                var miningInfo = CoinService.GetMiningInfo();
+                Console.WriteLine("[OK]\n\n{0} NetworkHashPS: {1}", CoinService.Parameters.CoinLongName, miningInfo.NetworkHashPS.ToString("#,###", CultureInfo.InvariantCulture));
+
                 //  My balance
                 var myBalance = CoinService.GetBalance();
                 Console.WriteLine("\nMy balance: {0} {1}", myBalance, CoinService.Parameters.CoinShortName);

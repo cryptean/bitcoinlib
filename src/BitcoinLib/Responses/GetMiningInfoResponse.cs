@@ -11,11 +11,11 @@ namespace BitcoinLib.Responses
         public double Difficulty { get; set; }
         public string Errors { get; set; }
         public int GenProcLimit { get; set; }
-        public long NetworkHashPS { get; set; }
+        public double NetworkHashPS { get; set; }
         public int PooledTx { get; set; }
         public bool Testnet { get; set; }
         public string Chain { get; set; }
         public bool Generate { get; set; }
-        public long HashesPerSec { get; set; }
+        public double HashesPerSec { get; set; }
     }
 }
