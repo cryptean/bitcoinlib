@@ -1,10 +1,6 @@
 ﻿// Copyright (c) 2014 - 2016 George Kimionis
 // See the accompanying file LICENSE for the Software License Aggrement
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
 using BitcoinLib.Requests.SignRawTransaction;
@@ -13,6 +9,12 @@ using BitcoinLib.RPC.Connector;
 using BitcoinLib.RPC.Specifications;
 using BitcoinLib.Services.Coins.Base;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using BitcoinLib.Requests.FundRawTransaction;
+using Newtonsoft.Json;
 
 namespace BitcoinLib.Services
 {
@@ -77,22 +79,22 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<string>(RpcMethods.createrawtransaction, rawTransaction.Inputs, rawTransaction.Outputs);
         }
 
-				/// <summary>
-				/// Lower level CreateRawTransaction RPC request to allow other kinds of output, e.g.
-				/// "data":"text" for OP_RETURN Null Data for chat on the blockchain. CreateRawTransaction(
-				/// CreateRawTransactionRequest) only allows for "receiver":amount outputs.
-				/// </summary>
-				public string CreateRawTransaction(IList<CreateRawTransactionInput> inputs,
-					string chatHex, string receiverAddress, decimal receiverAmount)
-				{
-					// Must be a dictionary to become an json object, an array will fail on the RPC side
-					var outputs = new Dictionary<string, string>
-					{
-						{ "data", chatHex },
-						{ receiverAddress, receiverAmount.ToString(NumberFormatInfo.InvariantInfo) }
-					};
-					return _rpcConnector.MakeRequest<string>(RpcMethods.createrawtransaction, inputs, outputs);
-				}
+        /// <summary>
+        /// Lower level CreateRawTransaction RPC request to allow other kinds of output, e.g.
+        /// "data":"text" for OP_RETURN Null Data for chat on the blockchain. CreateRawTransaction(
+        /// CreateRawTransactionRequest) only allows for "receiver":amount outputs.
+        /// </summary>
+        public string CreateRawTransaction(IList<CreateRawTransactionInput> inputs,
+            string chatHex, string receiverAddress, decimal receiverAmount)
+        {
+            // Must be a dictionary to become an json object, an array will fail on the RPC side
+            var outputs = new Dictionary<string, string>
+                    {
+                        { "data", chatHex },
+                        { receiverAddress, receiverAmount.ToString(NumberFormatInfo.InvariantInfo) }
+                    };
+            return _rpcConnector.MakeRequest<string>(RpcMethods.createrawtransaction, inputs, outputs);
+        }
 
         public DecodeRawTransactionResponse DecodeRawTransaction(string rawTransactionHexString)
         {
@@ -284,7 +286,7 @@ namespace BitcoinLib.Services
 
             if (!verbose)
             {
-                var rpcResponseAsArray = (JArray) rpcResponse;
+                var rpcResponseAsArray = (JArray)rpcResponse;
 
                 foreach (string txId in rpcResponseAsArray)
                 {
@@ -294,7 +296,7 @@ namespace BitcoinLib.Services
                 return getRawMemPoolResponse;
             }
 
-            IList<KeyValuePair<string, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<string, JToken>>(((JObject) (rpcResponse)))).ToList();
+            IList<KeyValuePair<string, JToken>> rpcResponseAsKvp = (new EnumerableQuery<KeyValuePair<string, JToken>>(((JObject)(rpcResponse)))).ToList();
             IList<JToken> children = JObject.Parse(rpcResponse.ToString()).Children().ToList();
 
             for (var i = 0; i < children.Count(); i++)
@@ -589,7 +591,8 @@ namespace BitcoinLib.Services
             {
                 transactions.Add(new
                 {
-                    txid = listUnspentResponse.TxId, vout = listUnspentResponse.Vout
+                    txid = listUnspentResponse.TxId,
+                    vout = listUnspentResponse.Vout
                 });
             }
 
@@ -725,9 +728,10 @@ namespace BitcoinLib.Services
             return _rpcConnector.MakeRequest<SignRawTransactionWithWalletResponse>(RpcMethods.signrawtransactionwithwallet, request.RawTransactionHex, request.Inputs, request.SigHashType);
         }
 
-        public GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex)
+        public GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex, FundRawTransactionOptions options = null)
         {
-            return _rpcConnector.MakeRequest<GetFundRawTransactionResponse>(RpcMethods.fundrawtransaction, rawTransactionHex);
+            var jData = JObject.Parse(JsonConvert.SerializeObject(options.Data));
+            return _rpcConnector.MakeRequest<GetFundRawTransactionResponse>(RpcMethods.fundrawtransaction, rawTransactionHex, jData);
         }
 
         public string Stop()
