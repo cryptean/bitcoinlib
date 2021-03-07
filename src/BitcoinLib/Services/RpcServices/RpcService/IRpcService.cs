@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using BitcoinLib.Requests.AddNode;
 using BitcoinLib.Requests.CreateRawTransaction;
+using BitcoinLib.Requests.FundRawTransaction;
 using BitcoinLib.Requests.SignRawTransaction;
 using BitcoinLib.Responses;
 
@@ -85,7 +86,7 @@ namespace BitcoinLib.Services.RpcServices.RpcService
         SignRawTransactionResponse SignRawTransaction(SignRawTransactionRequest signRawTransactionRequest);
         SignRawTransactionWithKeyResponse SignRawTransactionWithKey(SignRawTransactionWithKeyRequest signRawTransactionWithKeyRequest);
         SignRawTransactionWithWalletResponse SignRawTransactionWithWallet(SignRawTransactionWithWalletRequest signRawTransactionWithWalletRequest);
-        GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex);
+        GetFundRawTransactionResponse GetFundRawTransaction(string rawTransactionHex, FundRawTransactionOptions options = null);
 
         #endregion
 
